@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<commentaries sport="soccer">
+  <tournament name="Brazil - Serie A" id="1141">
+    <match status="Full-time" date="Jul 25, 2013" formatted_date="25.07.2013" time="00:00" static_id="1463784" id="1391332">
+      <localteam name="São Paulo" goals="0" id="7580" />
+      <visitorteam name="Internacional" goals="1" id="7365" />
+      <matchinfo>
+        <stadium name="Morumbí, São Paulo, Brazil" />
+        <attendance name="" />
+        <time name="" />
+        <referee name="" />
+      </matchinfo>
+      <summary>
+        <localteam>
+          <goals />
+          <yellowcards>
+            <player name="Douglas Pereira Dos Santos" minute="37" id="64457" />
+            <player name="Rodrigo Caio" minute="54" id="186289" />
+          </yellowcards>
+          <redcards />
+        </localteam>
+        <visitorteam>
+          <goals>
+            <player name="Leandro Damiao" minute="13" owngoal="False" penalty="False" id="113526" />
+          </goals>
+          <yellowcards>
+            <player name="Ednei" minute="28" id="83123" />
+            <player name="Juan" minute="78" id="132" />
+            <player name="Andrés D´Alessandro" minute="78" id="3827" />
+          </yellowcards>
+          <redcards />
+        </visitorteam>
+      </summary>
+      <stats>
+        <localteam>
+          <shots total="11" ongoal="2" />
+          <fouls total="11" />
+          <corners total="5" />
+          <offsides total="1" />
+          <possestiontime total="0%" />
+          <yellowcards total="2" />
+          <redcards total="0" />
+          <saves total="0" />
+        </localteam>
+        <visitorteam>
+          <shots total="10" ongoal="1" />
+          <fouls total="9" />
+          <corners total="4" />
+          <offsides total="0" />
+          <possestiontime total="0%" />
+          <yellowcards total="4" />
+          <redcards total="0" />
+          <saves total="2" />
+        </visitorteam>
+      </stats>
+      <teams>
+        <localteam>
+          <player number="1" name="Rogério Ceni" pos="G" id="9373" />
+          <player number="2" name="Rafael Tolói" pos="D" id="78553" />
+          <player number="3" name="Lúcio" pos="D" id="133" />
+          <player number="13" name="Paulo Miranda" pos="D" id="65193" />
+          <player number="23" name="Douglas Pereira Dos Santos" pos="D" id="64457" />
+          <player number="7" name="Rodrigo Caio" pos="M" id="186289" />
+          <player number="8" name="Ganso" pos="M" id="65373" />
+          <player number="10" name="Jadson" pos="M" id="19656" />
+          <player number="15" name="Denilson" pos="M" id="4705" />
+          <player number="9" name="Luis Fabiano" pos="F" id="4498" />
+          <player number="17" name="Osvaldo" pos="F" id="79694" />
+        </localteam>
+        <visitorteam>
+          <player number="1" name="Muriel" pos="G" id="9403" />
+          <player number="" name="Ednei" pos="D" id="83123" />
+          <player number="" name="Ronaldo" pos="D" id="99990" />
+          <player number="" name="Kléber" pos="D" id="9348" />
+          <player number="4" name="Juan" pos="D" id="132" />
+          <player number="8" name="Willians Domingos Fernandes" pos="M" id="32605" />
+          <player number="10" name="Andrés D´Alessandro" pos="M" id="3827" />
+          <player number="27" name="Josimar" pos="M" id="113523" />
+          <player number="" name="Jorge Henrique De Souza" pos="F" id="51631" />
+          <player number="" name="Leandro Damiao" pos="F" id="113526" />
+          <player number="7" name="Diego Forlán" pos="F" id="3110" />
+        </visitorteam>
+      </teams>
+      <substitutes>
+        <localteam>
+          <player number="12" name="Denis" pos="G" id="32708" />
+          <player number="" name="da Silva Jose Zacarias Reinaldo" pos="D" id="145496" />
+          <player number="" name="Clemente Rodríguez" pos="D" id="22329" />
+          <player number="" name="Lucas Farias" pos="D" id="253052" />
+          <player number="14" name="Edson" pos="D" id="32313" />
+          <player number="" name="Fabrício" pos="M" id="23358" />
+          <player number="5" name="Wellington" pos="M" id="53471" />
+          <player number="18" name="Maicon" pos="M" id="16465" />
+          <player number="11" name="Ademilson" pos="F" id="193478" />
+          <player number="19" name="Aloísio" pos="F" id="9215" />
+          <player number="22" name="Silvinho" pos="F" id="112399" />
+        </localteam>
+        <visitorteam>
+          <player number="" name="Junior" pos="G" id="64369" />
+          <player number="" name="Jackson" pos="D" id="170536" />
+          <player number="14" name="Fabricio" pos="D" id="9052" />
+          <player number="" name="Jesús Dátolo" pos="M" id="13878" />
+          <player number="5" name="Airton" pos="M" id="39934" />
+          <player number="" name="Caio" pos="F" id="74304" />
+          <player number="" name="Alan Patrick" pos="F" id="112327" />
+          <player number="11" name="de Miranda Martiniano Rafael Moura" pos="F" id="9150" />
+        </visitorteam>
+      </substitutes>
+      <substitutions>
+        <localteam>
+          <substitution off="Ganso" on="Maicon" minute="73" on_id="16465" off_id="65373" />
+          <substitution off="Luis Fabiano" on="Ademilson" minute="54" on_id="193478" off_id="4498" />
+          <substitution off="Osvaldo" on="Aloísio" minute="45" on_id="9215" off_id="79694" />
+        </localteam>
+        <visitorteam>
+          <substitution off="Ednei" on="Fabricio" minute="72" on_id="9052" off_id="83123" />
+          <substitution off="Leandro Damiao" on="Caio" minute="75" on_id="74304" off_id="113526" />
+          <substitution off="Diego Forlán" on="Alan Patrick" minute="79" on_id="112327" off_id="3110" />
+        </visitorteam>
+      </substitutions>
+      <commentaries>
+        <comment important="False" isgoal="False" minute="87'" comment="Aloísio (São Paulo) takes the throw." id="18334915" />
+        <comment important="False" isgoal="False" minute="86'" comment="Muriel (Internacional) takes a goal kick." id="18334913" />
+        <comment important="False" isgoal="False" minute="84'" comment="Muriel (Internacional) takes a goal kick." id="18334912" />
+        <comment important="False" isgoal="False" minute="83'" comment="Rogério Ceni (São Paulo) hits a shot but it goes off target" id="18334911" />
+        <comment important="False" isgoal="False" minute="83'" comment="Fabricio (Internacional) receives a yellow card." id="18334910" />
+        <comment important="False" isgoal="False" minute="83'" comment="Ronaldo (Internacional)  commits a foul on Aloísio resulting on a free kick for São Paulo" id="18334909" />
+        <comment important="False" isgoal="False" minute="82'" comment="Kléber (Internacional) takes the throw." id="18334907" />
+        <comment important="False" isgoal="False" minute="81'" comment="Douglas Pereira Dos Santos (São Paulo) takes the throw." id="18334906" />
+        <comment important="False" isgoal="False" minute="79'" comment="Internacional makes a substitution:  Alan Patrick enters for Diego Forlán" id="18334905" />
+        <comment important="False" isgoal="False" minute="78'" comment="Andrés D´Alessandro (Internacional) receives a yellow card." id="18334904" />
+        <comment important="False" isgoal="False" minute="78'" comment="Juan (Internacional) receives a yellow card." id="18334903" />
+        <comment important="False" isgoal="False" minute="78'" comment="Juan (Internacional)  commits a foul on Aloísio resulting on a free kick for São Paulo" id="18334902" />
+        <comment important="False" isgoal="False" minute="77'" comment="Paulo Miranda (São Paulo) hits a shot but it goes off target" id="18334900" />
+        <comment important="False" isgoal="False" minute="77'" comment="Jadson (São Paulo) executes a corner kick" id="18334899" />
+        <comment important="False" isgoal="False" minute="77'" comment="Fabricio (Internacional) concedes a corner kick" id="18334898" />
+        <comment important="False" isgoal="False" minute="75'" comment="Internacional makes a substitution:  Caio enters for Leandro Damiao" id="18334897" />
+        <comment important="False" isgoal="False" minute="73'" comment="São Paulo makes a substitution:  Maicon enters for Ganso" id="18334895" />
+        <comment important="False" isgoal="False" minute="72'" comment="Internacional makes a substitution:  Fabricio enters for Ednei" id="18334894" />
+        <comment important="False" isgoal="False" minute="71'" comment="Muriel (Internacional) takes a goal kick." id="18334891" />
+        <comment important="False" isgoal="False" minute="71'" comment="Ademilson (São Paulo) hits a shot but it goes off target" id="18334890" />
+        <comment important="False" isgoal="False" minute="69'" comment="Muriel (Internacional) saves the shot" id="18334881" />
+        <comment important="False" isgoal="False" minute="69'" comment="Ademilson (São Paulo) hits a shot" id="18334880" />
+        <comment important="False" isgoal="False" minute="68'" comment="Muriel (Internacional) takes a goal kick." id="18334879" />
+        <comment important="False" isgoal="False" minute="68'" comment="Denilson (São Paulo) hits a shot but it goes off target" id="18334878" />
+        <comment important="False" isgoal="False" minute="67'" comment="Willians Domingos Fernandes (Internacional)  commits a foul on Ademilson resulting on a free kick for São Paulo" id="18334877" />
+        <comment important="False" isgoal="False" minute="67'" comment="Aloísio (São Paulo)  commits a foul on Juan resulting on a free kick for Internacional" id="18334876" />
+        <comment important="False" isgoal="False" minute="65'" comment="Denilson (São Paulo)  commits a foul on Jorge Henrique De Souza resulting on a free kick for Internacional" id="18334868" />
+        <comment important="False" isgoal="False" minute="64'" comment="Ednei (Internacional) takes the throw." id="18334867" />
+        <comment important="False" isgoal="False" minute="64'" comment="Ganso (São Paulo)  commits a foul on Jorge Henrique De Souza resulting on a free kick for Internacional" id="18334866" />
+        <comment important="False" isgoal="False" minute="63'" comment="Muriel (Internacional) takes a goal kick." id="18334862" />
+        <comment important="False" isgoal="False" minute="63'" comment="Aloísio (São Paulo) hits a shot but it goes off target" id="18334861" />
+        <comment important="False" isgoal="False" minute="63'" comment="Ronaldo (Internacional) clears the ball" id="18334860" />
+        <comment important="False" isgoal="False" minute="63'" comment="Jadson (São Paulo) executes a corner kick" id="18334859" />
+        <comment important="False" isgoal="False" minute="62'" comment="Jorge Henrique De Souza (Internacional) concedes a corner kick" id="18334858" />
+        <comment important="False" isgoal="False" minute="61'" comment="Muriel (Internacional) takes a goal kick." id="18334857" />
+        <comment important="False" isgoal="False" minute="61'" comment="Rafael Tolói (São Paulo) hits a shot but it goes off target" id="18334856" />
+        <comment important="False" isgoal="False" minute="60'" comment="Jadson (São Paulo) executes a corner kick" id="18334855" />
+        <comment important="False" isgoal="False" minute="60'" comment="Kléber (Internacional) concedes a corner kick" id="18334849" />
+        <comment important="False" isgoal="False" minute="56'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334843" />
+        <comment important="False" isgoal="False" minute="56'" comment="Josimar (Internacional) hits a shot but it goes off target" id="18334842" />
+        <comment important="False" isgoal="False" minute="54'" comment="São Paulo makes a substitution:  Ademilson enters for Luis Fabiano" id="18334841" />
+        <comment important="False" isgoal="False" minute="54'" comment="Rodrigo Caio (São Paulo) receives a yellow card." id="18334836" />
+        <comment important="False" isgoal="False" minute="54'" comment="Rodrigo Caio (São Paulo)  commits a foul on Andrés D´Alessandro resulting on a free kick for Internacional" id="18334835" />
+        <comment important="False" isgoal="False" minute="51'" comment="Willians Domingos Fernandes (Internacional)  commits a foul on Luis Fabiano resulting on a free kick for São Paulo" id="18334832" />
+        <comment important="False" isgoal="False" minute="50'" comment="Muriel (Internacional) takes a goal kick." id="18334826" />
+        <comment important="False" isgoal="False" minute="50'" comment="Jadson (São Paulo) hits a shot but it goes off target" id="18334825" />
+        <comment important="False" isgoal="False" minute="49'" comment="Douglas Pereira Dos Santos (São Paulo) takes the throw." id="18334824" />
+        <comment important="False" isgoal="False" minute="48'" comment="Ronaldo (Internacional) clears the ball" id="18334823" />
+        <comment important="False" isgoal="False" minute="48'" comment="Kléber (Internacional) takes the throw." id="18334822" />
+        <comment important="False" isgoal="False" minute="47'" comment="Ganso (São Paulo)  commits a foul on Leandro Damiao resulting on a free kick for Internacional" id="18334821" />
+        <comment important="False" isgoal="False" minute="47'" comment="Willians Domingos Fernandes (Internacional) takes the throw." id="18334810" />
+        <comment important="False" isgoal="False" minute="46'" comment="Muriel (Internacional) takes a goal kick." id="18334807" />
+        <comment important="False" isgoal="False" minute="46'" comment="Aloísio (São Paulo) hits a shot but it goes off target" id="18334806" />
+        <comment important="False" isgoal="False" minute="45'" comment="Paulo Miranda (São Paulo) takes the throw." id="18334805" />
+        <comment important="False" isgoal="False" minute="45'" comment="São Paulo makes a substitution:  Aloísio enters for Osvaldo" id="18334804" />
+        <comment important="True" isgoal="False" minute="45'" comment="Start 2nd Half" id="18334803" />
+        <comment important="True" isgoal="False" minute="45'" comment="Halftime" id="18334729" />
+        <comment important="False" isgoal="False" minute="44'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334727" />
+        <comment important="False" isgoal="False" minute="44'" comment="Leandro Damiao (Internacional) hits a shot but it goes off target" id="18334726" />
+        <comment important="False" isgoal="False" minute="43'" comment="Douglas Pereira Dos Santos (São Paulo)  commits a foul on Leandro Damiao resulting on a free kick for Internacional" id="18334723" />
+        <comment important="False" isgoal="False" minute="42'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334720" />
+        <comment important="False" isgoal="False" minute="42'" comment="Andrés D´Alessandro (Internacional) hits a shot but it goes off target" id="18334718" />
+        <comment important="False" isgoal="False" minute="40'" comment="Jorge Henrique De Souza (Internacional)  commits a foul on Denilson resulting on a free kick for São Paulo" id="18334716" />
+        <comment important="False" isgoal="False" minute="40'" comment="Rodrigo Caio (São Paulo) takes the throw." id="18334715" />
+        <comment important="False" isgoal="False" minute="39'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334709" />
+        <comment important="False" isgoal="False" minute="39'" comment="Leandro Damiao (Internacional) hits a shot but it goes off target" id="18334708" />
+        <comment important="False" isgoal="False" minute="37'" comment="Douglas Pereira Dos Santos (São Paulo) receives a yellow card." id="18334700" />
+        <comment important="False" isgoal="False" minute="36'" comment="Muriel (Internacional) takes a goal kick." id="18334699" />
+        <comment important="False" isgoal="False" minute="35'" comment="Denilson (São Paulo) hits a shot but it goes off target" id="18334698" />
+        <comment important="False" isgoal="False" minute="34'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334695" />
+        <comment important="False" isgoal="False" minute="34'" comment="Diego Forlán (Internacional) hits a shot but it goes off target" id="18334694" />
+        <comment important="False" isgoal="False" minute="34'" comment="Diego Forlán (Internacional) executes a corner kick" id="18334693" />
+        <comment important="False" isgoal="False" minute="33'" comment="Lúcio (São Paulo) concedes a corner kick" id="18334692" />
+        <comment important="False" isgoal="False" minute="31'" comment="Ganso (São Paulo)  commits a foul on Leandro Damiao resulting on a free kick for Internacional" id="18334688" />
+        <comment important="False" isgoal="False" minute="31'" comment="Ednei (Internacional) takes the throw." id="18334687" />
+        <comment important="False" isgoal="False" minute="31'" comment="Josimar (Internacional) takes the throw." id="18334686" />
+        <comment important="False" isgoal="False" minute="30'" comment="Osvaldo (São Paulo) is caught offside" id="18334685" />
+        <comment important="False" isgoal="False" minute="29'" comment="Denilson (São Paulo)  commits a foul on Diego Forlán resulting on a free kick for Internacional" id="18334684" />
+        <comment important="False" isgoal="False" minute="28'" comment="Ednei (Internacional) receives a yellow card." id="18334683" />
+        <comment important="False" isgoal="False" minute="28'" comment="Ednei (Internacional)  commits a foul on Osvaldo resulting on a free kick for São Paulo" id="18334682" />
+        <comment important="False" isgoal="False" minute="26'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334671" />
+        <comment important="False" isgoal="False" minute="26'" comment="Diego Forlán (Internacional) hits a shot but it goes off target" id="18334670" />
+        <comment important="False" isgoal="False" minute="23'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334661" />
+        <comment important="False" isgoal="False" minute="23'" comment="Willians Domingos Fernandes (Internacional) hits a shot and hits the crossbar!" id="18334660" />
+        <comment important="False" isgoal="False" minute="23'" comment="Diego Forlán (Internacional) executes a corner kick" id="18334659" />
+        <comment important="False" isgoal="False" minute="23'" comment="Lúcio (São Paulo) concedes a corner kick" id="18334658" />
+        <comment important="False" isgoal="False" minute="22'" comment="Jadson (São Paulo)  commits a foul on Willians Domingos Fernandes resulting on a free kick for Internacional" id="18334657" />
+        <comment important="False" isgoal="False" minute="20'" comment="Ronaldo (Internacional) clears the ball" id="18334655" />
+        <comment important="False" isgoal="False" minute="19'" comment="Douglas Pereira Dos Santos (São Paulo) takes the throw." id="18334647" />
+        <comment important="False" isgoal="False" minute="18'" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334646" />
+        <comment important="False" isgoal="False" minute="18'" comment="Jorge Henrique De Souza (Internacional) hits a shot but it goes off target" id="18334645" />
+        <comment important="False" isgoal="False" minute="17'" comment="Diego Forlán (Internacional) executes a corner kick" id="18334644" />
+        <comment important="False" isgoal="False" minute="17'" comment="Rodrigo Caio (São Paulo) concedes a corner kick" id="18334643" />
+        <comment important="False" isgoal="False" minute="17'" comment="Ednei (Internacional) takes the throw." id="18334641" />
+        <comment important="False" isgoal="False" minute="16'" comment="Luis Fabiano (São Paulo) takes the throw." id="18334639" />
+        <comment important="False" isgoal="False" minute="16'" comment="Rodrigo Caio (São Paulo) takes the throw." id="18334638" />
+        <comment important="False" isgoal="False" minute="13'" comment="The last goal was assisted by Jorge Henrique De Souza (Internacional)" id="18334635" />
+        <comment important="True" isgoal="False" minute="13'" comment="Goal !!! Leandro Damiao scores for Internacional" id="18334634" />
+        <comment important="False" isgoal="False" minute="12'" comment="Douglas Pereira Dos Santos (São Paulo) takes the throw." id="18334629" />
+        <comment important="False" isgoal="False" minute="11'" comment="Muriel (Internacional) takes a goal kick." id="18334628" />
+        <comment important="False" isgoal="False" minute="10'" comment="Diego Forlán (Internacional) executes a corner kick" id="18334625" />
+        <comment important="False" isgoal="False" minute="10'" comment="Paulo Miranda (São Paulo) concedes a corner kick" id="18334624" />
+        <comment important="False" isgoal="False" minute="10'" comment="Douglas Pereira Dos Santos (São Paulo) takes the throw." id="18334623" />
+        <comment important="False" isgoal="False" minute="9'" comment="Willians Domingos Fernandes (Internacional)  commits a foul on Jadson resulting on a free kick for São Paulo" id="18334614" />
+        <comment important="False" isgoal="False" minute="8'" comment="Osvaldo (São Paulo) executes a corner kick" id="18334613" />
+        <comment important="False" isgoal="False" minute="8'" comment="Ronaldo (Internacional) concedes a corner kick" id="18334612" />
+        <comment important="False" isgoal="False" minute="6'" comment="Osvaldo (São Paulo) takes the throw." id="18334607" />
+        <comment important="False" isgoal="False" minute="5'" comment="Jadson (São Paulo) executes a corner kick" id="18334606" />
+        <comment important="False" isgoal="False" minute="5'" comment="Willians Domingos Fernandes (Internacional) concedes a corner kick" id="18334605" />
+        <comment important="False" isgoal="False" minute="5'" comment="Douglas Pereira Dos Santos (São Paulo) takes the throw." id="18334604" />
+        <comment important="False" isgoal="False" minute="2'" comment="Muriel (Internacional) saves the shot" id="18334598" />
+        <comment important="False" isgoal="False" minute="2'" comment="Douglas Pereira Dos Santos (São Paulo) hits a shot" id="18334597" />
+        <comment important="False" isgoal="False" minute="1'" comment="Josimar (Internacional)  commits a foul on Luis Fabiano resulting on a free kick for São Paulo" id="18334596" />
+        <comment important="False" isgoal="False" minute="" comment="Rodrigo Caio (São Paulo) takes the throw." id="18334595" />
+        <comment important="False" isgoal="False" minute="" comment="Rogério Ceni (São Paulo) takes a goal kick." id="18334594" />
+        <comment important="False" isgoal="False" minute="" comment="Leandro Damiao (Internacional) hits a shot but it goes off target" id="18334593" />
+        <comment important="True" isgoal="False" minute="" comment="Kickoff" id="18334592" />
+      </commentaries>
+      <player_stats>
+        <localteam>
+          <player num="1" name="Rogério Ceni" pos="G" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="9373" />
+          <player num="2" name="Rafael Tolói" pos="D" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="78553" />
+          <player num="3" name="Lúcio" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="133" />
+          <player num="13" name="Paulo Miranda" pos="D" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="" saves="" yellowcards="" redcards="" id="65193" />
+          <player num="23" name="Douglas Pereira Dos Santos" pos="D" posx="5" posy="3" shots_total="1" shots_on_goal="1" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="1" saves="" yellowcards="1" redcards="" id="64457" />
+          <player num="7" name="Rodrigo Caio" pos="M" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="2" saves="" yellowcards="1" redcards="" id="186289" />
+          <player num="8" name="Ganso" pos="M" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="3" saves="" yellowcards="" redcards="" id="65373" />
+          <player num="10" name="Jadson" pos="M" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="1" saves="" yellowcards="" redcards="" id="19656" />
+          <player num="15" name="Denilson" pos="M" posx="5" posy="3" shots_total="2" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="2" saves="" yellowcards="" redcards="" id="4705" />
+          <player num="9" name="Luis Fabiano" pos="F" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="2" fouls_commited="" saves="" yellowcards="" redcards="" id="4498" />
+          <player num="17" name="Osvaldo" pos="F" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="1" fouls_drawn="1" fouls_commited="" saves="" yellowcards="" redcards="" id="79694" />
+          <player num="12" name="Denis" pos="G" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="32708" />
+          <player num="" name="da Silva Jose Zacarias Reinaldo" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="145496" />
+          <player num="" name="Clemente Rodríguez" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="22329" />
+          <player num="" name="Lucas Farias" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="253052" />
+          <player num="14" name="Edson" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="32313" />
+          <player num="" name="Fabrício" pos="M" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="23358" />
+          <player num="5" name="Wellington" pos="M" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="53471" />
+          <player num="18" name="Maicon" pos="M" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="1" saves="" yellowcards="" redcards="" id="16465" />
+          <player num="11" name="Ademilson" pos="F" posx="5" posy="3" shots_total="2" shots_on_goal="1" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="" saves="" yellowcards="" redcards="" id="193478" />
+          <player num="19" name="Aloísio" pos="F" posx="5" posy="3" shots_total="2" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="2" fouls_commited="1" saves="" yellowcards="" redcards="" id="9215" />
+          <player num="22" name="Silvinho" pos="F" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="112399" />
+        </localteam>
+        <visitorteam>
+          <player num="1" name="Muriel" pos="G" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="2" yellowcards="" redcards="" id="9403" />
+          <player num="" name="Ednei" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="1" saves="" yellowcards="1" redcards="" id="83123" />
+          <player num="" name="Ronaldo" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="1" saves="" yellowcards="" redcards="" id="99990" />
+          <player num="" name="Kléber" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="9348" />
+          <player num="4" name="Juan" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="1" saves="" yellowcards="1" redcards="" id="132" />
+          <player num="8" name="Willians Domingos Fernandes" pos="M" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="3" saves="" yellowcards="" redcards="" id="32605" />
+          <player num="10" name="Andrés D´Alessandro" pos="M" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="2" fouls_commited="" saves="" yellowcards="1" redcards="" id="3827" />
+          <player num="27" name="Josimar" pos="M" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="1" saves="" yellowcards="" redcards="" id="113523" />
+          <player num="" name="Jorge Henrique De Souza" pos="F" posx="5" posy="3" shots_total="1" shots_on_goal="" goals="" assists="1" offsides="" fouls_drawn="2" fouls_commited="1" saves="" yellowcards="" redcards="" id="51631" />
+          <player num="" name="Leandro Damiao" pos="F" posx="5" posy="3" shots_total="4" shots_on_goal="1" goals="1" assists="" offsides="" fouls_drawn="3" fouls_commited="" saves="" yellowcards="" redcards="" id="113526" />
+          <player num="7" name="Diego Forlán" pos="F" posx="5" posy="3" shots_total="2" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="1" fouls_commited="" saves="" yellowcards="" redcards="" id="3110" />
+          <player num="" name="Junior" pos="G" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="64369" />
+          <player num="" name="Jackson" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="170536" />
+          <player num="14" name="Fabricio" pos="D" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="1" saves="" yellowcards="1" redcards="" id="9052" />
+          <player num="" name="Jesús Dátolo" pos="M" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="13878" />
+          <player num="5" name="Airton" pos="M" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="39934" />
+          <player num="" name="Caio" pos="F" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="74304" />
+          <player num="" name="Alan Patrick" pos="F" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="112327" />
+          <player num="11" name="de Miranda Martiniano Rafael Moura" pos="F" posx="5" posy="3" shots_total="" shots_on_goal="" goals="" assists="" offsides="" fouls_drawn="" fouls_commited="" saves="" yellowcards="" redcards="" id="9150" />
+        </visitorteam>
+      </player_stats>
+    </match>
+  </tournament>
+</commentaries>
