@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
 
+
 class BaseAPI(object):
 
     def __init__(self):
         pass
+
+
+class SoccerSchedule(BaseAPI):
+
+    def __init__(self, league=None):
+        super(SoccerSchedule, self).__init__()
+        self.league = league
 
 
 class SoccerNew(BaseAPI):
