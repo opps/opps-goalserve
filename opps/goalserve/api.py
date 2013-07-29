@@ -76,7 +76,7 @@ class SoccerTeam(object):
 
 class SoccerPlayer(object):
 
-    def __init__(self):
+    def __init__(self, player_id):
         self.player_id = player_id
 
 
@@ -86,7 +86,6 @@ class SoccerH2H(BaseAPI):
         super(SoccerH2H, self).__init__()
         self.a_team = a_team
         self.b_team = b_team
-
 
 
 class F1Results(BaseAPI):
@@ -129,4 +128,3 @@ class F1Driver(object):
 
     def __init__(self):
         pass
-
