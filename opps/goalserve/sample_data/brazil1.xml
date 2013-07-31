@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<topscorers sport="soccer">
+	<tournament name="Serie B" stage_id="11171081" id="1117">
+		<player pos="1" name="Bruno Rangel" team="Chapecoense" team_id="7228" goals="11" penalty_goals="2" id="80135" />
+		<player pos="2" name="Rafael Costa" team="Figueirense" team_id="7298" goals="8" penalty_goals="1" id="136823" />
+		<player pos="3" name="Lima" team="Joinville" team_id="7392" goals="8" penalty_goals="2" id="78760" />
+		<player pos="4" name="Marcos Aurélio" team="Sport Recife" team_id="7621" goals="6" penalty_goals="1" id="9371" />
+		<player pos="5" name="Ricardo Bueno" team="Figueirense" team_id="7298" goals="5" penalty_goals="0" id="101372" />
+		<player pos="6" name="Jonatas Belusso" team="Guaratinguetá" team_id="7346" goals="5" penalty_goals="1" id="171484" />
+		<player pos="7" name="Márcio Diogo" team="Avaí" team_id="7151" goals="5" penalty_goals="0" id="72767" />
+		<player pos="8" name="Lucio Maranhão" team="ASA" team_id="7133" goals="5" penalty_goals="1" id="170162" />
+		<player pos="9" name="Ronaldo" team="Joinville" team_id="7392" goals="5" penalty_goals="0" id="104355" />
+		<player pos="10" name="Rodriguinho" team="América Mineiro" team_id="7111" goals="4" penalty_goals="0" id="78714" />
+		<player pos="11" name="Cascata" team="América RN" team_id="7113" goals="4" penalty_goals="0" id="50104" />
+		<player pos="12" name="Rithiely" team="Sport Recife" team_id="7621" goals="4" penalty_goals="0" id="104850" />
+		<player pos="13" name="Magno Alves" team="Ceará" team_id="7216" goals="4" penalty_goals="1" id="26446" />
+		<player pos="14" name="Willians" team="América Mineiro" team_id="7111" goals="4" penalty_goals="0" id="33023" />
+		<player pos="15" name="Leandro" team="Palmeiras" team_id="7473" goals="4" penalty_goals="0" id="177584" />
+	</tournament>
+</topscorers>

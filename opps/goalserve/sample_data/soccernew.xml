@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scores sport="soccer" updated="30.07.2013 07:59:34">
+  <category name="Brazil: Série B" id="1117" file_group="brazil">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="22:30" date="Jul 30" formatted_date="30.07.2013" time="22:30" commentary_available="" v="0" static_id="1464374" fix_id="1390835" id="1562594">
+        <localteam name="America RN" goals="?" id="7113" />
+        <visitorteam name="ASA" goals="?" id="7133" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="22:30" date="Jul 30" formatted_date="30.07.2013" time="22:30" commentary_available="" v="0" static_id="1464371" fix_id="1390832" id="1562574">
+        <localteam name="Avai" goals="?" id="7151" />
+        <visitorteam name="Atletico GO" goals="?" id="7141" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="22:30" date="Jul 30" formatted_date="30.07.2013" time="22:30" commentary_available="" v="0" static_id="1464373" fix_id="1390834" id="1562595">
+        <localteam name="Ceará" goals="?" id="7216" />
+        <visitorteam name="Chapecoense-SC" goals="?" id="7228" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="22:30" date="Jul 30" formatted_date="30.07.2013" time="22:30" commentary_available="" v="0" static_id="1464372" fix_id="1390833" id="1562575">
+        <localteam name="Joinville" goals="?" id="7392" />
+        <visitorteam name="Boa" goals="?" id="7385" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="22:30" date="Jul 30" formatted_date="30.07.2013" time="22:30" commentary_available="" v="0" static_id="1464369" fix_id="1390830" id="1562603">
+        <localteam name="Oeste" goals="?" id="7460" />
+        <visitorteam name="Guaratingueta" goals="?" id="7346" />
+        <events />
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Europe: Champions League - Qualification" id="1005" file_group="eurocups">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="FT" date="Jul 30" formatted_date="30.07.2013" time="13:00" commentary_available="champleague" v="20" static_id="1540805" fix_id="1443443" id="1563723">
+        <localteam name="Shakhtar Karagandy" goals="3" id="12262" />
+        <visitorteam name="Skenderbeu Korca" goals="0" id="5728" />
+        <events>
+          <event type="goal" minute="8" team="localteam" player="A. Dzidic" result="[1 - 0]" playerId="27597" eventid="15637231" />
+          <event type="yellowcard" minute="23" team="localteam" player="A. Finonchenko" result="" playerId="94995" eventid="15637232" />
+          <event type="goal" minute="79" team="localteam" player="R. Murtazaev" result="[2 - 0]" playerId="249228" eventid="15637233" />
+          <event type="goal" minute="90" team="localteam" player="S. Khizhnichenko" result="[3 - 0]" playerId="81772" eventid="15637234" />
+        </events>
+        <ht score="[1-0]" />
+      </match>
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="champleague" v="0" static_id="1540807" fix_id="1443455" id="1563729">
+        <localteam name="Austria Vienna" goals="?" id="6319" />
+        <visitorteam name="Hafnarfjordur" goals="?" id="11268" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="champleague" v="0" static_id="1540419" fix_id="1443441" id="1563721">
+        <localteam name="Dinamo Tbilisi" goals="?" id="10205" />
+        <visitorteam name="Steaua Bucuresti" goals="?" id="14756" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="champleague" v="0" static_id="1540809" fix_id="1443504" id="1563728">
+        <localteam name="Kalju" goals="?" id="9509" />
+        <visitorteam name="Plzen" goals="?" id="8649" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="champleague" v="0" static_id="1540413" fix_id="1443439" id="1563719">
+        <localteam name="Basel" goals="?" id="16609" />
+        <visitorteam name="Maccabi Tel Aviv" goals="?" id="11706" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="champleague" v="0" static_id="1541155" fix_id="1434194" id="1562913">
+        <localteam name="Nordsjaelland" goals="?" id="8773" />
+        <visitorteam name="Zenit Petersburg" goals="?" id="14950" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="18:00" date="Jul 30" formatted_date="30.07.2013" time="18:00" commentary_available="champleague" v="0" static_id="1541159" fix_id="1434195" id="1562914">
+        <localteam name="PAOK" goals="?" id="10852" />
+        <visitorteam name="Metalist Kharkov" goals="?" id="17184" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="champleague" v="0" static_id="1540811" fix_id="1443442" id="1563722">
+        <localteam name="D. Zagreb" goals="?" id="8255" />
+        <visitorteam name="Sheriff Tiraspol" goals="?" id="13036" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="champleague" v="0" static_id="1541161" fix_id="1434198" id="1562917">
+        <localteam name="PSV" goals="?" id="13364" />
+        <visitorteam name="Waregem" goals="?" id="6930" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="19:00" date="Jul 30" formatted_date="30.07.2013" time="19:00" commentary_available="champleague" v="0" static_id="1541163" fix_id="1434209" id="1562918">
+        <localteam name="Lyon" goals="?" id="10040" />
+        <visitorteam name="Grasshoppers" goals="?" id="16721" />
+        <events />
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Germany: Regionalliga Sudwest" id="1227" file_group="germany">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="18:15" date="Jul 30" formatted_date="30.07.2013" time="18:15" commentary_available="" v="0" static_id="1505890" fix_id="1416745" id="1559260">
+        <localteam name="Mannheim" goals="?" id="10654" />
+        <visitorteam name="Ulm" goals="?" id="10630" />
+        <events />
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Germany: Regionalliga Bayern" id="1227" file_group="germany">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="16:30" date="Jul 30" formatted_date="30.07.2013" time="16:30" commentary_available="" v="0" static_id="1482157" fix_id="1416176" id="1562626">
+        <localteam name="Augsburg II" goals="?" id="20864" />
+        <visitorteam name="TSV 1860 Rosenheim" goals="?" id="10556" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="16:30" date="Jul 30" formatted_date="30.07.2013" time="16:30" commentary_available="" v="0" static_id="1482156" fix_id="1416175" id="1562628">
+        <localteam name="Bayern Hof" goals="?" id="10284" />
+        <visitorteam name="Ingolstadt II" goals="?" id="10454" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="16:30" date="Jul 30" formatted_date="30.07.2013" time="16:30" commentary_available="" v="0" static_id="1482150" fix_id="1416170" id="1562627">
+        <localteam name="Bayern II" goals="?" id="10286" />
+        <visitorteam name="Nurnberg II" goals="?" id="10524" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="16:30" date="Jul 30" formatted_date="30.07.2013" time="16:30" commentary_available="" v="0" static_id="1482155" fix_id="1416174" id="1562629">
+        <localteam name="Seligenporten" goals="?" id="10587" />
+        <visitorteam name="Munich 1860 II" goals="?" id="10250" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" static_id="1482152" fix_id="1422075" id="1562981">
+        <localteam name="1. FC Schweinfurt" goals="?" id="10586" />
+        <visitorteam name="Furth II" goals="?" id="10408" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" static_id="1482153" fix_id="1416172" id="1562999">
+        <localteam name="Bamberg" goals="?" id="10344" />
+        <visitorteam name="Buchbach" goals="?" id="10314" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" static_id="1482154" fix_id="1416173" id="1563018">
+        <localteam name="Memmingen" goals="?" id="10510" />
+        <visitorteam name="Heimstetten" goals="?" id="10615" />
+        <events />
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Indonesia: Super Liga" id="1252" file_group="indonesia">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="14:00" date="Jul 30" formatted_date="30.07.2013" time="14:00" commentary_available="" v="0" fix_id="1409790" static_id="1560138" id="1560138">
+        <localteam name="Balikpapan" goals="?" id="11379" />
+        <visitorteam name="Persib Bandung" goals="?" id="11378" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Romania: Romanian Cup - Qualification" id="1862" file_group="romania">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="14:30" date="Jul 30" formatted_date="30.07.2013" time="14:30" commentary_available="" v="0" static_id="1579989" fix_id="1450334" id="1579989">
+        <localteam name="Ilie Oana" goals="?" id="22243" />
+        <visitorteam name="Voluntari" goals="?" id="14768" />
+        <events />
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Russia: Division 2 - South" id="1362" file_group="russia">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="FT" date="Jul 30" formatted_date="30.07.2013" time="13:00" commentary_available="" v="0" static_id="1502092" fix_id="1423626" id="1561574">
+        <localteam name="Alania 2" goals="1" id="19011" />
+        <visitorteam name="Biolog" goals="2" id="19005" />
+        <events>
+        </events>
+        <ht score="[0-1]" />
+      </match>
+      <match status="13:00" date="Jul 30" formatted_date="30.07.2013" time="13:00" commentary_available="" v="0" fix_id="1424953" static_id="1502098" id="1561568">
+        <localteam name="Astrakhan" goals="?" id="14817" />
+        <visitorteam name="Kavkaztransgaz" goals="?" id="14859" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="14:00" date="Jul 30" formatted_date="30.07.2013" time="14:00" commentary_available="" v="0" fix_id="1423625" static_id="1502091" id="1561569">
+        <localteam name="Mashuk" goals="?" id="14877" />
+        <visitorteam name="Novocherkassk" goals="?" id="17961" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="15:00" date="Jul 30" formatted_date="30.07.2013" time="15:00" commentary_available="" v="0" fix_id="1423628" static_id="1502094" id="1561709">
+        <localteam name="Maykop" goals="?" id="14808" />
+        <visitorteam name="Terek Grozni 2" goals="?" id="21521" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="15:00" date="Jul 30" formatted_date="30.07.2013" time="15:00" commentary_available="" v="0" fix_id="1424952" static_id="1502095" id="1561571">
+        <localteam name="Olimpia Volgograd" goals="?" id="14890" />
+        <visitorteam name="Krasnodar 2" goals="?" id="14828" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="14:00" date="Jul 30" formatted_date="30.07.2013" time="14:00" commentary_available="" v="0" fix_id="1423629" static_id="1502097" id="1561546">
+        <localteam name="Taganrog" goals="?" id="14843" />
+        <visitorteam name="Chernomorets Novorossijsk" goals="?" id="14793" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="14:30" date="Jul 30" formatted_date="30.07.2013" time="14:30" commentary_available="" v="0" fix_id="1423627" static_id="1502093" id="1561575">
+        <localteam name="Armavir" goals="?" id="14845" />
+        <visitorteam name="Kaspiysk" goals="?" id="14798" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="14:30" date="Jul 30" formatted_date="30.07.2013" time="14:30" commentary_available="" v="0" fix_id="1423630" static_id="1502099" id="1561708">
+        <localteam name="Volzhsky" goals="?" id="14811" />
+        <visitorteam name="Volgar-Astrakhan" goals="?" id="14946" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="15:00" date="Jul 30" formatted_date="30.07.2013" time="15:00" commentary_available="" v="0" fix_id="1425630" static_id="1502096" id="1561545">
+        <localteam name="Krymsk" goals="?" id="22010" />
+        <visitorteam name="SKA Rostov" goals="?" id="14914" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Russia: Division 2 - Center" id="1362" file_group="russia">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="14:00" date="Jul 30" formatted_date="30.07.2013" time="14:00" commentary_available="" v="0" fix_id="1408233" static_id="1501733" id="1558871">
+        <localteam name="Metallurg-Oskol" goals="?" id="17835" />
+        <visitorteam name="Z. Ryazan" goals="?" id="17836" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="14:00" date="Jul 30" formatted_date="30.07.2013" time="14:00" commentary_available="" v="0" fix_id="1408234" static_id="1558872" id="1558872">
+        <localteam name="Metallurg Vyksa" goals="?" id="20868" />
+        <visitorteam name="Kaluga" goals="?" id="14869" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="14:30" date="Jul 30" formatted_date="30.07.2013" time="14:30" commentary_available="" v="0" fix_id="1423408" static_id="1501738" id="1558870">
+        <localteam name="D. Bryansk" goals="?" id="14800" />
+        <visitorteam name="Tambov" goals="?" id="22016" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="14:30" date="Jul 30" formatted_date="30.07.2013" time="14:30" commentary_available="" v="0" fix_id="1408295" static_id="1501735" id="1558895">
+        <localteam name="M. Lipetsk" goals="?" id="14880" />
+        <visitorteam name="Penza" goals="?" id="14949" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="15:00" date="Jul 30" formatted_date="30.07.2013" time="15:00" commentary_available="" v="0" fix_id="1408256" static_id="1501734" id="1558894">
+        <localteam name="Liski" goals="?" id="14870" />
+        <visitorteam name="F. Voronezh" goals="?" id="14812" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="15:00" date="Jul 30" formatted_date="30.07.2013" time="15:00" commentary_available="" v="0" fix_id="1408235" static_id="1501732" id="1558873">
+        <localteam name="Podolye" goals="?" id="18273" />
+        <visitorteam name="Saratov" goals="?" id="14917" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="15:00" date="Jul 30" formatted_date="30.07.2013" time="15:00" commentary_available="" v="0" fix_id="1408379" static_id="1501736" id="1558962">
+        <localteam name="Rusichi" goals="?" id="14898" />
+        <visitorteam name="Kursk" goals="?" id="14788" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="15:00" date="Jul 30" formatted_date="30.07.2013" time="15:00" commentary_available="" v="0" fix_id="1423407" static_id="1501737" id="1558896">
+        <localteam name="Spartak Moscow 2" goals="?" id="21487" />
+        <visitorteam name="Vityaz" goals="?" id="14942" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Russia: Russian Cup - Qualification" id="1364" file_group="russia">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="Pen." date="Jul 30" formatted_date="30.07.2013" time="07:30" commentary_available="" v="0" static_id="1562494" fix_id="1433450" id="1562494">
+        <localteam name="Sakhalin" goals="1" id="14900" />
+        <visitorteam name="Yakutiya" goals="1" id="19006" />
+        <events>
+          <event type="goal" minute="5" team="localteam" player="A. Gagloev" result="[1 - 0]" playerId="27555" eventid="15624941" />
+          <event type="goal" minute="67" team="visitorteam" player="M. Aksyonov" result="[1 - 1]" playerId="" eventid="15624942" />
+        </events>
+        <ht score="[1-0]" />
+        <penalty localteam="2" visitorteam="4" />
+      </match>
+      <match status="FT" date="Jul 30" formatted_date="30.07.2013" time="08:00" commentary_available="" v="20" static_id="1562492" fix_id="1433449" id="1562492">
+        <localteam name="Sibiryak" goals="0" id="14913" />
+        <visitorteam name="Chita" goals="1" id="14821" />
+        <events>
+          <event type="goal" minute="54" team="visitorteam" player="" result="[0 - 1]" playerId="" eventid="15624921" />
+        </events>
+        <ht score="[0-0]" />
+      </match>
+      <match status="AET" date="Jul 30" formatted_date="30.07.2013" time="09:00" commentary_available="" v="20" static_id="1562491" fix_id="1433451" id="1562491">
+        <localteam name="Amur" goals="0" id="14785" />
+        <visitorteam name="Belogorsk" goals="1" id="22019" />
+        <events>
+          <event type="goal" minute="93" team="visitorteam" player="" result="[0 - 1]" playerId="" eventid="15624911" />
+        </events>
+        <ht score="[0-0]" />
+      </match>
+      <match status="Pen." date="Jul 30" formatted_date="30.07.2013" time="11:00" commentary_available="" v="0" static_id="1562493" fix_id="1433448" id="1562493">
+        <localteam name="Raspadskaya FK" goals="1" id="22018" />
+        <visitorteam name="Omsk" goals="1" id="14855" />
+        <events>
+          <event type="goal" minute="55" team="localteam" player="" result="[1 - 0]" playerId="" eventid="15624931" />
+          <event type="goal" minute="88" team="visitorteam" player="" result="[1 - 1]" playerId="" eventid="15624932" />
+        </events>
+        <ht score="[0-0]" />
+        <penalty localteam="2" visitorteam="4" />
+      </match>
+    </matches>
+  </category>
+  <category name="South America: Copa Sudamericana" id="1627" file_group="southamerica">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="sudamericana" v="0" static_id="1511370" fix_id="1418184" id="1560927">
+        <localteam name="Inti Gas Deportes" goals="?" id="13924" />
+        <visitorteam name="Atl. Nacional" goals="?" id="8150" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="sudamericana" v="0" static_id="1511374" fix_id="1418185" id="1560928">
+        <localteam name="LDU Loja" goals="?" id="8867" />
+        <visitorteam name="Lara" goals="?" id="17532" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="20:45" date="Jul 30" formatted_date="30.07.2013" time="20:45" commentary_available="sudamericana" v="0" static_id="1511373" fix_id="1418187" id="1560931">
+        <localteam name="Itagüí Ditaires" goals="?" id="8144" />
+        <visitorteam name="Juan Aurich" goals="?" id="13927" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="23:30" date="Jul 30" formatted_date="30.07.2013" time="23:30" commentary_available="sudamericana" v="0" static_id="1511364" fix_id="1418186" id="1560929">
+        <localteam name="Nacional Asuncion" goals="?" id="13886" />
+        <visitorteam name="The Strongest" goals="?" id="6997" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="23:30" date="Jul 30" formatted_date="30.07.2013" time="23:30" commentary_available="sudamericana" v="0" static_id="1511360" fix_id="1418188" id="1560930">
+        <localteam name="Real Potosi" goals="?" id="6994" />
+        <visitorteam name="U. De Chile" goals="?" id="8025" />
+        <events />
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="Sweden: Svenska Cupen - Qualification" id="1406" file_group="sweden">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" static_id="1477467" fix_id="1393996" id="1543535">
+        <localteam name="Hassleholm" goals="?" id="21688" />
+        <visitorteam name="Torns" goals="?" id="20315" />
+        <events />
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" static_id="1474865" fix_id="1390432" id="1543558">
+        <localteam name="Vasterviks FF" goals="?" id="21929" />
+        <visitorteam name="Lindsdals" goals="?" id="16511" />
+        <events />
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+  <category name="World: Club Friendly" id="1534" file_group="world">
+    <matches date="Jul 30" formatted_date="30.07.2013">
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="" v="0" fix_id="1450617" static_id="1580249" id="1580249">
+        <localteam name="Brescia" goals="?" id="11826" />
+        <visitorteam name="Albinoleffe" goals="?" id="11751" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="" v="0" fix_id="1450325" static_id="1579967" id="1579967">
+        <localteam name="Kaiserslautern" goals="?" id="10459" />
+        <visitorteam name="Bayer Leverkusen" goals="?" id="10281" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="" v="0" fix_id="1450604" static_id="1580221" id="1580221">
+        <localteam name="Union Berlin" goals="?" id="10631" />
+        <visitorteam name="Swinoujscie" goals="?" id="13983" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="" v="0" fix_id="1446529" static_id="1564207" id="1564207">
+        <localteam name="Wurzburger Kickers" goals="?" id="10695" />
+        <visitorteam name="Dortmund" goals="?" id="10303" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" fix_id="1450619" static_id="1580252" id="1580252">
+        <localteam name="Albacete" goals="?" id="15657" />
+        <visitorteam name="Valladolid" goals="?" id="16123" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" fix_id="1450618" static_id="1580251" id="1580251">
+        <localteam name="Gijon" goals="?" id="16180" />
+        <visitorteam name="AFE" goals="?" id="14240" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="16:00" date="Jul 30" formatted_date="30.07.2013" time="16:00" commentary_available="" v="0" fix_id="1450620" static_id="1580250" id="1580250">
+        <localteam name="Guimaraes" goals="?" id="14473" />
+        <visitorteam name="Ferreira" goals="?" id="14399" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="17:00" date="Jul 30" formatted_date="30.07.2013" time="17:00" commentary_available="" v="0" fix_id="1450627" static_id="1580260" id="1580260">
+        <localteam name="Tubize" goals="?" id="6906" />
+        <visitorteam name="St. Gilloise" goals="?" id="6909" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="17:30" date="Jul 30" formatted_date="30.07.2013" time="17:30" commentary_available="" v="0" fix_id="1450625" static_id="1580258" id="1580258">
+        <localteam name="Bellinzona" goals="?" id="16613" />
+        <visitorteam name="Taverne" goals="?" id="18314" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="17:30" date="Jul 30" formatted_date="30.07.2013" time="17:30" commentary_available="" v="0" fix_id="1450626" static_id="1580259" id="1580259">
+        <localteam name="Everbeur Sport" goals="?" id="18488" />
+        <visitorteam name="Westerlo" goals="?" id="6923" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:00" date="Jul 30" formatted_date="30.07.2013" time="18:00" commentary_available="" v="0" fix_id="1450623" static_id="1580256" id="1580256">
+        <localteam name="Granada CF" goals="?" id="16025" />
+        <visitorteam name="La Roda" goals="?" id="16039" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:00" date="Jul 30" formatted_date="30.07.2013" time="18:00" commentary_available="" v="0" fix_id="1450624" static_id="1580257" id="1580257">
+        <localteam name="Portadown" goals="?" id="13674" />
+        <visitorteam name="Bangor" goals="?" id="17610" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="" v="0" fix_id="1450621" static_id="1580254" id="1580254">
+        <localteam name="Boreham Wood" goals="?" id="9050" />
+        <visitorteam name="Watford" goals="?" id="9423" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="" v="0" fix_id="1450628" static_id="1580262" id="1580262">
+        <localteam name="Eastleigh" goals="?" id="9148" />
+        <visitorteam name="Woking" goals="?" id="9445" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="" v="0" fix_id="1450326" static_id="1579968" id="1579968">
+        <localteam name="Gainsborough" goals="?" id="9176" />
+        <visitorteam name="Mansfield" goals="?" id="9262" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="" v="0" fix_id="1450330" static_id="1579972" id="1579972">
+        <localteam name="Stalybridge" goals="?" id="9371" />
+        <visitorteam name="Accrington" goals="?" id="8987" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="" v="0" fix_id="1443490" static_id="1563753" id="1563753">
+        <localteam name="St. Mirren" goals="?" id="15120" />
+        <visitorteam name="Newcastle Utd" goals="?" id="9287" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:30" date="Jul 30" formatted_date="30.07.2013" time="18:30" commentary_available="" v="0" fix_id="1450622" static_id="1580255" id="1580255">
+        <localteam name="Telford" goals="?" id="8992" />
+        <visitorteam name="Chester" goals="?" id="18822" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1450632" static_id="1580266" id="1580266">
+        <localteam name="Bamber" goals="?" id="9016" />
+        <visitorteam name="Southport" goals="?" id="9365" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1443491" static_id="1563754" id="1563754">
+        <localteam name="Brentford" goals="?" id="9059" />
+        <visitorteam name="Cardiff" goals="?" id="9083" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1394158" static_id="1477988" id="1563755">
+        <localteam name="Brighton" goals="?" id="9065" />
+        <visitorteam name="Norwich" goals="?" id="9296" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1450327" static_id="1579969" id="1579969">
+        <localteam name="Hemel" goals="?" id="9208" />
+        <visitorteam name="Harrow" goals="?" id="9201" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1450633" static_id="1580267" id="1580267">
+        <localteam name="Histon" goals="?" id="9214" />
+        <visitorteam name="Braintree" goals="?" id="9058" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1450328" static_id="1579970" id="1579970">
+        <localteam name="Kidderminster" goals="?" id="9230" />
+        <visitorteam name="Cheltenham" goals="?" id="22158" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1443492" static_id="1563756" id="1563756">
+        <localteam name="Lechia Gdansk" goals="?" id="14066" />
+        <visitorteam name="Barcelona" goals="?" id="15702" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1443493" static_id="1563757" id="1563757">
+        <localteam name="Northampton" goals="?" id="9293" />
+        <visitorteam name="Leicester" goals="?" id="9240" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1450329" static_id="1579971" id="1579971">
+        <localteam name="Solihull" goals="?" id="9361" />
+        <visitorteam name="Nuneaton" goals="?" id="9300" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="18:45" date="Jul 30" formatted_date="30.07.2013" time="18:45" commentary_available="" v="0" fix_id="1450331" static_id="1579973" id="1579973">
+        <localteam name="Stockport" goals="?" id="9376" />
+        <visitorteam name="United of Manchester" goals="?" id="9410" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="19:00" date="Jul 30" formatted_date="30.07.2013" time="19:00" commentary_available="" v="0" fix_id="1443494" static_id="1563759" id="1563759">
+        <localteam name="Algeciras" goals="?" id="15660" />
+        <visitorteam name="Malaga" goals="?" id="16050" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="19:00" date="Jul 30" formatted_date="30.07.2013" time="19:00" commentary_available="" v="0" fix_id="1450630" static_id="1580264" id="1580264">
+        <localteam name="Ourense" goals="?" id="15863" />
+        <visitorteam name="Braga" goals="?" id="14446" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="19:00" date="Jul 30" formatted_date="30.07.2013" time="19:00" commentary_available="" v="0" fix_id="1450631" static_id="1580265" id="1580265">
+        <localteam name="Sanluqueno" goals="?" id="15697" />
+        <visitorteam name="Recreativo Huelva" goals="?" id="16128" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+      <match status="23:30" date="Jul 30" formatted_date="30.07.2013" time="23:30" commentary_available="" v="0" fix_id="1443489" static_id="1563752" id="1563752">
+        <localteam name="Philadelphia" goals="?" id="17364" />
+        <visitorteam name="Stoke City" goals="?" id="9378" />
+        <events>
+        </events>
+        <ht score="" />
+      </match>
+    </matches>
+  </category>
+</scores>
