@@ -58,23 +58,22 @@ class Base64Imaged(models.Model):
 
 class Country(GoalServeModel):
 
-    name = models.CharField(_("Name"), max_length=255,
-                            required=True, unique=True,
+    name = models.CharField(_("Name"), max_length=255, unique=True,
                             choices=COUNTRIES_NAMES)
 
 
 class Category(GoalServeModel):
 
-    name = models.CharField(_("Name"), max_length=255, required=True)
+    name = models.CharField(_("Name"), max_length=255)
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
-                                on_delete=models.SET_NULL)
+                                on_delete=models.SET_NULL, null=True)
 
 
 class Stadium(GoalServeModel, Base64Imaged):
 
     name = models.CharField(_("Stadium name"), max_length=255)
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
-                                on_delete=models.SET_NULL)
+                                on_delete=models.SET_NULL, null=True)
     surface = models.CharField(max_length=255, null=True, blank=True)
     capacity = models.IntegerField(null=True, blank=True)
 
@@ -99,7 +98,7 @@ class Team(GoalServeModel, Base64Imaged):
 
 class Player(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Team name"), max_length=255, required=True)
+    name = models.CharField(_("Player name"), max_length=255)
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              null=True, blank=True,
                              on_delete=models.SET_NULL)
@@ -132,8 +131,13 @@ class Match(GoalServeModel):
     match_time = models.DateTimeField(_("Match time"), null=True, blank=True)
 
     localteam = models.ForeignKey("goalserve.Team", verbose_name=_("Local"),
-                                  on_delete=models.SET_NULL)
-    visitorteam = models.ForeignKey("goalserve.Team", verbose_name=_("Visitor"))
+                                  on_delete=models.SET_NULL, null=True,
+                                  related_name='match_localteam')
+    visitorteam = models.ForeignKey("goalserve.Team",
+                                    verbose_name=_("Visitor"),
+                                    related_name='match_visitorteam',
+                                    null=True,
+                                    on_delete=models.SET_NULL)
     ht_result = models.CharField(_("HT Result"), max_length=255,
                                  null=True, blank=True)
     stadium = models.ForeignKey("goalserve.Stadium", verbose_name=_("Stadium"),
@@ -151,7 +155,7 @@ class MatchStats(models.Model):
 
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
-                             on_delete=models.SET_NULL)
+                             on_delete=models.SET_NULL, null=True)
     team_status = models.CharField(_("Team status"), max_length=255,
                                    choices=TEAM_STATUS)
 
@@ -192,7 +196,7 @@ class MatchLineUp(models.Model):
     team_status = models.CharField(_("Team status"), max_length=255,
                                    choices=TEAM_STATUS)
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
-                             on_delete=models.SET_NULL)
+                             on_delete=models.SET_NULL, null=True)
 
     player_status = models.CharField(_("Player Status"), max_length=255,
                                      choices=PLAYER_STATUS, default="player")
@@ -205,8 +209,14 @@ class MatchLineUp(models.Model):
 
 class MatchSubstitutions(models.Model):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
-    player_off = models.ForeignKey("goalserve.Player", verbose_name=_("Player"))
-    player_in = models.ForeignKey("goalserve.Player", verbose_name=_("Player"))
+    player_off = models.ForeignKey("goalserve.Player",
+                                   verbose_name=_("Player Off"),
+                                   related_name='matchsubstitutions_off',
+                                   null=True, blank=True)
+    player_in = models.ForeignKey("goalserve.Player",
+                                  verbose_name=_("Player In"),
+                                  related_name='matchsubstitutions_in',
+                                  null=True, blank=True)
     minute = models.IntegerField(_("Minute"), null=True, blank=True)
 
 
@@ -238,19 +248,11 @@ class MatchEvent(GoalServeModel):
     team_status = models.CharField(_("Team status"), max_length=255,
                                    choices=TEAM_STATUS)
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
-                             on_delete=models.SET_NULL)
+                             on_delete=models.SET_NULL, null=True)
     player = models.ForeignKey("goalserve.Player", verbose_name=_("Player"),
                                null=True, blank=True, on_delete=models.SET_NULL)
     result = models.CharField(_("Result"), max_length=255, null=True,
                               blank=True)
-
-
-class Transmission(Publishable):
-    match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
-    transmission_date = models.DateTimeField(_("Transmission time"))
-    create_live_blog = models.BooleanField(_("Create live blog"), default=True)
-    live_blog = models.ForeignKey("liveblogging.Event", null=True, blank=True,
-                                  on_delete=models.SET_NULL)
 
 
 class MatchResult(Publishable):
@@ -288,7 +290,7 @@ class F1Tournament(GoalServeModel):
 class F1Race(GoalServeModel):
     tournament = models.ForeignKey("goalserve.F1Tournament",
                                  verbose_name=_("Category"),
-                                 on_delete=models.SET_NULL)
+                                 on_delete=models.SET_NULL, null=True)
     race_type = models.CharField(_("Race Type"), max_length=255,
                                  choices=RACE_TYPES, default="race")
     status = models.CharField(_("Status"), max_length=255, null=True,
