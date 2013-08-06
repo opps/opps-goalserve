@@ -55,6 +55,9 @@ class Base64Imaged(models.Model):
     def image(self, data):  # lint:ok
         self.image_base = base64.encodestring(data)
 
+    class Meta:
+        abstract = True
+
 
 class Country(GoalServeModel):
 

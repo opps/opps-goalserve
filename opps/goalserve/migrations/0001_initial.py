@@ -12,13 +12,6 @@ User = get_user_model()
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Base64Imaged'
-        db.create_table(u'goalserve_base64imaged', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('image_base', self.gf('django.db.models.fields.TextField')(blank=True)),
-        ))
-        db.send_create_signal(u'goalserve', ['Base64Imaged'])
-
         # Adding model 'Country'
         db.create_table(u'goalserve_country', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -48,13 +41,14 @@ class Migration(SchemaMigration):
 
         # Adding model 'Stadium'
         db.create_table(u'goalserve_stadium', (
-            (u'base64imaged_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['goalserve.Base64Imaged'], unique=True, primary_key=True)),
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('g_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_static_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_fix_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_player_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_event_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_bet_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
+            ('image_base', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('country', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['goalserve.Country'], null=True, on_delete=models.SET_NULL)),
             ('surface', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
@@ -64,13 +58,14 @@ class Migration(SchemaMigration):
 
         # Adding model 'Team'
         db.create_table(u'goalserve_team', (
-            (u'base64imaged_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['goalserve.Base64Imaged'], unique=True, primary_key=True)),
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('g_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_static_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_fix_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_player_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_event_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_bet_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
+            ('image_base', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('full_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
             ('country', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['goalserve.Country'], null=True, on_delete=models.SET_NULL, blank=True)),
@@ -82,13 +77,14 @@ class Migration(SchemaMigration):
 
         # Adding model 'Player'
         db.create_table(u'goalserve_player', (
-            (u'base64imaged_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['goalserve.Base64Imaged'], unique=True, primary_key=True)),
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('g_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_static_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_fix_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_player_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_event_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
             ('g_bet_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True)),
+            ('image_base', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('team', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['goalserve.Team'], null=True, on_delete=models.SET_NULL, blank=True)),
             ('birthdate', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
@@ -298,9 +294,6 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Deleting model 'Base64Imaged'
-        db.delete_table(u'goalserve_base64imaged')
-
         # Deleting model 'Country'
         db.delete_table(u'goalserve_country')
 
@@ -357,7 +350,6 @@ class Migration(SchemaMigration):
         "%s.%s" % (User._meta.app_label, User._meta.module_name): {
         'Meta': {'object_name': User.__name__},
         },
-
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -377,11 +369,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'goalserve.base64imaged': {
-            'Meta': {'object_name': 'Base64Imaged'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image_base': ('django.db.models.fields.TextField', [], {'blank': 'True'})
         },
         u'goalserve.category': {
             'Meta': {'object_name': 'Category'},
@@ -578,9 +565,8 @@ class Migration(SchemaMigration):
             'player_off': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'matchsubstitutions_off'", 'null': 'True', 'to': u"orm['goalserve.Player']"})
         },
         u'goalserve.player': {
-            'Meta': {'object_name': 'Player', '_ormbases': [u'goalserve.Base64Imaged']},
+            'Meta': {'object_name': 'Player'},
             'age': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            u'base64imaged_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['goalserve.Base64Imaged']", 'unique': 'True', 'primary_key': 'True'}),
             'birthdate': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'birthplace': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'g_bet_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
@@ -590,6 +576,8 @@ class Migration(SchemaMigration):
             'g_player_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'g_static_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'height': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image_base': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'nationality': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'position': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -597,8 +585,7 @@ class Migration(SchemaMigration):
             'weight': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         u'goalserve.stadium': {
-            'Meta': {'object_name': 'Stadium', '_ormbases': [u'goalserve.Base64Imaged']},
-            u'base64imaged_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['goalserve.Base64Imaged']", 'unique': 'True', 'primary_key': 'True'}),
+            'Meta': {'object_name': 'Stadium'},
             'capacity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'country': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goalserve.Country']", 'null': 'True', 'on_delete': 'models.SET_NULL'}),
             'g_bet_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
@@ -607,12 +594,13 @@ class Migration(SchemaMigration):
             'g_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'g_player_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'g_static_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image_base': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'surface': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         u'goalserve.team': {
-            'Meta': {'object_name': 'Team', '_ormbases': [u'goalserve.Base64Imaged']},
-            u'base64imaged_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['goalserve.Base64Imaged']", 'unique': 'True', 'primary_key': 'True'}),
+            'Meta': {'object_name': 'Team'},
             'coach': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'country': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goalserve.Country']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'founded': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -623,6 +611,8 @@ class Migration(SchemaMigration):
             'g_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'g_player_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'g_static_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image_base': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'stadium': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goalserve.Stadium']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'})
         },
