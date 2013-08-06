@@ -322,10 +322,10 @@ class Driver(GoalServeModel):
     points = models.IntegerField(_("Points"), null=True, blank=True)
 
 
-class F1Results():
+class F1Results(GoalServeModel):
     race = models.ForeignKey("goalserve.F1Race", verbose_name=_("Race"))
     pos = models.IntegerField(_("Position"))
-    driver = models.ForeignKey("goalserve.Driver", _("Driver"))
+    driver = models.ForeignKey("goalserve.Driver", verbose_name=_("Driver"))
     team = models.ForeignKey("goalserve.F1Team")
     time = models.CharField(_("Time"), max_length=255, null=True, blank=True)
     pitstops = models.IntegerField(null=True, blank=True)
