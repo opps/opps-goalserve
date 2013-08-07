@@ -64,12 +64,17 @@ class Country(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255, unique=True,
                             choices=COUNTRIES_NAMES)
 
+    def __unicode__(self):
+        return self.name
 
 class Category(GoalServeModel):
 
     name = models.CharField(_("Name"), max_length=255)
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Stadium(GoalServeModel, Base64Imaged):
@@ -80,6 +85,8 @@ class Stadium(GoalServeModel, Base64Imaged):
     surface = models.CharField(max_length=255, null=True, blank=True)
     capacity = models.IntegerField(null=True, blank=True)
 
+    def __unicode__(self):
+        return self.name
 
 class Team(GoalServeModel, Base64Imaged):
 
@@ -97,6 +104,9 @@ class Team(GoalServeModel, Base64Imaged):
     founded = models.CharField(_("Founded"), null=True,
                                  max_length=255, blank=True)
     coach = models.CharField(_("Coach"), null=True, max_length=255, blank=True)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.name, self.country)
 
 
 class Player(GoalServeModel, Base64Imaged):
@@ -119,6 +129,10 @@ class Player(GoalServeModel, Base64Imaged):
                               null=True, blank=True)
     height = models.CharField(_("Height"), max_length=255,
                               null=True, blank=True)
+    number = models.CharField(_("Number"), max_length=255, null=True, blank=True)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.name, self.team)
 
 
 class Match(GoalServeModel):
@@ -152,6 +166,9 @@ class Match(GoalServeModel):
                                  null=True, blank=True)
     referee_name = models.CharField(_("Referee name"), max_length=255,
                                     null=True, blank=True)
+
+    def __unicode__(self):
+        return u"({}) - {} x {}".format(self.g_static_id, self.localteam, self.visitorteam)
 
 
 class MatchStats(models.Model):
@@ -209,6 +226,9 @@ class MatchLineUp(models.Model):
     player_position = models.CharField(_("Player position"), max_length=255,
                                          blank=True, null=True)
 
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.player.name, self.team.name)
 
 class MatchSubstitutions(models.Model):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
