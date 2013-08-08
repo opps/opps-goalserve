@@ -45,7 +45,7 @@ class GoalServeModel(models.Model):
 
 
 class Base64Imaged(models.Model):
-    image_base = models.TextField(_("Image"), blank=True)
+    image_base = models.TextField(_("Image"), blank=True, null=True)
 
     @property
     def image(self):
@@ -185,8 +185,8 @@ class MatchStats(models.Model):
     fouls = models.IntegerField(_("Fouls"), null=True, blank=True)
     corners = models.IntegerField(_("Corners"), null=True, blank=True)
     offsides = models.IntegerField(_("Offsides"), null=True, blank=True)
-    possesiontime = models.IntegerField(_("Possesion time"), null=True,
-                                        blank=True)
+    possesiontime = models.CharField(_("Possesion time"), null=True,
+                                        blank=True, max_length=255)
     saves = models.IntegerField(_("Saves"), null=True, blank=True)
 
     @property
@@ -241,6 +241,11 @@ class MatchSubstitutions(models.Model):
                                   related_name='matchsubstitutions_in',
                                   null=True, blank=True)
     minute = models.IntegerField(_("Minute"), null=True, blank=True)
+
+    team_status = models.CharField(_("Team status"), max_length=255,
+                                   choices=TEAM_STATUS, null=True, blank=True)
+    team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
+                             on_delete=models.SET_NULL, null=True)
 
 
 class MatchCommentary(GoalServeModel):
