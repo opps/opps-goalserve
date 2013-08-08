@@ -388,7 +388,7 @@ class Crawler(object):
             _matchevent.save()
 
 
-    def get_matches(self, countries=COUNTRIES, g_static_id=None):
+    def get_matches(self, countries=COUNTRIES, match_id=None):
         print "getting matches"
         for country in countries:
             _country, created = Country.objects.get_or_create(
@@ -422,9 +422,13 @@ class Crawler(object):
                             print  "Match not ready"
                             continue
 
-                        if g_static_id and str(g_static_id) != match.get('@static_id'):
-                            print "skipping", g_static_id, match.get('@static_id')
-                            continue
+                        if match_id:
+                            if isinstance(match_id, list):
+                                if not match.get('@static_id') in [str(item) for item in match_id]:
+                                    continue
+                            else:
+                                if str(match_id) != match.get('@static_id'):
+                                    continue
 
                         _match, created = Match.objects.get_or_create(
                             category=_category,
