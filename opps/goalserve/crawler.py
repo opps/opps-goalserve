@@ -392,7 +392,7 @@ class Crawler(object):
         print "getting matches"
         for country in countries:
             _country, created = Country.objects.get_or_create(
-                name=country
+                name=country.lower()
             )
 
             for xml_url in URLS.get('matches'):

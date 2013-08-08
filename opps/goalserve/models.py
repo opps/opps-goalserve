@@ -210,6 +210,9 @@ class MatchStats(models.Model):
             event_type='goal'
         ).count()
 
+    def __unicode__(self):
+        return u"{} - {}".format(self.match, self.team)
+
 
 class MatchLineUp(models.Model):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
@@ -228,7 +231,8 @@ class MatchLineUp(models.Model):
 
 
     def __unicode__(self):
-        return u"{} - {}".format(self.player.name, self.team.name)
+        return u"{} - {} - {}".format(self.match, self.player.name, self.team.name)
+
 
 class MatchSubstitutions(models.Model):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
@@ -247,6 +251,8 @@ class MatchSubstitutions(models.Model):
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              on_delete=models.SET_NULL, null=True)
 
+    def __unicode__(self):
+        return u"{} - off:{} in:{}".format(self.match, self.player_off, self.player_in)
 
 class MatchCommentary(GoalServeModel):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
@@ -254,6 +260,9 @@ class MatchCommentary(GoalServeModel):
     is_goal = models.BooleanField(_("Is Goal"), default=False)
     minute = models.IntegerField(_("Minute"), null=True, blank=True)
     comment = models.TextField(_("Comment"), blank=True)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.match, self.comment)
 
 
 class MatchEvent(GoalServeModel):
@@ -281,6 +290,9 @@ class MatchEvent(GoalServeModel):
                                null=True, blank=True, on_delete=models.SET_NULL)
     result = models.CharField(_("Result"), max_length=255, null=True,
                               blank=True)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.match, self.event_type)
 
 
 class MatchResult(Publishable):
