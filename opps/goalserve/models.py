@@ -1,6 +1,7 @@
 # coding:utf-8
 
 import base64
+from django.utils import timezone as datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from opps.core.models import Publishable
@@ -39,6 +40,8 @@ class GoalServeModel(models.Model):
                                   null=True)
     g_bet_id = models.CharField(_("Goalserve Bet ID"), max_length=255,
                                   null=True)
+    created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
 
     class Meta:
         abstract = True
@@ -189,6 +192,10 @@ class MatchStats(models.Model):
                                         blank=True, max_length=255)
     saves = models.IntegerField(_("Saves"), null=True, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
+
+
     @property
     def yellowcards(self):
         return self.match.match_event_set.filter(
@@ -230,6 +237,10 @@ class MatchLineUp(models.Model):
                                          blank=True, null=True)
 
 
+    created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
+
+
     def __unicode__(self):
         return u"{} - {} - {}".format(self.match, self.player.name, self.team.name)
 
@@ -251,8 +262,12 @@ class MatchSubstitutions(models.Model):
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              on_delete=models.SET_NULL, null=True)
 
+    created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
+
     def __unicode__(self):
         return u"{} - off:{} in:{}".format(self.match, self.player_off, self.player_in)
+
 
 class MatchCommentary(GoalServeModel):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
@@ -300,6 +315,10 @@ class MatchResult(Publishable):
     localteam_result = models.IntegerField(_("Local result"), default=0)
     visitorteam_result = models.IntegerField(_("Visitor result"), default=0)
 
+    created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
+
+
     @property
     def localteam(self):
         return self.match.localteam
@@ -307,6 +326,31 @@ class MatchResult(Publishable):
     @property
     def visitorteam(self):
         return self.match.visitorteam
+
+
+class MatchStandings(GoalServeModel):
+    country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
+                                on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey("goalserve.Category",
+                                 verbose_name=_("Category"),
+                                 null=True, blank=True,
+                                 on_delete=models.SET_NULL)
+    timestamp = models.CharField(max_length=255, null=True, blank=True)
+    season = models.CharField(max_length=255, null=True, blank=True)
+    round = models.CharField(max_length=255, null=True, blank=True)
+    team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
+                             on_delete=models.SET_NULL, null=True)
+    position = models.CharField(max_length=255, null=True, blank=True)
+    status = models.CharField(max_length=255, null=True, blank=True)
+    recent_form = models.CharField(max_length=255, null=True, blank=True)
+    total_gd = models.CharField(max_length=255, null=True, blank=True)
+    total_p = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+
+    def __unicode__(self):
+        return u"{self.category} - {self.team} = {self.position}".format(self=self)
+
+
 
 
 # ==============================================================================

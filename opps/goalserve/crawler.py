@@ -5,8 +5,9 @@ import datetime
 from .xml2dict import parse
 from .countries import COUNTRIES
 from .commentaries import COMMENTARIES
+from .standings import STANDINGS
 from .models import Country, Category, Match, Team, Stadium, Player, MatchLineUp, MatchStats, \
-                    MatchSubstitutions, MatchCommentary, MatchEvent
+                    MatchSubstitutions, MatchCommentary, MatchEvent, MatchStandings
 
 DOMAIN = 'http://www.goalserve.com'
 
@@ -23,7 +24,7 @@ Formula 1:
 URLS = {
     'matches': ['/getfeed/{gid}/soccernew/{country}',
                '/getfeed/{gid}/soccernew/{country}_shedule'],
-    'standings': '/getfeed/{gid}/standings/{country}.xml',
+    'standings': '/getfeed/{gid}/standings/{xml}',
     'comments': '/getfeed/{gid}/commentaries/{xml}',
     'team': '/getfeed/{gid}/soccerstats/team/{team_id}',
     'player': '/getfeed/{gid}/soccerstats/player/{player_id}'
@@ -40,7 +41,7 @@ class Crawler(object):
         for country in COUNTRIES:
             # print
             Country.objects.get_or_create(
-                name=country
+                name=country.lower()
             )
 
     def get(self, url):
@@ -92,7 +93,7 @@ class Crawler(object):
 
         return _stadium
 
-    def get_team(self, team):
+    def get_team(self, team, get_players=True):
         print "getting team"
         # OrderedDict([(u'@name', u'Santos'), (u'@goals', u'?'), (u'@id', u'7560')]))
         _team, created = Team.objects.get_or_create(
@@ -118,7 +119,7 @@ class Crawler(object):
             except Exception as e:
                 print  e.message
 
-            if not team.get('@is_national'):  # dont overrride player for worldcup team
+            if not team.get('@is_national') and get_players:  # dont overrride player for worldcup team
                 for player in data['teams']['team']['squad']['player']:
                     self.get_player(player, _team)
 
@@ -458,3 +459,60 @@ class Crawler(object):
                             self.get_match_events(_match,  match.get('events'))
                             self.get_commentaries(_match, country)
 
+    def get_category_by_id(self, g_id, tournament=None, country=None):
+        try:
+            return Category.objects.get(g_id=g_id)
+        except:
+            if not tournament:
+                return
+
+            _category = Category.objects.create(
+                country=country,
+                name=tournament.get('@league'),
+                g_id=g_id
+            )
+            return _category
+
+    def get_standings(self, country='brazil'):
+        for xml in [item for item in STANDINGS if item.startswith(country)]:
+
+            data = self.get(
+                URLS.get('standings').format(gid=self.gid, xml=xml)
+            )
+
+            if not data:
+                continue
+
+            standings = data.get('standings')
+            _country = self.get_country_by_name(standings.get('@country'))
+            timestamp = standings.get('@timestamp')
+            tournaments = standings.get('tournament', {})
+
+            if not isinstance(tournaments, list):
+                tournaments = [tournaments]
+
+            for tournament in tournaments:
+
+                _category = self.get_category_by_id(tournament.get('@id'), tournament, _country)
+
+                if not _category:
+                    continue
+
+                for team in tournament.get('team', []):
+                    _team = self.get_team(team, get_players=False)
+                    _matchstandings, created = MatchStandings.objects.get_or_create(
+                        season=tournament.get('@season'),
+                        round=tournament.get('@round'),
+                        category=_category,
+                        team=_team,
+                        country=_country
+                    )
+
+                    _matchstandings.position = team.get('@position')
+                    _matchstandings.status = team.get('@status')
+                    _matchstandings.recent_form = team.get('@recent_form')
+                    _matchstandings.total_gd = team.get('total', {}).get('@gd')
+                    _matchstandings.total_p = team.get('total', {}).get('@p')
+                    _matchstandings.description = team.get('description', {}).get('@value')
+                    _matchstandings.timestamp = timestamp
+                    _matchstandings.save()
