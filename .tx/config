@@ -1,7 +1,7 @@
 [main]
 host = https://www.transifex.com
 
-[opps.goalserve]
+[opps-goalserve.goalserve]
 file_filter = opps/goalserve/locale/<lang>/LC_MESSAGES/django.po
 source_file = opps/goalserve/locale/en/LC_MESSAGES/django.po
 source_lang = en
