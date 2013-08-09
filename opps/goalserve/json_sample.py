@@ -1,6 +1,4 @@
 {
-    "matches": [
-        {
            "static_id": "1505217",
            "status": "Not Started",
            "result": {'localteam': 0, "visitorteam": 0},
@@ -54,8 +52,5 @@
                     # ...
                ]
            }
-        },
-        # more matches
-        #...
-    ]
 }
+
