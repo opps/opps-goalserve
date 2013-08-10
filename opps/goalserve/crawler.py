@@ -439,21 +439,42 @@ class Crawler(object):
                         print "getting", _match.g_static_id
 
                         try:
+
+                            localteam = match.get('localteam')
+                            visitorteam = match.get('visitorteam')
+
                             _match.status=match.get('@status')
                             _match.match_time=self.parse_date(
                                            match.get('@formatted_date'),
                                            match.get('@time')
                             )
-                            _match.localteam=self.get_team(match.get('localteam'))
-                            _match.visitorteam=self.get_team(match.get('visitorteam'))
+                            _match.localteam=self.get_team(localteam)
+                            _match.visitorteam=self.get_team(visitorteam)
                             _match.ht_result=match.get('ht', {}).get('@score')
                             _match.g_id=match.get('@id')
                             _match.g_fix_id=match.get('@fix_id')
+
+                            try:
+                                localteam_goals = int(localteam.get('@goals') or 0)
+                                visitorteam_goals = int(visitorteam.get('@goals') or 0)
+
+                                if localteam_goals > (_match.localteam_goals or 0):
+                                    _match.localteam_goals = localteam_goals
+
+                                if visitorteam_goals > (_match.visitorteam_goals or 0):
+                                    _match.visitorteam_goals = visitorteam_goals
+
+                            except:
+                                pass
+
+
                             _match.save()
+
+
                         except Exception as e:
                             print  e.message
                         else:
-                            print  _match.pk
+                            print  "Match recorded", _match.pk
 
                         if _match.g_static_id:
                             self.get_match_events(_match,  match.get('events'))

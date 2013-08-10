@@ -170,6 +170,10 @@ class Match(GoalServeModel):
     referee_name = models.CharField(_("Referee name"), max_length=255,
                                     null=True, blank=True)
 
+    localteam_goals = models.IntegerField(_("Local result"), default=0)
+    visitorteam_goals = models.IntegerField(_("Visitor result"), default=0)
+
+
     def __unicode__(self):
         return u"({}) - {} x {}".format(self.g_static_id, self.localteam, self.visitorteam)
 
@@ -308,24 +312,6 @@ class MatchEvent(GoalServeModel):
 
     def __unicode__(self):
         return u"{} - {}".format(self.match, self.event_type)
-
-
-class MatchResult(Publishable):
-    match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
-    localteam_result = models.IntegerField(_("Local result"), default=0)
-    visitorteam_result = models.IntegerField(_("Visitor result"), default=0)
-
-    created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
-    updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
-
-
-    @property
-    def localteam(self):
-        return self.match.localteam
-
-    @property
-    def visitorteam(self):
-        return self.match.visitorteam
 
 
 class MatchStandings(GoalServeModel):
