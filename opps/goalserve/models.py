@@ -29,9 +29,9 @@ COUNTRIES_NAMES = [(country, country.title()) for country in COUNTRIES]
 
 class GoalServeModel(models.Model):
 
-    g_id = models.CharField(_("Goalserve ID"), max_length=255, null=True)
+    g_id = models.CharField(_("Goalserve ID"), max_length=255, null=True, unique=True)
     g_static_id = models.CharField(_("Goalserve  Static ID"), max_length=255,
-                                   null=True)
+                                   null=True, unique=True)
     g_fix_id = models.CharField(_("Goalserve Fixture ID"), max_length=255,
                                 null=True)
     g_player_id = models.CharField(_("Goalserve Player ID"), max_length=255,

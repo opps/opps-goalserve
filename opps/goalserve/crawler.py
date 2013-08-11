@@ -97,7 +97,6 @@ class Crawler(object):
         print "getting team"
         # OrderedDict([(u'@name', u'Santos'), (u'@goals', u'?'), (u'@id', u'7560')]))
         _team, created = Team.objects.get_or_create(
-            name=team['@name'],
             g_id=team['@id']
         )
 
@@ -106,6 +105,8 @@ class Crawler(object):
             data = self.get(
                 URLS.get('team').format(gid=self.gid, team_id=team['@id'])
             )
+
+            _team.name=team['@name']
 
             try:
                 team = data['teams']['team']
@@ -125,11 +126,9 @@ class Crawler(object):
 
         return _team
 
-    def get_player(self, player, team):
+    def get_player(self, player, _team):
         print "getting player"
         _player, created = Player.objects.get_or_create(
-                name=player['@name'],
-                team=team,
                 g_id=player['@id'],
                 g_player_id=player['@id'],
         )
@@ -139,6 +138,8 @@ class Crawler(object):
 
         if created or self.update_all_players:
             _player.number = player.get('@number', _player.number)
+            _player.name=player['@name']
+            _player.team=_team
 
             # http://www.goalserve.com/getfeed/c93ce5a5b570433b8a7d96b3c53f119d/soccerstats/player/193
             data = self.get(
@@ -535,11 +536,11 @@ class Crawler(object):
                     _matchstandings.total_gd = team.get('total', {}).get('@gd')
                     _matchstandings.total_p = team.get('total', {}).get('@p')
 
-                    _matchstandings.overall_gp = team.get('overall', {}).get('@overall_gp')
-                    _matchstandings.overall_w = team.get('overall', {}).get('@overall_w')
-                    _matchstandings.overall_l = team.get('overall', {}).get('@overall_l')
-                    _matchstandings.overall_gs = team.get('overall', {}).get('@overall_gs')
-                    _matchstandings.overall_ga = team.get('overall', {}).get('@overall_ga')
+                    _matchstandings.overall_gp = team.get('overall', {}).get('@gp')
+                    _matchstandings.overall_w = team.get('overall', {}).get('@w')
+                    _matchstandings.overall_l = team.get('overall', {}).get('@l')
+                    _matchstandings.overall_gs = team.get('overall', {}).get('@gs')
+                    _matchstandings.overall_ga = team.get('overall', {}).get('@ga')
 
 
                     _matchstandings.description = team.get('description', {}).get('@value')
