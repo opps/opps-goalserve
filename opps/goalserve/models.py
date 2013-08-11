@@ -331,6 +331,15 @@ class MatchStandings(GoalServeModel):
     recent_form = models.CharField(max_length=255, null=True, blank=True)
     total_gd = models.CharField(max_length=255, null=True, blank=True)
     total_p = models.CharField(max_length=255, null=True, blank=True)
+
+    overall_gp = models.CharField(max_length=255, null=True, blank=True)
+
+    overall_gs = models.CharField(max_length=255, null=True, blank=True)
+    overall_ga = models.CharField(max_length=255, null=True, blank=True)
+
+    overall_w = models.CharField(max_length=255, null=True, blank=True)
+    overall_l = models.CharField(max_length=255, null=True, blank=True)
+
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):

@@ -534,6 +534,16 @@ class Crawler(object):
                     _matchstandings.recent_form = team.get('@recent_form')
                     _matchstandings.total_gd = team.get('total', {}).get('@gd')
                     _matchstandings.total_p = team.get('total', {}).get('@p')
+
+                    _matchstandings.overall_gp = team.get('overall', {}).get('@overall_gp')
+                    _matchstandings.overall_w = team.get('overall', {}).get('@overall_w')
+                    _matchstandings.overall_l = team.get('overall', {}).get('@overall_l')
+                    _matchstandings.overall_gs = team.get('overall', {}).get('@overall_gs')
+                    _matchstandings.overall_ga = team.get('overall', {}).get('@overall_ga')
+
+
                     _matchstandings.description = team.get('description', {}).get('@value')
+
+
                     _matchstandings.timestamp = timestamp
                     _matchstandings.save()
