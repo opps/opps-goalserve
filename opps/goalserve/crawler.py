@@ -78,12 +78,12 @@ class Crawler(object):
     def get_stadium(self, data, country=None):
         print "getting stadium"
         _stadium, created = Stadium.objects.get_or_create(
-            country=country or self.get_country_by_name(data['country']),
-            name=data['venue_name'],
             g_id=data['venue_id']
         )
 
         try:
+            _stadium.country=country or self.get_country_by_name(data['country'])
+            _stadium.name=data['venue_name']
             _stadium.surface = data.get('venue_surface')
             _stadium.capacity = data.get('venue_capacity') or None
             _stadium.image_base = data.get('venue_image')
@@ -406,10 +406,13 @@ class Crawler(object):
 
                 for category in data['scores']['category']:
                     _category, created = Category.objects.get_or_create(
-                        name=category['@name'],
-                        g_id=category['@id'],
-                        country=_country
+                        g_id=category['@id']
                     )
+
+                    if created:
+                        _category.name=category['@name']
+                        _category.country=_country
+                        _category.save()
 
                     print "category", _category.name, created
 
