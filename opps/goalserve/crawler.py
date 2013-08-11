@@ -56,6 +56,18 @@ class Crawler(object):
             print  e.message
             return None
 
+    def parse_minute(self, minute):
+        if not minute:
+            return
+
+        minute = minute.replace("'", "")
+
+        if "+" in minute:
+            minute_, _plus = minute.split('+')
+            minute = int(minute_) + int(_plus)
+
+        return minute
+
     def parse_date(self, date, time=None, format=None):
         print "parsing date", date, format
         if not date:
@@ -237,7 +249,7 @@ class Crawler(object):
             if created:
                 _matchcommentary.important = True if comment.get('@important') == 'True' else False
                 _matchcommentary.is_goal = True if comment.get('@isgoal') == 'True' else False
-                _matchcommentary.minute = comment.get('@minute', '').replace("'", "") or None
+                _matchcommentary.minute = self.parse_minute(comment.get('@minute', ''))
                 _matchcommentary.comment = comment.get('@comment')
                 _matchcommentary.save()
 
@@ -263,7 +275,7 @@ class Crawler(object):
                         team_status=team_status,
                         player_in=self.get_player_by_id(item.get('@on_id')),
                         player_off=self.get_player_by_id(item.get('@off_id')),
-                        minute=item.get('@minute')
+                        minute=self.parse_minute(item.get('@minute', ''))
                     )
                     _matchsubs.save()
                 except Exception as e:
@@ -382,7 +394,7 @@ class Crawler(object):
             )
 
             _matchevent.event_type = event.get('@type')
-            _matchevent.minute = event.get('@minute', '').replace("'", "") or None
+            _matchevent.minute = self.parse_minute(event.get('@minute', ''))
             _matchevent.team_status = event.get('@team')
             _matchevent.result = event.get('@result')
             _matchevent.player = self.get_player_by_id(event.get('@playerId'))
