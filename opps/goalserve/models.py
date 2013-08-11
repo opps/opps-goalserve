@@ -4,7 +4,6 @@ import base64
 from django.utils import timezone as datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from opps.core.models import Publishable
 
 from .countries import COUNTRIES
 
@@ -57,6 +56,10 @@ class Base64Imaged(models.Model):
     @image.setter
     def image(self, data):  # lint:ok
         self.image_base = base64.encodestring(data)
+
+    @property
+    def image_url(self):
+        return 'http://placehold.it/50x50/'
 
     class Meta:
         abstract = True
@@ -202,21 +205,21 @@ class MatchStats(models.Model):
 
     @property
     def yellowcards(self):
-        return self.match.match_event_set.filter(
+        return self.match.matchevent_set.filter(
             team=self.team,
             event_type='yellowcard'
         ).count()
 
     @property
     def redcards(self):
-        return self.match.match_event_set.filter(
+        return self.match.matchevent_set.filter(
             team=self.team,
             event_type='redcard'
         ).count()
 
     @property
     def goals(self):
-        return self.match.match_event_set.filter(
+        return self.match.matchevent_set.filter(
             team=self.team,
             event_type='goal'
         ).count()
