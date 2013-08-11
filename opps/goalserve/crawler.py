@@ -390,7 +390,7 @@ class Crawler(object):
             _matchevent.save()
 
 
-    def get_matches(self, countries=COUNTRIES, match_id=None):
+    def get_matches(self, countries=COUNTRIES, match_id=None, get_players=True):
         print "getting matches"
         for country in countries:
             _country, created = Country.objects.get_or_create(
@@ -403,6 +403,9 @@ class Crawler(object):
                 )
 
                 data = self.get(url)
+
+                if not data:
+                    return
 
                 for category in data['scores']['category']:
                     _category, created = Category.objects.get_or_create(
@@ -452,8 +455,8 @@ class Crawler(object):
                                            match.get('@formatted_date'),
                                            match.get('@time')
                             )
-                            _match.localteam=self.get_team(localteam)
-                            _match.visitorteam=self.get_team(visitorteam)
+                            _match.localteam=self.get_team(localteam, get_players=get_players)
+                            _match.visitorteam=self.get_team(visitorteam, get_players=get_players)
                             _match.ht_result=match.get('ht', {}).get('@score')
                             _match.g_id=match.get('@id')
                             _match.g_fix_id=match.get('@fix_id')
@@ -480,7 +483,7 @@ class Crawler(object):
                         else:
                             print  "Match recorded", _match.pk
 
-                        if _match.g_static_id:
+                        if _match.g_static_id and get_players:
                             self.get_match_events(_match,  match.get('events'))
                             self.get_commentaries(_match, country)
 
