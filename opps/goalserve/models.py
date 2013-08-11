@@ -72,7 +72,7 @@ class Country(GoalServeModel):
 
 class Category(GoalServeModel):
 
-    name = models.CharField(_("Name"), max_length=255)
+    name = models.CharField(_("Name"), max_length=255, null=True, blank=True)
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
 
@@ -82,7 +82,7 @@ class Category(GoalServeModel):
 
 class Stadium(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Stadium name"), max_length=255)
+    name = models.CharField(_("Stadium name"), max_length=255, null=True, blank=True)
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
     surface = models.CharField(max_length=255, null=True, blank=True)
@@ -93,7 +93,7 @@ class Stadium(GoalServeModel, Base64Imaged):
 
 class Team(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Team name"), max_length=255)
+    name = models.CharField(_("Team name"), max_length=255, null=True, blank=True)
     full_name = models.CharField(_("Team full name"), max_length=255,
                                  null=True, blank=True)
     country = models.ForeignKey("goalserve.Country",
@@ -114,7 +114,7 @@ class Team(GoalServeModel, Base64Imaged):
 
 class Player(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Player name"), max_length=255)
+    name = models.CharField(_("Player name"), max_length=255, null=True, blank=True)
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              null=True, blank=True,
                              on_delete=models.SET_NULL)

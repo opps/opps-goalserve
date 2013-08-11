@@ -499,6 +499,7 @@ class Crawler(object):
             return _category
 
     def get_standings(self, country='brazil'):
+        print "get_standings"
         for xml in [item for item in STANDINGS if item.startswith(country)]:
 
             data = self.get(
@@ -506,6 +507,7 @@ class Crawler(object):
             )
 
             if not data:
+                print "not data"
                 continue
 
             standings = data.get('standings')
@@ -551,3 +553,5 @@ class Crawler(object):
 
                     _matchstandings.timestamp = timestamp
                     _matchstandings.save()
+
+                    print _matchstandings, created
