@@ -73,6 +73,11 @@ class Country(GoalServeModel):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _('Country')
+        verbose_name_plural = _('Countries')
+
+
 class Category(GoalServeModel):
 
     name = models.CharField(_("Name"), max_length=255, null=True, blank=True)
@@ -81,6 +86,10 @@ class Category(GoalServeModel):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
 
 
 class Stadium(GoalServeModel, Base64Imaged):
@@ -93,6 +102,11 @@ class Stadium(GoalServeModel, Base64Imaged):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _('Stadium')
+        verbose_name_plural = _('Stadiums')
+
 
 class Team(GoalServeModel, Base64Imaged):
 
@@ -113,6 +127,11 @@ class Team(GoalServeModel, Base64Imaged):
 
     def __unicode__(self):
         return u"{} - {}".format(self.name, self.country)
+
+    class Meta:
+        verbose_name = _('Team')
+        verbose_name_plural = _('Teams')
+
 
 
 class Player(GoalServeModel, Base64Imaged):
@@ -139,6 +158,10 @@ class Player(GoalServeModel, Base64Imaged):
 
     def __unicode__(self):
         return u"{} - {}".format(self.name, self.team)
+
+    class Meta:
+        verbose_name = _('Player')
+        verbose_name_plural = _('Players')
 
 
 class Match(GoalServeModel):
@@ -206,6 +229,10 @@ class Match(GoalServeModel):
     def __unicode__(self):
         return u"({}) - {} x {}".format(self.g_static_id, self.localteam, self.visitorteam)
 
+    class Meta:
+        verbose_name = _('Match')
+        verbose_name_plural = _('Matches')
+
 
 class MatchStats(models.Model):
 
@@ -253,6 +280,10 @@ class MatchStats(models.Model):
     def __unicode__(self):
         return u"{} - {}".format(self.match, self.team)
 
+    class Meta:
+        verbose_name = _('Match Stats')
+        verbose_name_plural = _('Match Stats')
+
 
 class MatchLineUp(models.Model):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
@@ -276,6 +307,11 @@ class MatchLineUp(models.Model):
 
     def __unicode__(self):
         return u"{} - {} - {}".format(self.match, self.player.name, self.team.name)
+
+    class Meta:
+        verbose_name = _('Match Lineup')
+        verbose_name_plural = _('Match Lineups')
+
 
 
 class MatchSubstitutions(models.Model):
@@ -301,6 +337,11 @@ class MatchSubstitutions(models.Model):
     def __unicode__(self):
         return u"{} - off:{} in:{}".format(self.match, self.player_off, self.player_in)
 
+    class Meta:
+        verbose_name = _('Match Substitution')
+        verbose_name_plural = _('Match Substitutions')
+
+
 
 class MatchCommentary(GoalServeModel):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
@@ -311,6 +352,10 @@ class MatchCommentary(GoalServeModel):
 
     def __unicode__(self):
         return u"{} - {}".format(self.match, self.comment)
+
+    class Meta:
+        verbose_name = _('Match Commentary')
+        verbose_name_plural = _('Match Commentaries')
 
 
 class MatchEvent(GoalServeModel):
@@ -341,6 +386,10 @@ class MatchEvent(GoalServeModel):
 
     def __unicode__(self):
         return u"{} - {}".format(self.match, self.event_type)
+
+    class Meta:
+        verbose_name = _('Match Event')
+        verbose_name_plural = _('Match Events')
 
 
 class MatchStandings(GoalServeModel):
@@ -374,6 +423,10 @@ class MatchStandings(GoalServeModel):
     def __unicode__(self):
         return u"{self.category} - {self.team} = {self.position}".format(self=self)
 
+    class Meta:
+        verbose_name = _('Match Standing')
+        verbose_name_plural = _('Match Standings')
+
 
 
 
@@ -394,6 +447,10 @@ RACE_TYPES = (
 class F1Tournament(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255)
 
+    class Meta:
+        verbose_name = _('F1 Tournament')
+        verbose_name_plural = _('F1 Tournaments')
+
 
 class F1Race(GoalServeModel):
     tournament = models.ForeignKey("goalserve.F1Tournament",
@@ -412,11 +469,19 @@ class F1Race(GoalServeModel):
                                     blank=True)
     race_time = models.DateTimeField(_("Race time"), null=True, blank=True)
 
+    class Meta:
+        verbose_name = _('F1 Race')
+        verbose_name_plural = _('F1 Races')
+
 
 class F1Team(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255)
     post = models.IntegerField(_("Post"))
     points = models.IntegerField(_("Points"))
+
+    class Meta:
+        verbose_name = _('F1 Team')
+        verbose_name_plural = _('F1 Teams')
 
 
 class Driver(GoalServeModel):
@@ -425,6 +490,10 @@ class Driver(GoalServeModel):
                              on_delete=models.SET_NULL)
     post = models.IntegerField(_("Post"), null=True, blank=True)
     points = models.IntegerField(_("Points"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('Driver')
+        verbose_name_plural = _('Drivers')
 
 
 class F1Results(GoalServeModel):
@@ -436,8 +505,17 @@ class F1Results(GoalServeModel):
     pitstops = models.IntegerField(null=True, blank=True)
     is_retired = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = _('F1 Result')
+        verbose_name_plural = _('F1 Results')
+
+
 
 class F1Commentary(GoalServeModel):
     race = models.ForeignKey("goalserve.F1Race", verbose_name=_("Race"))
     period = models.CharField(_("Period"), max_length=255, null=True)
     comment = models.TextField(_("Comment"), blank=True)
+
+    class Meta:
+        verbose_name = _('F1 Commentary')
+        verbose_name_plural = _('F1 Commentaries')
