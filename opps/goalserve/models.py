@@ -176,6 +176,32 @@ class Match(GoalServeModel):
     localteam_goals = models.IntegerField(_("Local result"), default=0)
     visitorteam_goals = models.IntegerField(_("Visitor result"), default=0)
 
+    @property
+    def fmatch_time(self):
+        try:
+            return self.match_time.strftime("%d/%m/%Y %H:%M")
+        except:
+            return ''
+
+    @property
+    def fstatus(self):
+        return self.status
+
+    @property
+    def name(self):
+        try:
+            return u"""{self.localteam.name} x {self.visitorteam.name}
+            - {self.fmatch_time} - {self.fstatus}""".format(self=self)
+        except:
+            return self.pk
+
+    @property
+    def title(self):
+        try:
+            return u"""{self.category.name} - {self.localteam.name} x {self.visitorteam.name}"""\
+                   .format(self=self)
+        except:
+            return self.pk
 
     def __unicode__(self):
         return u"({}) - {} x {}".format(self.g_static_id, self.localteam, self.visitorteam)

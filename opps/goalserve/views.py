@@ -4,8 +4,12 @@ from json import JSONEncoder
 from django.http import HttpResponse
 from django.utils import simplejson
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
-from .models import Match, MatchStandings
+from .models import Match, MatchStandings, Category
+from .tasks import get_matches
+
+from celery.result import AsyncResult
 
 from dateutil.tz import tzutc
 
@@ -148,7 +152,13 @@ def get_standings(_category):
 
 
 
-def match(request, match_pk):
+def match(request, match_pk, mode='response'):
+    """
+    :mode:
+       response -  Django response JSON
+       json - Dumped JSON object
+       python - Pure Python Dictionary
+    """
     _match = get_object_or_404(Match, pk=int(match_pk))
     data = serialize(
         _match.__dict__,
@@ -208,10 +218,55 @@ def match(request, match_pk):
     )
     data['visitorteam']['image'] = _match.visitorteam.image_url
 
-
-
     data['round_standings'] = get_standings(_match.category)
 
-    response = JSONResponse(data, {}, response_mimetype(request))
-    response['Content-Disposition'] = 'inline; filename=files.json'
+
+    if mode == 'response':
+        response = JSONResponse(data, {}, response_mimetype(request))
+        response['Content-Disposition'] = 'inline; filename=files.json'
+    elif mode == 'json':
+        response = simplejson.dumps(data)
+    elif mode == 'python':
+        response = data
+    else:
+        response = "Please specify the mode argument as python, json or response"
+
+
     return response
+
+
+@login_required
+def ajax_categories_by_country_name(request, country_name):
+    qs = Category.objects.filter(country__name=country_name)
+    if qs:
+        items = [u"<option value='{item.pk}'>{item.name}</option>".format(item=item)
+                 for item in qs]
+        response = u"".join(items)
+    else:
+        response = u"None"
+    return HttpResponse(response)
+
+
+@login_required
+def ajax_match_by_category_id(request, category_id):
+    qs = Match.objects.filter(category__pk=category_id).order_by('-match_time')
+    if qs:
+        items = [u"<option value='{item.pk}'>{item.name}</option>".format(item=item)
+                 for item in qs]
+        response = u"".join(items)
+    else:
+        response = u"None"
+    return HttpResponse(response)
+
+
+@login_required
+def ajax_get_matches(response, country_name, match_id=None):
+    task = get_matches.delay(country_name, match_id)
+    return HttpResponse(task.task_id)
+
+
+@login_required
+def get_task_status(request, task_id):
+    res = AsyncResult(task_id)
+    # import ipdb;ipdb.set_trace()
+    return HttpResponse(res.status)
