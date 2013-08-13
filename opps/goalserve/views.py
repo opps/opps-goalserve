@@ -95,7 +95,7 @@ def get_players(_players):
                      'team_id', 'nationality', 'updated_at', 'age', 'g_event_id']
         )
 
-        player['number'] = _player.player_number
+        player['number'] = _player.player_number or _player.player.number
         # player['status'] = _player.player_status
         # player['position'] = _player.player_position or player['position']
         player['image'] = _player.player.image_url
