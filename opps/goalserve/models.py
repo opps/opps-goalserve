@@ -229,6 +229,14 @@ class Match(GoalServeModel):
     def __unicode__(self):
         return u"({}) - {} x {}".format(self.g_static_id, self.localteam, self.visitorteam)
 
+
+    def local_lineup(self):
+        return self.matchlineup_set.filter(team=self.localteam)
+
+
+    def visitor_lineup(self):
+        return self.matchlineup_set.filter(team=self.visitorteam)
+
     class Meta:
         verbose_name = _('Match')
         verbose_name_plural = _('Matches')
