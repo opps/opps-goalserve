@@ -7,7 +7,8 @@ from .countries import COUNTRIES
 from .commentaries import COMMENTARIES
 from .standings import STANDINGS
 from .models import Country, Category, Match, Team, Stadium, Player, MatchLineUp, MatchStats, \
-                    MatchSubstitutions, MatchCommentary, MatchEvent, MatchStandings
+                    MatchSubstitutions, MatchCommentary, MatchEvent, MatchStandings,\
+                    F1Tournament, F1Race, F1Team, Driver, F1Results, F1Commentary
 
 DOMAIN = 'http://www.goalserve.com'
 
@@ -27,8 +28,18 @@ URLS = {
     'standings': '/getfeed/{gid}/standings/{xml}',
     'comments': '/getfeed/{gid}/commentaries/{xml}',
     'team': '/getfeed/{gid}/soccerstats/team/{team_id}',
-    'player': '/getfeed/{gid}/soccerstats/player/{player_id}'
+    'player': '/getfeed/{gid}/soccerstats/player/{player_id}',
+    'f1-shedule': '/getfeed/{gid}/f1/f1-shedule'
 }
+
+
+RACE_TYPES = (
+    "race",
+    "qualification",
+    "last_practice",
+    "second_practice",
+    "first_practice",
+)
 
 
 class Crawler(object):
@@ -73,12 +84,15 @@ class Crawler(object):
         if not date:
             return
 
-
-        dt = '{date} {time}'.format(date=date, time=time) if time else date
-        parsed = datetime.datetime.strptime(
-            dt,
-            format or '%d.%m.%Y %H:%M'
-        )
+        try:
+            dt = '{date} {time}'.format(date=date, time=time) if time else date
+            parsed = datetime.datetime.strptime(
+                dt,
+                format or '%d.%m.%Y %H:%M'
+            )
+        except ValueError as e:
+            print str(e)
+            parsed = None
         print parsed
         return parsed
 
@@ -570,3 +584,45 @@ class Crawler(object):
                     _matchstandings.save()
 
                     print _matchstandings, created
+
+
+    # F1
+
+    def get_races(self, race_id=None):
+        url = URLS.get('f1-shedule').format(gid=self.gid)
+        data = self.get(url)
+        if not data:
+            return
+        for tournament in data['scores']['tournament']:
+            _tournament, created = F1Tournament.objects.get_or_create(
+                g_id=tournament.get('@id')
+            )
+            if created:
+                _tournament.name = tournament.get('@name')
+                _tournament.save()
+
+            for race_type in RACE_TYPES:
+                race = tournament.get(race_type)
+                if not race:
+                    continue
+
+                _race, created = F1Race.objects.get_or_create(
+                   tournament=_tournament,
+                   race_type=race_type
+                )
+
+                _race.status = race.get('@status')
+                _race.race_time = self.parse_date(race.get('@date'),
+                                                  race.get('@time'),
+                                                  '%d/%m/%Y %H:%M')
+                _race.total_laps = race.get('@total_laps')
+                _race.total_laps = race.get('@laps_running')
+                _race.distance = race.get('@distance')
+                _race.track = race.get('@track')
+                _race.save()
+
+                # TODO: save results
+
+
+
+
