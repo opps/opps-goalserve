@@ -39,6 +39,10 @@ class GoalServeModel(models.Model):
                                   null=True)
     g_bet_id = models.CharField(_("Goalserve Bet ID"), max_length=255,
                                   null=True)
+
+    g_driver_id = models.CharField(_("Goalserve Driver ID"), max_length=255, null=True, unique=True)
+    g_team_id = models.CharField(_("Goalserve Team ID"), max_length=255, null=True, unique=True)
+
     created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
 
@@ -484,8 +488,8 @@ class F1Race(GoalServeModel):
 
 class F1Team(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255)
-    post = models.IntegerField(_("Post"))
-    points = models.IntegerField(_("Points"))
+    post = models.IntegerField(_("Post"), null=True, blank=True)
+    points = models.IntegerField(_("Points"), null=True, blank=True)
 
     class Meta:
         verbose_name = _('F1 Team')
@@ -506,7 +510,7 @@ class Driver(GoalServeModel):
 
 class F1Results(GoalServeModel):
     race = models.ForeignKey("goalserve.F1Race", verbose_name=_("Race"))
-    pos = models.IntegerField(_("Position"))
+    pos = models.IntegerField(_("Position"), null=True, blank=True)
     driver = models.ForeignKey("goalserve.Driver", verbose_name=_("Driver"))
     team = models.ForeignKey("goalserve.F1Team")
     time = models.CharField(_("Time"), max_length=255, null=True, blank=True)

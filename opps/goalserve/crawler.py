@@ -16,10 +16,7 @@ DOMAIN = 'http://www.goalserve.com'
 Formula 1:
 
 /getfeed/{gid}/f1/drivers
-/getfeed/{gid}/f1/f1-results
-/getfeed/{gid}/f1/f1-shedule
 /getfeed/{gid}/f1/live
-/getfeed/{gid}/f1/teams
 """
 
 URLS = {
@@ -29,7 +26,11 @@ URLS = {
     'comments': '/getfeed/{gid}/commentaries/{xml}',
     'team': '/getfeed/{gid}/soccerstats/team/{team_id}',
     'player': '/getfeed/{gid}/soccerstats/player/{player_id}',
-    'f1-shedule': '/getfeed/{gid}/f1/f1-shedule'
+    'f1-shedule': '/getfeed/{gid}/f1/f1-shedule',
+    'f1-results': '/getfeed/{gid}/f1/f1-results',
+    'f1-teams': '/getfeed/{gid}/f1/teams',
+    'f1-drivers': '/getfeed/{gid}/f1/drivers',
+    'f1-live': '/getfeed/{gid}/f1/live',
 }
 
 
@@ -588,12 +589,20 @@ class Crawler(object):
 
     # F1
 
-    def get_races(self, race_id=None):
-        url = URLS.get('f1-shedule').format(gid=self.gid)
+    def get_races(self, race_id=None, feed="f1-shedule"):
+        url = URLS.get(feed).format(gid=self.gid)
         data = self.get(url)
         if not data:
             return
-        for tournament in data['scores']['tournament']:
+
+        tournaments = data['scores']['tournament']
+
+        if not isinstance(tournaments, list):
+            tournaments = [tournaments]
+
+        # import ipdb;ipdb.set_trace()
+
+        for tournament in tournaments:
             _tournament, created = F1Tournament.objects.get_or_create(
                 g_id=tournament.get('@id')
             )
@@ -616,13 +625,100 @@ class Crawler(object):
                                                   race.get('@time'),
                                                   '%d/%m/%Y %H:%M')
                 _race.total_laps = race.get('@total_laps')
-                _race.total_laps = race.get('@laps_running')
+                _race.laps_running = race.get('@laps_running')
                 _race.distance = race.get('@distance')
                 _race.track = race.get('@track')
                 _race.save()
 
+                print race.keys()
+
                 # TODO: save results
+                if race.get('results'):
+                    drivers = race.get('results', {}).get('driver', [])
+                    for driver in drivers:
+
+                        if not driver.get('@pos'):
+                            continue
+
+                        _team = self.f1_get_team_by_id(driver.get('@team_id'),
+                                                       driver.get("@team", ""))
+
+                        _result, created = F1Results.objects.get_or_create(
+                            race=_race,
+                            driver=self.f1_get_driver(driver, _team=_team),
+                            team=_team
+                        )
+
+                        _result.pos = driver.get('@pos') or None
+                        _result.time = driver.get('@time')
+                        _result.pitstops = driver.get('@pitstops') or None
+
+                        retired = driver.get('@is_retired', '').lower().strip()
+                        _result.is_retired = True if retired == "true" else False
+
+                        _result.save()
+
+                # commentaries
+                if race.get('commentaries'):
+                    comments = race.get('commentaries')
+                    for comment in comments['comment']:
+                        F1Commentary.objects.get_or_create(
+                            race=_race,
+                            period=comment.get('@period'),
+                            comment=comment.get('#text')
+                        )
 
 
+    def f1_get_team_by_id(self, team_id, team_name=""):
+        _team, created = F1Team.objects.get_or_create(
+           g_team_id=team_id,
+        )
+
+        _team.name = _team.name or team_name
+
+        data = self.get(
+            URLS.get('f1-teams').format(gid=self.gid)
+        )
+
+        if data:
+            for team in data['standings']['teams']['team']:
+                if team_id == team.get('@id'):
+                    print "found team", team
+                    _team.post = team.get('@post') or None
+                    _team.points = team.get('@points') or None
+                    _team.name = _team.name or team.get('@name')
+
+        _team.save()
+
+        return _team
 
 
+    def f1_get_driver(self, driver, _team=None):
+        try:
+            _driver, created = Driver.objects.get_or_create(
+                g_driver_id=driver.get('@driver_id')
+            )
+
+            _driver.name = _driver.name or driver.get("@name")
+
+            if driver.get("@post"):
+                _driver.post = driver.get("@post") or None
+            if driver.get('@points'):
+                _driver.points = driver.get("@points") or None
+
+            _driver.team = _team or self.f1_get_team_by_id(driver.get('@team_id'),
+                                                           driver.get("team", ""))
+            _driver.save()
+
+            return _driver
+        except Exception as e:
+            print str(e)
+            return
+
+
+    def get_f1_drivers(self):
+        data = self.get(
+            URLS.get('f1-drivers').format(gid=self.gid)
+        )
+        for driver in data['standings']['drivers']['driver']:
+            self.f1_get_driver(driver)
