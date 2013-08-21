@@ -97,9 +97,10 @@ class Base64Imaged(models.Model):
         )
         return image
 
-    def set_image_file(self):
-        self.image_file = self.create_image()
-        self.save()
+    def set_image_file(self, update=False):
+        if update or not self.image_file:
+            self.image_file = self.create_image()
+            self.save()
 
 
     class Meta:
@@ -523,7 +524,7 @@ class F1Race(GoalServeModel):
         verbose_name_plural = _('F1 Races')
 
 
-class F1Team(GoalServeModel):
+class F1Team(GoalServeModel, Base64Imaged):
     name = models.CharField(_("Name"), max_length=255)
     post = models.IntegerField(_("Post"), null=True, blank=True)
     points = models.IntegerField(_("Points"), null=True, blank=True)
@@ -533,7 +534,7 @@ class F1Team(GoalServeModel):
         verbose_name_plural = _('F1 Teams')
 
 
-class Driver(GoalServeModel):
+class Driver(GoalServeModel, Base64Imaged):
     name = models.CharField(_("Name"), max_length=255)
     team = models.ForeignKey("goalserve.F1Team", null=True, blank=True,
                              on_delete=models.SET_NULL)
