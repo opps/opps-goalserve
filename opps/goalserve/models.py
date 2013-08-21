@@ -93,7 +93,7 @@ class Base64Imaged(models.Model):
             slug=slugify(self.name),
             archive=archive,
             user=User.objects.all()[0],
-            tags="goalserve,sport,{}".format(self.name)
+            tags=u"goalserve,sport,{}".format(self.name)
         )
         return image
 
