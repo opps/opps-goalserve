@@ -4,8 +4,17 @@ import base64
 from django.utils import timezone as datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.files import File
+from django.utils.text import slugify
+from tempfile import NamedTemporaryFile
 
+from opps.images.models import Image
+from django.contrib.sites.models import Site
+from django.contrib.auth import get_user_model
+from django.conf import settings
 from .countries import COUNTRIES
+
+User = get_user_model()
 
 # ==============================================================================
 # Soccer
@@ -52,6 +61,8 @@ class GoalServeModel(models.Model):
 
 class Base64Imaged(models.Model):
     image_base = models.TextField(_("Image"), blank=True, null=True)
+    image_file = models.ForeignKey('images.Image', null=True, blank=True,
+                                   on_delete=models.SET_NULL)
 
     @property
     def image(self):
@@ -63,7 +74,33 @@ class Base64Imaged(models.Model):
 
     @property
     def image_url(self):
-        return 'http://placehold.it/50x50/'
+        if not self.image_file:
+            return 'http://placehold.it/50x50/'
+
+        return self.image_file.archive.url
+
+    def create_image(self):
+        if not self.image_base:
+            return
+
+        f = NamedTemporaryFile()
+        f.file.write(self.image_base.decode('base64'))
+        f.file.flush()
+        archive = File(f)
+        image = Image.objects.create(
+            site=Site.objects.get(pk=settings.SITE_ID),
+            title=self.name,
+            slug=slugify(self.name),
+            archive=archive,
+            user=User.objects.all()[0],
+            tags="goalserve,sport,{}".format(self.name)
+        )
+        return image
+
+    def set_image_file(self):
+        self.image_file = self.create_image()
+        self.save()
+
 
     class Meta:
         abstract = True
