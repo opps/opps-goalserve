@@ -40,7 +40,7 @@ def serialize_date(dt):
 def serialize(data, exclude=None):
     exclude = exclude or []
 
-    exclude += ['created_at', 'image_base', 'g_bet_id']
+    exclude += ['created_at', 'image_base', 'g_bet_id', 'g_driver_id']
 
     new_data = {k:v for k, v in data.iteritems()
                 if not k.startswith('_') and
@@ -109,7 +109,7 @@ def get_team_stats(_stats):
         _stats = _stats[0]
         data = serialize(
             _stats.__dict__,
-            exclude=['match_id', 'team_status', 'team_id', 'id']
+            exclude=['match_id', 'team_status', 'team_id']
         )
         data['yellowcards'] = _stats.yellowcards
         data['redcards'] = _stats.redcards
@@ -127,7 +127,7 @@ def get_team_substitutions(_substitutions):
     for sub in _substitutions:
         data = serialize(
             sub.__dict__,
-            exclude=['match_id', 'team_status', 'team_id', 'id']
+            exclude=['match_id', 'team_status', 'team_id']
         )
 
         try:
@@ -182,7 +182,7 @@ def get_standings(_category):
         rounds[stand.round].append(
             serialize(
                 stand.__dict__,
-                exclude=['id', 'g_player_id', 'g_fix_id', 'g_bet_id',
+                exclude=['g_player_id', 'g_fix_id', 'g_bet_id',
                          'category_id', 'g_event_id', 'country_id', 'g_id',
                          'status', 'overall_w', 'updated_at', 'overall_gs',
                          'g_static_id', 'team_id', 'total_gd', 'recent_form', 'timestamp',
@@ -190,7 +190,12 @@ def get_standings(_category):
             )
         )
         rounds[stand.round] = sorted(rounds[stand.round], key=lambda team: int(team['position']))
-    return rounds
+
+    last = max([int(k) for k in rounds.keys()])
+
+    obj = {'round': last, 'teams': rounds[str(last)]}
+
+    return obj
 
 
 
