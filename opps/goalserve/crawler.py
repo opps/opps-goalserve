@@ -209,6 +209,9 @@ class Crawler(object):
             except KeyError:
                 continue
 
+            if not isinstance(matches, list):
+                matches = [matches]
+
             for match in matches:
                 if match.get('@static_id') != _match.g_static_id:
                     continue
@@ -275,7 +278,9 @@ class Crawler(object):
             return
 
         for team_status in ['localteam', 'visitorteam']:
-            substitution = substitutions[team_status]
+            substitution = substitutions.get(team_status)
+            if not substitution:
+                continue
             _team = getattr(_match, team_status, None)
 
             data = substitution.get('substitution')
@@ -368,9 +373,11 @@ class Crawler(object):
             return
 
         for team_status in ['localteam', 'visitorteam']:
-            team = teams[team_status]
+            team = teams.get(team_status, {})
+            if not team:
+                continue
             _team = getattr(_match, team_status, None)
-            for player in team['player']:
+            for player in team.get('player', []):
 
                 try:
                     _player =  Player.objects.get(g_id=player['@id'])

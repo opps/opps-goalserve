@@ -18,7 +18,7 @@ COMMENTARIES = {
     'copaamerica': ['copaamerica.xml'],
     'denmark': ['denmark.xml'],
     'ecuador': ['ecuador.xml'],
-    'england': ['eng_league_carling.xml', 'eng_league_charity.xml', 'eng_league_conference.xml',
+    'england': ['epl.xml', 'eng_league_carling.xml', 'eng_league_charity.xml', 'eng_league_conference.xml',
                 'eng_league_one.xml', 'eng_league_two.xml'],
     'epl': ['epl.xml'],
     'eredivisie': ['eredivisie.xml'],

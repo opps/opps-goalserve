@@ -242,6 +242,10 @@ class Match(GoalServeModel):
     visitorteam_goals = models.IntegerField(_("Visitor result"), default=0)
 
     @property
+    def teams(self):
+        return [self.localteam, self.visitorteam]
+
+    @property
     def fmatch_time(self):
         try:
             return self.match_time.strftime("%d/%m/%Y %H:%M")
