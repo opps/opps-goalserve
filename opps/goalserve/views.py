@@ -67,26 +67,6 @@ def response_mimetype(request):
 
 def get_players(_players):
 
-# status: "player",
-# birthplace: "Monte Azul Paulista",
-# number: null,
-# g_fix_id: null,
-# weight: null,
-# age: 28,
-# g_event_id: null,
-# updated_at: "2013-08-13T09:21:42.354054Z",
-# birthdate: "1985-04-04Z",
-# g_static_id: null,
-# g_id: "37269",
-# team_id: 10,
-# image: "http://placehold.it/50x50/",
-# nationality: "Brazil",
-# position: "D",
-# height: null,
-# g_player_id: "37269",
-# id: 1302,
-# name: "Rodolfo"
-
     players = []
     for _player in _players:
         player = serialize(
@@ -96,7 +76,7 @@ def get_players(_players):
         )
 
         player['number'] = _player.player_number or _player.player.number
-        # player['status'] = _player.player_status
+        player['status'] = _player.player_status
         # player['position'] = _player.player_position or player['position']
         player['image'] = _player.player.image_url
 
