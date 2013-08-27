@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .models import Team, Player, F1Team, Driver
+from opps.goalserve.models import Team, Player, F1Team, Driver
 
 def get_team_by_id(_id):
     try:

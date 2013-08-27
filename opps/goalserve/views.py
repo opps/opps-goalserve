@@ -288,7 +288,14 @@ def ajax_categories_by_country_name(request, country_name):
 
 @login_required
 def ajax_match_by_category_id(request, category_id):
-    qs = Match.objects.filter(category__pk=category_id).order_by('-match_time')
+    qs = Match.objects.filter(
+        category__pk=category_id
+    ).exclude(
+        status__startswith='F'  # remove FT and Full Time matches
+    ).order_by(
+        '-match_time'
+    )
+
     if qs:
         items = [u"<option value='{item.pk}'>{item.name}</option>".format(item=item)
                  for item in qs]

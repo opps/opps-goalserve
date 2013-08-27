@@ -60,3 +60,8 @@ def get_standings(**kwargs):
     crawler = Crawler(GID)
     crawler.get_standings(**kwargs)
 
+
+def get_fixtures(**kwargs):
+    """country"""
+    crawler = Crawler(GID)
+    crawler.get_fixtures(**kwargs)

@@ -6,22 +6,18 @@ from .xml2dict import parse
 from .countries import COUNTRIES
 from .commentaries import COMMENTARIES
 from .standings import STANDINGS
-from .models import Country, Category, Match, Team, Stadium, Player, MatchLineUp, MatchStats, \
-                    MatchSubstitutions, MatchCommentary, MatchEvent, MatchStandings,\
-                    F1Tournament, F1Race, F1Team, Driver, F1Results, F1Commentary
+from .soccer_fixtures import FIXTURES
+from .models import (Country, Category, Match, Team, Stadium, Player, MatchLineUp, MatchStats,
+                    MatchSubstitutions, MatchCommentary, MatchEvent, MatchStandings,
+                    F1Tournament, F1Race, F1Team, Driver, F1Results, F1Commentary)
 
 DOMAIN = 'http://www.goalserve.com'
 
-"""
-Formula 1:
-
-/getfeed/{gid}/f1/drivers
-/getfeed/{gid}/f1/live
-"""
 
 URLS = {
     'matches': ['/getfeed/{gid}/soccernew/{country}',
-               '/getfeed/{gid}/soccernew/{country}_shedule'],
+               '/getfeed/{gid}/soccernew/{country}_shedule',
+               '/getfeed/{gid}/soccernew/home'],
     'standings': '/getfeed/{gid}/standings/{xml}',
     'comments': '/getfeed/{gid}/commentaries/{xml}',
     'team': '/getfeed/{gid}/soccerstats/team/{team_id}',
@@ -31,6 +27,9 @@ URLS = {
     'f1-teams': '/getfeed/{gid}/f1/teams',
     'f1-drivers': '/getfeed/{gid}/f1/drivers',
     'f1-live': '/getfeed/{gid}/f1/live',
+    'home': '/getfeed/{gid}/soccernew/home',
+    'home_cat': '/getfeed/{gid}/soccernew/home?cat={cat_id}',
+    'fixtures': '/getfeed/{gid}/soccerfixtures/{country}/{cat}',
 }
 
 
@@ -193,27 +192,38 @@ class Crawler(object):
         print _player
         return _player
 
-    def get_commentaries(self, _match, country_name=None):
+    def get_commentaries(self, _match, country_name=None, commentary_available=None):
         print "getting commentaries"
-        xmls = COMMENTARIES.get(country_name or _match.category.country.name, [])
+        print "commentary_available", commentary_available
+
+        if commentary_available:
+            xmls = ["{}.xml".format(commentary_available)]
+        else:
+            xmls = COMMENTARIES.get(country_name or _match.category.country.name, [])
+
         for xml in xmls:
             data = self.get(
                 URLS.get('comments').format(gid=self.gid, xml=xml)
             )
 
             if not data:
+                print "no data", data
                 return
 
             try:
                 matches = data['commentaries']['tournament']['match']
             except KeyError:
+                print "KeyError", data
                 continue
 
             if not isinstance(matches, list):
                 matches = [matches]
 
+            print "total",len(matches)
             for match in matches:
+
                 if match.get('@static_id') != _match.g_static_id:
+                    print match.get('@static_id'), "!=", _match.g_static_id
                     continue
 
                 try:
@@ -424,24 +434,45 @@ class Crawler(object):
             _matchevent.save()
 
 
-    def get_matches(self, countries=COUNTRIES, match_id=None, get_players=True):
+    def get_matches(self, countries=COUNTRIES, match_id=None, get_players=True, cat_id=None):
         print "getting matches"
         for country in countries:
             _country, created = Country.objects.get_or_create(
                 name=country.lower()
             )
 
-            for xml_url in URLS.get('matches'):
-                url = xml_url.format(
-                    gid=self.gid, country=country
-                )
+            urls = []
+
+            if cat_id:
+                url = URLS.get('home_cat').format(gid=self.gid, cat_id=cat_id)
+                urls.append(url)
+            else:
+                for xml_url in URLS.get('matches'):
+                    url = xml_url.format(
+                        gid=self.gid, country=country
+                    )
+                    urls.append(url)
+
+
+            for url in urls:
 
                 data = self.get(url)
 
                 if not data:
                     return
 
-                for category in data['scores']['category']:
+                categories = data['scores']['category']
+                if not isinstance(categories, list):
+                    categories = [categories]
+
+                for category in categories:
+
+                    filegroup = category.get('@file_group')
+
+                    if filegroup and filegroup not in countries:
+                        print "NOT IN:", category.get('@file_group'), countries
+                        continue
+
                     _category, created = Category.objects.get_or_create(
                         g_id=category['@id']
                     )
@@ -454,22 +485,34 @@ class Crawler(object):
                     print "category", _category.name, created
 
                     # import ipdb; ipdb.set_trace()
-                    for match in category['matches']['match']:
 
-                        # TODO: catch this bug
+                    matches = category['matches']['match']
+                    if not isinstance(matches, list):
+                        matches = [matches]
+
+                    for match in matches:
+
                         if isinstance(match, (unicode, str)):
+                            print "match is unicode"
                             continue
 
                         if not match.get('@static_id'):
                             print  "Match not ready"
                             continue
 
+                        if match_id == [None]:
+                            match_id = None
+
                         if match_id:
+                            print "passed match id", match_id
                             if isinstance(match_id, list):
-                                if not match.get('@static_id') in [str(item) for item in match_id]:
-                                    continue
+                                if any(match_id):
+                                    if not match.get('@static_id') in [str(item) for item in match_id]:
+                                        print match.get('@static_id'), " not in ", match_id
+                                        continue
                             else:
                                 if str(match_id) != match.get('@static_id'):
+                                    print match.get('@static_id'), "!=", match_id
                                     continue
 
                         _match, created = Match.objects.get_or_create(
@@ -519,7 +562,11 @@ class Crawler(object):
 
                         if _match.g_static_id and get_players:
                             self.get_match_events(_match,  match.get('events'))
-                            self.get_commentaries(_match, country)
+                            self.get_commentaries(
+                                _match,
+                                country,
+                                commentary_available=match.get('@commentary_available') or None
+                            )
 
     def get_category_by_id(self, g_id, tournament=None, country=None):
         try:
@@ -592,6 +639,110 @@ class Crawler(object):
                     _matchstandings.save()
 
                     print _matchstandings, created
+
+
+    def get_fixtures(self, country='brazil'):
+        # 'fixtures': '/getfeed/{gid}/soccerfixtures/{country}/{cat}'
+        print "getting fixtures", country
+        for item in FIXTURES.get(country, []):
+            data = self.get(
+                URLS.get('fixtures').format(gid=self.gid, country=country, cat=item)
+            )
+
+            if not data:
+                print "not data"
+                continue
+
+            print "Fixtures"
+
+            tournaments = data.get('results', {}).get('tournament', [])
+            if not isinstance(tournaments, list):
+                tournaments = [tournaments]
+
+            for tournament in tournaments:
+                # TODO: Deal with stage based fixtures
+                if 'week' in tournament:
+                    # assume week = round
+                    # league = tournament.get('@league')
+                    # season = tournament.get('@season')
+                    # stage_id = tournament.get('@stage_id')
+
+                    g_id = tournament.get('@id')
+                    weeks = tournament.get('week')
+
+                    # create the category
+                    _category = self.get_category_by_id(
+                        g_id=g_id,
+                        tournament=tournament,
+                        country=self.get_country_by_name(country)
+                    )
+
+                    if not _category:
+                        continue
+
+                    if not isinstance(weeks, list):
+                        weeks = [weeks]
+
+                    # iterate weeks
+                    for week in weeks:
+                        round_number = week.get('@number')
+                        matches = week.get('match')
+                        if not isinstance(matches, list):
+                            matches = [matches]
+
+                        for match in matches:
+                            if 'TBA' in match.get('@date'):
+                                continue
+
+                            _match, created = Match.objects.get_or_create(
+                                g_static_id=match.get('@static_id')
+                            )
+
+                            if created:
+                                _match.category = _category
+
+                            if not _match.week_number and round_number:
+                                _match.week_number = round_number or None
+
+                            if match.get('@status') == 'FT' or created:
+                                try:
+                                    localteam = match.get('localteam')
+                                    visitorteam = match.get('visitorteam')
+
+                                    _match.status=match.get('@status')
+                                    _match.match_time=self.parse_date(
+                                                   match.get('@date'),
+                                                   match.get('@time'),
+                                                   format="%d.%m.%Y %H:%M"
+                                    )
+                                    _match.localteam=self.get_team(localteam)
+                                    _match.visitorteam=self.get_team(visitorteam)
+                                    # _match.ht_result=match.get('ht', {}).get('@score')
+                                    _match.g_id=match.get('@id')
+                                    _match.g_fix_id=match.get('@fix_id')
+
+                                    try:
+                                        localteam_goals = int(localteam.get('@score') or 0)
+                                        visitorteam_goals = int(visitorteam.get('@score') or 0)
+
+                                        if localteam_goals > (_match.localteam_goals or 0):
+                                            _match.localteam_goals = localteam_goals
+
+                                        if visitorteam_goals > (_match.visitorteam_goals or 0):
+                                            _match.visitorteam_goals = visitorteam_goals
+                                    except Exception as e:
+                                        print str(e)
+
+                                except Exception as e:
+                                    print  str(e)
+
+                            try:
+                                _match.save()
+                            except Exception as e:
+                                # probably integity error
+                                # because GoalServer API does not send proper IDS
+                                print str(e)
+
 
 
     # F1

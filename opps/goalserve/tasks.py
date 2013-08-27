@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from .crawler import Crawler
 from .no_photo import team_no_photo, player_no_photo
-from .actions import  get_match,get_schedule, get_standings # set_team_image, set_player_image, set_stadium_image,
+from .actions import  get_match,get_schedule, get_standings, get_fixtures # set_team_image, set_player_image, set_stadium_image,
 
 # TODO: set this model dynamically
 # OPPS_GOALSERVE_TRANSMISSION_MODEL = 'x.Transmission'
@@ -14,9 +14,10 @@ from portal.transmission.models import Transmission
 GID = 'c93ce5a5b570433b8a7d96b3c53f119d'
 
 @celery.task
-def get_matches(country_name, match_id=None):
+def get_matches(country_name, match_id=None, cat_id=None):
     crawler = Crawler(GID)
-    crawler.get_matches(countries=[country_name], match_id=match_id, get_players=False)
+    crawler.get_matches(countries=[country_name], match_id=match_id,
+                        get_players=False, cat_id=cat_id)
 
 
 @celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
@@ -64,6 +65,7 @@ def update_feed_for_active_transmissions(transmission_id=None):
     for transmission in active_transmissions:
         get_match(country=transmission.match.category.country.name.lower(),
                   match_id=[transmission.match.g_static_id],
+                  cat_id=transmission.match.category.g_id if transmission.match.category else None,
                   get_players=True)
 
 
@@ -85,3 +87,15 @@ def update_standings(transmission_id):
     for transmission in active_transmissions:
         get_standings(country=transmission.match.category.country.name.lower())
 
+
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=24))
+def update_fixtures(transmission_id):
+    if not transmission_id:
+        active_transmissions = Transmission.objects.filter(
+            published=True,
+        ).exclude(event_type__slug='generic')
+    else:
+        active_transmissions = Transmission.objects.filter(pk=transmission_id)
+
+    for transmission in active_transmissions:
+        get_fixtures(country=transmission.match.category.country.name.lower())

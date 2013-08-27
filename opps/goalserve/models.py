@@ -55,6 +55,8 @@ class GoalServeModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
 
+    extra = models.TextField(_('extra data'), null=True, blank=True)
+
     class Meta:
         abstract = True
 
@@ -240,6 +242,12 @@ class Match(GoalServeModel):
 
     localteam_goals = models.IntegerField(_("Local result"), default=0)
     visitorteam_goals = models.IntegerField(_("Visitor result"), default=0)
+
+    week_number = models.IntegerField(_('Week number'), null=True, blank=True)
+
+    @property
+    def round_number(self):
+        return self.week_number
 
     @property
     def teams(self):
