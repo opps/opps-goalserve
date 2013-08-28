@@ -2,7 +2,28 @@
 from django.contrib import admin
 import opps.goalserve.models
 
-classes = "Country Category Stadium Team Player Match MatchStats MatchLineUp MatchSubstitutions MatchCommentary MatchEvent F1Tournament F1Race F1Team Driver F1Results F1Commentary MatchStandings".split()
+
+class GoalServeAdmin(admin.ModelAdmin):
+    exclude = ('g_id', 'g_static_id', 'g_fix_id',
+               'g_player_id', 'g_event_id', 'g_bet_id',
+               'g_driver_id', 'g_team_id', 'extra')
+
+class PlayerAdmin(GoalServeAdmin):
+    raw_id_fields = ['team', 'image_file']
+
+class TeamAdmin(GoalServeAdmin):
+    raw_id_fields = ['country', 'stadium', 'image_file']
+
+class MatchAdmin(GoalServeAdmin):
+    raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
+
+admin.site.register(opps.goalserve.models.Player, PlayerAdmin)
+admin.site.register(opps.goalserve.models.Team, TeamAdmin)
+admin.site.register(opps.goalserve.models.Match, MatchAdmin)
+
+
+# lazy programmer at work
+classes = "Country Category Stadium MatchStats MatchLineUp MatchSubstitutions MatchCommentary MatchEvent F1Tournament F1Race F1Team Driver F1Results F1Commentary MatchStandings".split()
 
 for model in classes:
     admin.site.register(
