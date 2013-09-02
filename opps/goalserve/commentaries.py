@@ -25,6 +25,7 @@ COMMENTARIES = {
     'europaleague': ['europaleague.xml'],
     'euroqualifying': ['euroqualifying.xml'],
     'facup': ['facup.xml'],
+    'spain': ['spain.xml', 'spain_cup.xml', 'spain_segunda.xml'],
     # france.xml
     # france_cup.xml
     # france_league2.xml
