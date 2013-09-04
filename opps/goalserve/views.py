@@ -2,16 +2,19 @@
 import datetime
 from json import JSONEncoder
 from django.http import HttpResponse
+from django.http import StreamingHttpResponse
 from django.utils import simplejson
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from opps.db import Db
 
 from .models import Match, MatchStandings, Category
 from .tasks import get_matches
 
 from celery.result import AsyncResult
-
 from dateutil.tz import tzutc
+import time
 
 UTC = tzutc()
 
@@ -178,21 +181,14 @@ def get_standings(_category):
     return obj
 
 
-
-def match(request, match_pk, mode='response'):
-    """
-    :mode:
-       response -  Django response JSON
-       json - Dumped JSON object
-       python - Pure Python Dictionary
-    """
+def data_match(match_pk):
     _match = get_object_or_404(Match, pk=int(match_pk))
+
     data = serialize(
         _match.__dict__,
         exclude=['time_name', 'attendance_name', 'referee_name', 'ht_result', 'g_player_id',
                  'g_event_id', 'visitorteam_goals', 'localteam_goals', 'localteam_id',
                  'visitorteam_id', 'stadium_id', 'category_id']
-
     )
     data['result'] = {'localteam': _match.localteam_goals, 'visitorteam': _match.visitorteam_goals}
     data['stadium'] = serialize(get_dict(_match, 'stadium'))
@@ -259,10 +255,41 @@ def match(request, match_pk, mode='response'):
 
     data['round_standings'] = get_standings(_match.category)
 
+    return data
+
+
+def match(request, match_pk, mode='response'):
+    """
+    :mode:
+       response -  Django response JSON
+       json - Dumped JSON object
+       python - Pure Python Dictionary
+    """
+    data = data_match(match_pk)
 
     if mode == 'response':
         response = JSONResponse(data, {}, response_mimetype(request))
         response['Content-Disposition'] = 'inline; filename=files.json'
+    elif mode == 'sse':
+        def _sse_queue():
+            redis = Db('goalservematch', match_pk)
+            pubsub = redis.object().pubsub()
+            pubsub.subscribe(redis.key)
+            while True:
+                for m in pubsub.listen():
+                    if m['type'] == 'message':
+                        data = m['data'].decode('utf-8')
+                        yield u"data: {}\n\n".format(data)
+                yield
+                time.sleep(0.5)
+
+        response = StreamingHttpResponse(_sse_queue(),
+                                         mimetype='text/event-stream')
+        response['Cache-Control'] = 'no-cache'
+        response['Software'] = 'opps-goalserve'
+        response.flush()
+
+        response = simplejson.dumps(data)
     elif mode == 'json':
         response = simplejson.dumps(data)
     elif mode == 'python':
