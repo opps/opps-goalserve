@@ -1,5 +1,5 @@
 # coding: utf-8
-
+import json
 import celery
 from django.utils import timezone
 
@@ -70,7 +70,7 @@ def update_feed_for_active_transmissions(transmission_id=None):
                   match_id=[transmission.match.g_static_id],
                   cat_id=transmission.match.category.g_id if transmission.match.category else None,
                   get_players=True)
-        data = data_match(transmission.match.id)
+        data = json.dumps(data_match(transmission.match.id))
         redis = Db('goalservematch', transmission.match.id)
         redis.publish(data)
 
