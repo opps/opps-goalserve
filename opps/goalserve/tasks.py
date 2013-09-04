@@ -3,9 +3,12 @@
 import celery
 from django.utils import timezone
 
+from opps.db import Db
+
 from .crawler import Crawler
 from .no_photo import team_no_photo, player_no_photo
 from .actions import  get_match,get_schedule, get_standings, get_fixtures # set_team_image, set_player_image, set_stadium_image,
+from .views import data_match
 
 # TODO: set this model dynamically
 # OPPS_GOALSERVE_TRANSMISSION_MODEL = 'x.Transmission'
@@ -67,6 +70,9 @@ def update_feed_for_active_transmissions(transmission_id=None):
                   match_id=[transmission.match.g_static_id],
                   cat_id=transmission.match.category.g_id if transmission.match.category else None,
                   get_players=True)
+        data = data_match(transmission.match.id)
+        redis = Db('goalservematch', transmission.match.id)
+        redis.publish(data)
 
 
 
