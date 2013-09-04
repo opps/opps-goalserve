@@ -461,7 +461,9 @@ class Crawler(object):
                 if not data:
                     return
 
-                categories = data['scores']['category']
+                categories = data['scores'].get('category')
+                if not categories:
+                    continue
                 if not isinstance(categories, list):
                     categories = [categories]
 
