@@ -10,6 +10,7 @@ v1_api = Api(api_name='v1')
 v1_api.register(PlayerResource())
 
 urlpatterns = patterns('',
+    (r'^match/(?P<match_pk>\d+)/(?P<mode>\w+)/$', match, {}, 'match'),
     (r'^match/(?P<match_pk>\d+)/$', match, {}, 'match'),
     (r'^ajax_categories_by_country_name/(?P<country_name>\w+)/$',
         ajax_categories_by_country_name, {}, 'ajax_categories_by_country_name'),
