@@ -513,6 +513,9 @@ class F1Tournament(GoalServeModel):
         verbose_name = _('F1 Tournament')
         verbose_name_plural = _('F1 Tournaments')
 
+    def __unicode__(self):
+        return self.name
+
 
 class F1Race(GoalServeModel):
     tournament = models.ForeignKey("goalserve.F1Tournament",
@@ -535,6 +538,25 @@ class F1Race(GoalServeModel):
         verbose_name = _('F1 Race')
         verbose_name_plural = _('F1 Races')
 
+    def __unicode__(self):
+        return u"{self.race_type} - {self.tournament}".format(self=self)
+
+    @property
+    def results(self):
+        return self.f1results_set.all()
+
+    @property
+    def results_html(self):
+        html = ['<ul>']
+        [html.append(
+            "<li>{r.pos} - {r.driver.name} - {r.team.name}</li>".format(
+                r=result
+            )
+         ) for result in self.results]
+        html += ['</ul>']
+
+        return "".join(html)
+
 
 class F1Team(GoalServeModel, Base64Imaged):
     name = models.CharField(_("Name"), max_length=255)
@@ -544,6 +566,9 @@ class F1Team(GoalServeModel, Base64Imaged):
     class Meta:
         verbose_name = _('F1 Team')
         verbose_name_plural = _('F1 Teams')
+
+    def __unicode__(self):
+        return self.name
 
 
 class Driver(GoalServeModel, Base64Imaged):
@@ -556,6 +581,9 @@ class Driver(GoalServeModel, Base64Imaged):
     class Meta:
         verbose_name = _('Driver')
         verbose_name_plural = _('Drivers')
+
+    def __unicode__(self):
+        return self.name
 
 
 class F1Results(GoalServeModel):
@@ -571,6 +599,9 @@ class F1Results(GoalServeModel):
         verbose_name = _('F1 Result')
         verbose_name_plural = _('F1 Results')
 
+    def __unicode__(self):
+        return "{self.race} - {self.driver} - {self.pos}".format(self=self)
+
 
 
 class F1Commentary(GoalServeModel):
@@ -581,3 +612,6 @@ class F1Commentary(GoalServeModel):
     class Meta:
         verbose_name = _('F1 Commentary')
         verbose_name_plural = _('F1 Commentaries')
+
+    def __unicode__(self):
+        return self.comment

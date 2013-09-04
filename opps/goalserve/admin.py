@@ -28,8 +28,25 @@ admin.site.register(opps.goalserve.models.Team, TeamAdmin)
 admin.site.register(opps.goalserve.models.Match, MatchAdmin)
 
 
+class RaceAdmin(GoalServeAdmin):
+    raw_id_fields = ['tournament']
+    list_filter = ['tournament']
+
+class DriverAdmin(GoalServeAdmin):
+    raw_id_fields = ['team', 'image_file']
+    list_filter = ['team']
+
+class ResultsAdmin(GoalServeAdmin):
+    raw_id_fields = ['race', 'driver', 'team']
+    list_filter = ['race']
+
+admin.site.register(opps.goalserve.models.Driver, DriverAdmin)
+admin.site.register(opps.goalserve.models.F1Race, RaceAdmin)
+admin.site.register(opps.goalserve.models.F1Results, ResultsAdmin)
+
+
 # lazy programmer at work
-classes = "Country Category Stadium MatchStats MatchLineUp MatchSubstitutions MatchCommentary MatchEvent F1Tournament F1Race F1Team Driver F1Results F1Commentary MatchStandings".split()
+classes = "Country Category Stadium MatchStats MatchLineUp MatchSubstitutions MatchCommentary MatchEvent F1Tournament F1Team F1Commentary MatchStandings".split()
 
 for model in classes:
     admin.site.register(
