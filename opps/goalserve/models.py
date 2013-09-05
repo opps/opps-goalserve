@@ -517,7 +517,32 @@ class F1Tournament(GoalServeModel):
         return self.name
 
 
-class F1Race(GoalServeModel):
+class F1Track(models.Model):
+    name = models.CharField(_("Name"), max_length=255)
+
+    country = models.CharField(_("Country"), max_length=255,
+                               null=True, blank=True)
+
+    locality = models.CharField(_("Locality"), max_length=255,
+                                null=True, blank=True)
+
+    link = models.CharField(_("Link"), max_length=255,
+                                null=True, blank=True)
+
+    flag = models.ForeignKey('images.Image', null=True, blank=True,
+                              on_delete=models.SET_NULL,
+                              verbose_name=_(u"Flag"),
+                              related_name='f1track_flag')
+    track_map = models.ForeignKey('images.Image', null=True, blank=True,
+                                   on_delete=models.SET_NULL,
+                                   verbose_name=_(u"Mapa do circuito"),
+                                   related_name='f1track_map')
+
+    def __unicode__(self):
+        return u"{o.name} - {o.country} - {o.locality}".format(o=self)
+
+
+class F1Race(GoalServeModel, Base64Imaged):
     tournament = models.ForeignKey("goalserve.F1Tournament",
                                  verbose_name=_("Category"),
                                  on_delete=models.SET_NULL, null=True)
@@ -525,7 +550,10 @@ class F1Race(GoalServeModel):
                                  choices=RACE_TYPES, default="race")
     status = models.CharField(_("Status"), max_length=255, null=True,
                               blank=True)
-    track = models.CharField(_("Track"), max_length=255, null=True, blank=True)
+    circuit = models.ForeignKey('goalserve.F1Track',
+                               verbose_name=_("Track"),
+                               on_delete=models.SET_NULL,
+                               null=True, blank=True)
     distance = models.CharField(_("Distance"), max_length=255, null=True,
                                 blank=True)
     total_laps = models.CharField(_("Total laps"), max_length=255, null=True,

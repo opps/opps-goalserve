@@ -9,7 +9,8 @@ from .standings import STANDINGS
 from .soccer_fixtures import FIXTURES
 from .models import (Country, Category, Match, Team, Stadium, Player, MatchLineUp, MatchStats,
                     MatchSubstitutions, MatchCommentary, MatchEvent, MatchStandings,
-                    F1Tournament, F1Race, F1Team, Driver, F1Results, F1Commentary)
+                    F1Tournament, F1Race, F1Team, Driver, F1Results, F1Commentary,
+                    F1Track)
 
 DOMAIN = 'http://www.goalserve.com'
 
@@ -434,7 +435,8 @@ class Crawler(object):
             _matchevent.save()
 
 
-    def get_matches(self, countries=COUNTRIES, match_id=None, get_players=True, cat_id=None):
+    def get_matches(self, countries=COUNTRIES, match_id=None,
+                    get_players=True, cat_id=None):
         print "getting matches"
         for country in countries:
             _country, created = Country.objects.get_or_create(
@@ -749,6 +751,12 @@ class Crawler(object):
 
     # F1
 
+    def get_track_by_name(self, name):
+        if not name:
+            return
+        _track, created = F1Track.objects.get_or_create(name=name.strip())
+        return _track
+
     def get_races(self, race_id=None, feed="f1-shedule"):
         url = URLS.get(feed).format(gid=self.gid)
         data = self.get(url)
@@ -787,7 +795,7 @@ class Crawler(object):
                 _race.total_laps = race.get('@total_laps')
                 _race.laps_running = race.get('@laps_running')
                 _race.distance = race.get('@distance')
-                _race.track = race.get('@track')
+                _race.track = self.get_track_by_name(race.get('@track'))
                 _race.save()
 
                 print race.keys()

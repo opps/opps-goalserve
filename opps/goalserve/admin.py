@@ -29,7 +29,7 @@ admin.site.register(opps.goalserve.models.Match, MatchAdmin)
 
 
 class RaceAdmin(GoalServeAdmin):
-    raw_id_fields = ['tournament']
+    raw_id_fields = ['tournament', 'image_file', 'circuit']
     list_filter = ['tournament']
 
 class DriverAdmin(GoalServeAdmin):
@@ -40,9 +40,15 @@ class ResultsAdmin(GoalServeAdmin):
     raw_id_fields = ['race', 'driver', 'team']
     list_filter = ['race']
 
+class F1TrackAdmin(admin.ModelAdmin):
+    raw_id_fields = ['flag', 'track_map']
+    list_filter = ['country']
+    search_fields = ['name', 'country', 'locality']
+
 admin.site.register(opps.goalserve.models.Driver, DriverAdmin)
 admin.site.register(opps.goalserve.models.F1Race, RaceAdmin)
 admin.site.register(opps.goalserve.models.F1Results, ResultsAdmin)
+admin.site.register(opps.goalserve.models.F1Track, F1TrackAdmin)
 
 
 # lazy programmer at work
