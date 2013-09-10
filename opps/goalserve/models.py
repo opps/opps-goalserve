@@ -78,8 +78,15 @@ class Base64Imaged(models.Model):
     def image_url(self):
         if not self.image_file:
             return 'http://placehold.it/50x50/'
-
         return self.image_file.archive.url
+
+    @property
+    def http_image_url(self):
+        if not self.image_file:
+            return 'http://placehold.it/50x50/'
+        return "http://{img.site.domain}{img.archive.url}".format(
+            img=self.image_file
+        )
 
     def create_image(self):
         if not self.image_base:
@@ -128,6 +135,8 @@ class Category(GoalServeModel):
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
 
+    # alias
+
     def __unicode__(self):
         return self.name
 
@@ -168,6 +177,9 @@ class Team(GoalServeModel, Base64Imaged):
     founded = models.CharField(_("Founded"), null=True,
                                  max_length=255, blank=True)
     coach = models.CharField(_("Coach"), null=True, max_length=255, blank=True)
+
+    abbr = models.CharField(_('Abbreviation'), null=True, blank=True,
+                            max_length=255)
 
     def __unicode__(self):
         return u"{} - {}".format(self.name, self.country)
