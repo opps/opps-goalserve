@@ -420,6 +420,9 @@ class Crawler(object):
             return
 
         for event in events.get('event', []):
+            if isinstance(event, (unicode, str)):
+                continue
+
             _matchevent, created = MatchEvent.objects.get_or_create(
                 g_id=event.get('@eventid'),
                 g_event_id=event.get('@eventid'),
