@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.conf import settings
 import opps.goalserve.models
+
+OPPS_ADMIN_FILTERS = getattr(settings, 'OPPS_ADMIN_FILTERS', {})
+FILTERS = OPPS_ADMIN_FILTERS.get('opps.goalserve', {})
 
 
 class GoalServeAdmin(admin.ModelAdmin):
@@ -31,6 +35,11 @@ admin.site.register(opps.goalserve.models.Match, MatchAdmin)
 class RaceAdmin(GoalServeAdmin):
     raw_id_fields = ['tournament', 'image_file', 'circuit']
     list_filter = ['tournament']
+    opps_filters = FILTERS.get('RaceAdmin', {})
+
+    def queryset(self, request):
+        qs = super(RaceAdmin, self).queryset(request)
+        return qs.filter(**self.opps_filters)
 
 class DriverAdmin(GoalServeAdmin):
     raw_id_fields = ['team', 'image_file']
