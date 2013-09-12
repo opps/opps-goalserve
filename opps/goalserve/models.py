@@ -554,6 +554,11 @@ class F1Track(models.Model):
         return u"{o.name} - {o.country} - {o.locality}".format(o=self)
 
 
+    class Meta:
+        verbose_name = _(u'F1 Track')
+        verbose_name_plural = _(u'F1 Tracks')
+
+
 class F1Race(GoalServeModel, Base64Imaged):
     tournament = models.ForeignKey("goalserve.F1Tournament",
                                  verbose_name=_("Category"),
