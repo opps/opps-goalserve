@@ -27,6 +27,16 @@ class JSONResponse(HttpResponse):
         content = simplejson.dumps(obj, **json_opts)
         super(JSONResponse, self).__init__(content, mimetype, *args, **kwargs)
 
+class JSONPResponse(HttpResponse):
+    """JSON response class."""
+    def __init__(self, obj='', json_opts={}, mimetype="application/jsonp", jsonp_callback = '',
+                 *args, **kwargs):
+        content = simplejson.dumps(obj, **json_opts)
+        try:
+            content = "{}({})".format(jsonp_callback, content)
+        except:
+            pass
+        super(JSONPResponse, self).__init__(content, mimetype, *args, **kwargs)
 
 def response_mimetype(request):
     if "application/json" in request.META['HTTP_ACCEPT']:
@@ -92,8 +102,15 @@ def match(request, match_pk, mode='response'):
     """
     data = data_match(match_pk)
 
+    def _json_response():
+        try:
+            response = JSONPResponse(data, {}, response_mimetype(request), request.GET['callback'])
+        except:
+            response = JSONResponse(data, {}, response_mimetype(request))
+        return response
+
     if mode == 'response':
-        response = JSONResponse(data, {}, response_mimetype(request))
+        response = _json_response()
         response['Content-Disposition'] = 'inline; filename=files.json'
     elif mode == 'sse':
         def _sse_queue():
@@ -114,7 +131,7 @@ def match(request, match_pk, mode='response'):
         response['Software'] = 'opps-goalserve'
         response.flush()
     elif mode == 'json':
-        response = simplejson.dumps(data)
+        response = _json_response()
     elif mode == 'python':
         response = data
     else:
