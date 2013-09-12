@@ -14,6 +14,7 @@ from .models import (Country, Category, Match, Team, Stadium, Player, MatchLineU
 
 DOMAIN = 'http://www.goalserve.com'
 
+COUNTRIES = [country[0] for country in COUNTRIES]
 
 URLS = {
     'matches': ['/getfeed/{gid}/soccernew/{country}',
