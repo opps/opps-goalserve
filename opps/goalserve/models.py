@@ -64,7 +64,8 @@ class GoalServeModel(models.Model):
 class Base64Imaged(models.Model):
     image_base = models.TextField(_("Image"), blank=True, null=True)
     image_file = models.ForeignKey('images.Image', null=True, blank=True,
-                                   on_delete=models.SET_NULL)
+                                   on_delete=models.SET_NULL,
+                                   verbose_name=_(u'Image File'))
 
     @property
     def image(self):
