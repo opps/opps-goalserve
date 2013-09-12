@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from opps.db import Db
+from opps.views.generic.json_views import JSONResponse, JSONPResponse
 
 from .models import Match, MatchStandings, Category
 from .tasks import get_matches
@@ -18,25 +19,6 @@ from dateutil.tz import tzutc
 import time
 
 UTC = tzutc()
-
-
-class JSONResponse(HttpResponse):
-    """JSON response class."""
-    def __init__(self, obj='', json_opts={}, mimetype="application/json",
-                 *args, **kwargs):
-        content = simplejson.dumps(obj, **json_opts)
-        super(JSONResponse, self).__init__(content, mimetype, *args, **kwargs)
-
-class JSONPResponse(HttpResponse):
-    """JSON response class."""
-    def __init__(self, obj='', json_opts={}, mimetype="application/jsonp", jsonp_callback = '',
-                 *args, **kwargs):
-        content = simplejson.dumps(obj, **json_opts)
-        try:
-            content = "{}({})".format(jsonp_callback, content)
-        except:
-            pass
-        super(JSONPResponse, self).__init__(content, mimetype, *args, **kwargs)
 
 def response_mimetype(request):
     if "application/json" in request.META['HTTP_ACCEPT']:
