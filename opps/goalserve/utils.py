@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 
 from dateutil.tz import tzutc
 
-from .models import Match, MatchStandings
+from .models import Match, MatchStandings, Category
 
 UTC = tzutc()
 
@@ -188,3 +188,55 @@ def get_event(_event):
         pass
 
     return _event.__dict__
+
+
+def get_tournament_standings():
+    data = {'tournaments': []}
+
+    categories = Category.objects.filter(country__name='brazil')
+
+    for category in categories:
+        item = {'title': category.name}
+
+        standings = MatchStandings.objects.filter(
+            category=category).order_by('position')
+        if not standings:
+            continue
+
+        rounds = {}
+
+        for stand in standings:
+            rounds.setdefault(stand.round, [])
+
+            stand.team_name = stand.team.name
+            stand.image = stand.team.image_url
+
+            rounds[stand.round].append(
+                serialize(
+                    stand.__dict__,
+                    exclude=['g_player_id', 'g_fix_id', 'g_bet_id',
+                             'category_id', 'g_event_id', 'country_id', 'g_id',
+                             'status', 'updated_at', 'team_id', 'timestamp',]
+                )
+            )
+
+            rounds[stand.round] = sorted(
+                rounds[stand.round], key=lambda team: int(team['position'])
+            )
+
+
+        last = max([int(k) for k in rounds.keys()])
+
+        # obj = {'round': last, 'teams': rounds[str(last)]}
+
+        # teams
+        item['teams'] = rounds[str(last)]
+
+        data['tournaments'].append(item)
+
+    return data
+
+
+
+
+

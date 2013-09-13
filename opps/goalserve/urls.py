@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include
 from opps.goalserve.views import (match, ajax_categories_by_country_name,
-                                  ajax_match_by_category_id, ajax_get_matches, get_task_status)
+                                  ajax_match_by_category_id, ajax_get_matches,
+                                  get_task_status, JSONStandingsView)
 
 from tastypie.api import Api
 from opps.goalserve.api import PlayerResource
@@ -21,4 +22,5 @@ urlpatterns = patterns('',
         ajax_get_matches, {}, 'ajax_get_matches_id'),
     (r'^get_task_status/(?P<task_id>[\w-]+)/$', get_task_status, {}, 'get_task_status'),
     (r'^api/', include(v1_api.urls)),
+    (r'^standings/', JSONStandingsView.as_view(), {}, 'standings')
 )

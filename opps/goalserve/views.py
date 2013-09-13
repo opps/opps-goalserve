@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
-import datetime
-from json import JSONEncoder
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
-from django.utils import simplejson
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from opps.db import Db
-from opps.views.generic.json_views import JSONResponse, JSONPResponse
+from opps.views.generic.json_views import JSONResponse, JSONPResponse, JSONView
 
-from .models import Match, MatchStandings, Category
+from .models import Match, Category
 from .tasks import get_matches
-from .utils import data_match, serialize
+from .utils import data_match, serialize, get_tournament_standings
 
 from celery.result import AsyncResult
 from dateutil.tz import tzutc
 import time
 
 UTC = tzutc()
+
+class JSONStandingsView(JSONView):
+    def get_context_data(self, **kwargs):
+        return get_tournament_standings()
 
 def response_mimetype(request):
     if "application/json" in request.META['HTTP_ACCEPT']:
@@ -62,17 +62,6 @@ def get_team_substitutions(_substitutions):
         subs.append(data)
 
     return subs
-
-# {"round_standings": {
-#         "round": "",
-#         "date": "",
-#         "teams": [
-#             {
-#                 "name": "",
-#                 "position": "",
-#                 "points": "",
-#                 "games": ""},
-#         ]}}
 
 
 def match(request, match_pk, mode='response'):
