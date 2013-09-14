@@ -440,7 +440,7 @@ class Crawler(object):
 
 
     def get_matches(self, countries=COUNTRIES, match_id=None,
-                    get_players=True, cat_id=None):
+                    get_players=True, cat_id=None, schedule=False):
         print "getting matches"
         for country in countries:
             _country, created = Country.objects.get_or_create(
@@ -477,9 +477,10 @@ class Crawler(object):
 
                     filegroup = category.get('@file_group')
 
-                    if filegroup and filegroup not in countries:
-                        print "NOT IN:", category.get('@file_group'), countries
-                        continue
+                    if not schedule:
+                        if filegroup and filegroup not in countries:
+                            print "NOT IN:", category.get('@file_group'), countries
+                            continue
 
                     _category, created = Category.objects.get_or_create(
                         g_id=category['@id']
