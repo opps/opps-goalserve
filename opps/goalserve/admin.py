@@ -23,7 +23,7 @@ class TeamAdmin(GoalServeAdmin):
     raw_id_fields = ['country', 'stadium', 'image_file']
 
 class MatchAdmin(GoalServeAdmin):
-    search_fields = ['status']
+    search_fields = ['name', 'status']
     list_filter = ['category', 'match_time', 'week_number']
     raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
 
