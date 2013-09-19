@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from opps.db import Db
 from opps.views.generic.json_views import JSONResponse, JSONPResponse, JSONView
 
-from .models import Match, Category
+from .models import Match, Category, Driver, F1Team
 from .tasks import get_matches
 from .utils import data_match, serialize, get_tournament_standings
 
@@ -15,6 +15,44 @@ from dateutil.tz import tzutc
 import time
 
 UTC = tzutc()
+
+
+class JSONStandingsF1View(JSONView):
+    def get_context_data(self, **kwargs):
+        # agrregate tournaments
+        return {}
+
+class JSONStandingsDriversView(JSONView):
+    def get_context_data(self, **kwargs):
+        data = {
+            'drivers': [
+                {"name": driver.name,
+                 "post": driver.post,
+                 "team": driver.team.name if driver.team else "",
+                 "points": driver.points}
+                for driver in sorted(
+                    [driver for driver in Driver.objects.filter(post__isnull=False)],
+                    key=lambda d:int(d.post or 0)
+                )
+            ]
+        }
+        return data
+
+class JSONStandingsTeamsView(JSONView):
+    def get_context_data(self, **kwargs):
+        data = {
+            'teams': [
+                {"name": team.name,
+                 "post": team.post,
+                 "points": team.points}
+                for team in sorted(
+                    [team for team in F1Team.objects.filter(post__isnull=False)],
+                    key=lambda d:int(d.post or 0)
+                )
+            ]
+        }
+        return data
+
 
 class JSONStandingsView(JSONView):
     def get_context_data(self, **kwargs):

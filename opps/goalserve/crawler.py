@@ -856,7 +856,7 @@ class Crawler(object):
         if data:
             for team in data['standings']['teams']['team']:
                 if team_id == team.get('@id'):
-                    print "found team", team
+                    # print "found team", team
                     _team.post = team.get('@post') or None
                     _team.points = team.get('@points') or None
                     _team.name = _team.name or team.get('@name')
@@ -869,7 +869,7 @@ class Crawler(object):
     def f1_get_driver(self, driver, _team=None):
         try:
             _driver, created = Driver.objects.get_or_create(
-                g_driver_id=driver.get('@driver_id')
+                g_driver_id=driver.get('@id')
             )
 
             _driver.name = _driver.name or driver.get("@name")
