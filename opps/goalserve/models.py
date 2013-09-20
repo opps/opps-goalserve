@@ -1,6 +1,7 @@
 # coding:utf-8
 
 import base64
+from datetime import timedelta
 from django.utils import timezone as datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -266,6 +267,8 @@ class Match(GoalServeModel):
     @property
     def fmatch_time(self):
         try:
+            # TODO: Fix timezone
+            self.match_time = self.match_time - timedelta(hours=3)
             return self.match_time.strftime("%d/%m/%Y %H:%M")
         except:
             return ''
@@ -376,6 +379,7 @@ class MatchLineUp(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
 
+    order = models.IntegerField(_("Order"), default=0)
 
     def __unicode__(self):
         return u"{} - {} - {}".format(self.match, self.player.name, self.team.name)
