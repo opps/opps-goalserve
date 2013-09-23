@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from opps.goalserve.models import Team, Player, F1Team, Driver
+from opps.goalserve.models import Team, Player, F1Team, Driver, MatchLineUp
 
 # tastypie
 from tastypie.authorization import Authorization
@@ -57,6 +57,31 @@ class PlayerResource(ModelResource):
         excludes = ('image_base', 'created_at', 'extra', 'g_bet_id',
                     'g_driver_id', 'g_event_id', 'g_fix_id', 'g_player_id',
                     'g_static_id', 'g_team_id')
+
+    def hydrate(self, bundle):
+
+        lineup_id = bundle.data.get('lineup_id')
+        lineup = MatchLineUp.objects.get(id=int(lineup_id))
+        player_id = bundle.data.get('id')
+        player = Player.objects.get(id=player_id)
+
+
+        player_dict = {k: v for k, v in player.__dict__.iteritems() if not k.startswith("_")}
+        lineup_dict = {k: v for k, v in lineup.__dict__.iteritems() if not k.startswith("_")}
+
+
+        for k, v in player_dict.iteritems():
+            if not k in bundle.data:
+                bundle.data[k] = v
+
+        lineup.player_number = bundle.data.get('number', lineup.player_number)
+        lineup.player_position = bundle.data.get('position', lineup.player_position)
+        lineup.order = bundle.data.get('order', lineup.order)
+        lineup.save()
+
+        return bundle
+
+
 
 # home made api for tasks
 
