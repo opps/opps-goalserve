@@ -384,6 +384,10 @@ class Crawler(object):
         if not _match or not teams:
             return
 
+        if _match.get_extra('manual_mode'):
+            print "not updating lineup, match is in manual_mode"
+            return
+
         for team_status in ['localteam', 'visitorteam']:
             team = teams.get(team_status, {})
             if not team:
@@ -410,6 +414,7 @@ class Crawler(object):
 
                 _lineup.player_number=player.get('@number', _player.number) or None
                 _lineup.player_position=player.get('@pos', _player.position)
+                print "Saving match lineup"
                 _lineup.save()
 
                 print  _lineup

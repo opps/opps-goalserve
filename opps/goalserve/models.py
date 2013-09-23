@@ -1,6 +1,7 @@
 # coding:utf-8
 
 import base64
+import json
 from datetime import timedelta
 from django.utils import timezone as datetime
 from django.db import models
@@ -54,6 +55,24 @@ class GoalServeModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
 
     extra = models.TextField(_('extra data'), null=True, blank=True)
+
+    @property
+    def extra_data(self):
+        try:
+            return json.loads(self.extra)
+        except:
+            return {}
+
+    def set_extra(self, **kwargs):
+        if self.extra:
+            extra = self.extra_data
+            extra.update(kwargs)
+            self.extra = json.dumps(extra)
+        else:
+            self.extra = json.dumps(kwargs)
+
+    def get_extra(self, key):
+        return self.extra_data.get(key)
 
     class Meta:
         abstract = True

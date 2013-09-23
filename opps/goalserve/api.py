@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from opps.goalserve.models import Team, Player, F1Team, Driver, MatchLineUp
 
 # tastypie
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.exceptions import Unauthorized
+
+
+logger = logging.getLogger()
 
 
 def check_access(user):
@@ -78,6 +83,20 @@ class PlayerResource(ModelResource):
         lineup.player_position = bundle.data.get('position', lineup.player_position)
         lineup.order = bundle.data.get('order', lineup.order)
         lineup.save()
+
+        try:
+            # put match in manual mode
+            # celery tasks will ignore lineup updates
+            match = lineup.match
+            match.set_extra(manual_mode=True)
+            match.save()
+        except Exception as e:
+            logger.warning(
+                "Error putting in manual mode {m.id} - {msg}".format(
+                    m=match,
+                    msg=str(e)
+                )
+            )
 
         return bundle
 
