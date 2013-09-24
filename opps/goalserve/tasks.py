@@ -39,7 +39,8 @@ def set_images_for_active_transmissions(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
             published=True,
-        ).exclude(event_type__slug='generic')
+            event_type__slug="soccer"
+        )
     else:
         active_transmissions = Transmission.objects.filter(pk=transmission_id)
 
@@ -72,7 +73,8 @@ def update_feed_for_active_transmissions(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
             published=True,
-        ).exclude(event_type__slug='generic')
+            event_type__slug="soccer"
+        )
     else:
         active_transmissions = Transmission.objects.filter(pk=transmission_id)
 
@@ -101,7 +103,8 @@ def update_standings(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
             published=True,
-        ).exclude(event_type__slug='generic')
+            event_type__slug="soccer"
+        )
     else:
         active_transmissions = Transmission.objects.filter(pk=transmission_id)
 
@@ -116,7 +119,8 @@ def update_fixtures(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
             published=True,
-        ).exclude(event_type__slug='generic')
+            event_type__slug="soccer"
+        )
     else:
         active_transmissions = Transmission.objects.filter(pk=transmission_id)
 
