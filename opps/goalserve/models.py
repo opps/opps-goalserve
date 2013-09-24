@@ -406,6 +406,7 @@ class MatchLineUp(models.Model):
     class Meta:
         verbose_name = _('Match Lineup')
         verbose_name_plural = _('Match Lineups')
+        ordering = ('order',)
 
 
 

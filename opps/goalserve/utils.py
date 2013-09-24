@@ -55,7 +55,7 @@ def data_match(match_pk):
                  'founded', 'full_name', 'stadium_id', 'g_player_id']
     )
     data['localteam']['players'] = get_players(
-        _match.localteam.matchlineup_set.filter(match=_match).order_by('player_status', 'player_number')
+        _match.localteam.matchlineup_set.filter(match=_match).order_by('player_status', 'order')
     )
     # data['localteam']['stats'] = get_team_stats(
     #     _match.matchstats_set.filter(team=_match.localteam)
@@ -72,7 +72,7 @@ def data_match(match_pk):
                  'founded', 'full_name', 'stadium_id', 'g_player_id']
     )
     data['visitorteam']['players'] = get_players(
-        _match.visitorteam.matchlineup_set.filter(match=_match).order_by('player_status', 'player_number')
+        _match.visitorteam.matchlineup_set.filter(match=_match).order_by('player_status', 'order')
     )
     # data['visitorteam']['stats'] = get_team_stats(
     #     _match.matchstats_set.filter(team=_match.visitorteam)

@@ -79,7 +79,17 @@ class PlayerResource(ModelResource):
             if not k in bundle.data:
                 bundle.data[k] = v
 
-        lineup.player_number = bundle.data.get('number', lineup.player_number)
+        number = bundle.data.get('number')
+        if number:
+            try:
+                lineup.player_number = int(number)
+            except:
+                logger.warning(
+                    "Error coercing number {0} for player {1}".format(
+                        number, player_id
+                    )
+                )
+
         lineup.player_position = bundle.data.get('position', lineup.player_position)
         lineup.order = bundle.data.get('order', lineup.order)
         lineup.save()
