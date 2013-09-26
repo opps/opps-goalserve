@@ -98,7 +98,7 @@ def update_schedule():
     log_it('update_schedule')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
+@celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
 def update_standings(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
@@ -114,7 +114,7 @@ def update_standings(transmission_id=None):
     log_it('update_standings')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(hours=24))
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
 def update_fixtures(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
