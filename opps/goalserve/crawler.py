@@ -43,22 +43,29 @@ RACE_TYPES = (
     "first_practice",
 )
 
+TZ_DELTA = datetime.timedelta(hours=3)
+
 
 class Crawler(object):
-    def __init__(self, gid, update_all_players=False, update_all_teams=False):
+    def __init__(self, gid, update_all_players=False, update_all_teams=False,
+                 verbose=False):
         self.gid = gid
         self.update_all_players = update_all_players
         self.update_all_teams = update_all_teams
+        self.verbose = verbose
+
+    def verbose_print(self, s):
+        if self.verbose:
+            print(s)
 
     def load_countries(self):
         for country in COUNTRIES:
-            # print
             Country.objects.get_or_create(
                 name=country.lower()
             )
 
     def get(self, url):
-        print "getting", url
+        self.verbose_print("getting {0}".format(url))
         try:
             return parse(
                 urllib.urlopen(
@@ -66,7 +73,7 @@ class Crawler(object):
                 ).read()
             )
         except Exception as e:
-            print  e.message
+            self.verbose_print(str(e))
             return None
 
     def parse_minute(self, minute):
@@ -82,7 +89,7 @@ class Crawler(object):
         return minute
 
     def parse_date(self, date, time=None, format=None):
-        print "parsing date", date, format
+        self.verbose_print("parsing {0} - {1} - {2}".format(date, time, format))
         if not date:
             return
 
@@ -93,18 +100,27 @@ class Crawler(object):
                 format or '%d.%m.%Y %H:%M'
             )
         except ValueError as e:
-            print str(e)
+            self.verbose_print(str(e))
             parsed = None
-        print parsed
+
+
+        try:
+            if parsed and time:
+                parsed = parsed - TZ_DELTA
+        except:
+            pass
+
+        self.verbose_print(parsed)
+
         return parsed
 
     def get_country_by_name(self, name):
-        print "getting country by", name
+        self.verbose_print("Get country by {0}".format(name))
         _country, created = Country.objects.get_or_create(name=name.lower())
         return _country
 
     def get_stadium(self, data, country=None):
-        print "getting stadium"
+        self.verbose_print("getting stadium")
         _stadium, created = Stadium.objects.get_or_create(
             g_id=data['venue_id']
         )
@@ -117,12 +133,13 @@ class Crawler(object):
             _stadium.image_base = data.get('venue_image')
             _stadium.save()
         except Exception as e:
-            print  e.message
+            self.verbose_print(str(e))
+            pass
 
         return _stadium
 
     def get_team(self, team, get_players=True):
-        print "getting team"
+        self.verbose_print("Getting team")
         # OrderedDict([(u'@name', u'Santos'), (u'@goals', u'?'), (u'@id', u'7560')]))
         _team, created = Team.objects.get_or_create(
             g_id=team['@id']
@@ -146,7 +163,8 @@ class Crawler(object):
                 _team.image_base = team.get('image')
                 _team.save()
             except Exception as e:
-                print  e.message
+                self.verbose_print(str(e))
+                pass
 
             if not team.get('@is_national') and get_players:  # dont overrride player for worldcup team
                 for player in data['teams']['team']['squad']['player']:
@@ -155,7 +173,7 @@ class Crawler(object):
         return _team
 
     def get_player(self, player, _team):
-        print "getting player"
+        self.verbose_print("getting player")
         _player, created = Player.objects.get_or_create(
                 g_id=player['@id'],
                 g_player_id=player['@id'],
@@ -189,14 +207,16 @@ class Crawler(object):
                 _player.image_base=player.get('image')
                 _player.save()
             except Exception as e:
-                print  e.message
+                self.verbose_print(str(e))
+                pass
 
-        print _player
+        self.verbose_print(_player)
         return _player
 
     def get_commentaries(self, _match, country_name=None, commentary_available=None):
-        print "getting commentaries"
-        print "commentary_available", commentary_available
+        # print "getting commentaries"
+        # print "commentary_available", commentary_available
+        self.verbose_print("Getting comments, feed available {0}".format(commentary_available))
 
         if commentary_available:
             xmls = ["{}.xml".format(commentary_available)]
@@ -209,23 +229,24 @@ class Crawler(object):
             )
 
             if not data:
-                print "no data", data
+                self.verbose_print("no data returned")
                 return
 
             try:
                 matches = data['commentaries']['tournament']['match']
             except KeyError:
-                print "KeyError", data
+                self.verbose_print("Key error {0}".format(data))
                 continue
 
             if not isinstance(matches, list):
                 matches = [matches]
 
-            print "total",len(matches)
+            self.verbose_print("Total matches: {0}".format(len(matches)))
             for match in matches:
 
                 if match.get('@static_id') != _match.g_static_id:
-                    print match.get('@static_id'), "!=", _match.g_static_id
+                    msg = match.get('@static_id') + "!=" + _match.g_static_id
+                    self.verbose_print(msg)
                     continue
 
                 try:
@@ -256,7 +277,8 @@ class Crawler(object):
 
                     _match.save()
                 except Exception as e:
-                    print  e.message
+                    self.verbose_print(str(e))
+                    pass
 
                 else:
                     self.get_match_lineup(_match, match.get('teams'))
@@ -267,7 +289,7 @@ class Crawler(object):
                     self.get_match_commentaries(_match, match.get('commentaries'))
 
     def get_match_commentaries(self, _match, commentaries):
-        print 'getting commentaries'
+        self.verbose_print("getting match comments")
         if not commentaries:
             return
 
@@ -285,7 +307,7 @@ class Crawler(object):
 
 
     def get_match_substitutions(self, _match, substitutions):
-        print "getting substitutions"
+        self.verbose_print("getting substitutions")
         if not _match or not substitutions:
             return
 
@@ -311,7 +333,8 @@ class Crawler(object):
                     )
                     _matchsubs.save()
                 except Exception as e:
-                    print e.message
+                    self.verbose_print(str(e))
+                    pass
 
 
     def get_player_by_id(self, g_id):
@@ -346,13 +369,14 @@ class Crawler(object):
                 _player.image_base=player.get('image')
                 _player.save()
             except Exception as e:
-                print  e.message
+                self.verbose_print(str(e))
+                pass
 
         return _player
 
 
     def get_match_stats(self, _match, stats):
-        print "getting match stats"
+        self.verbose_print("Gettng match stats")
         if not _match or not stats:
             return
 
@@ -376,16 +400,18 @@ class Crawler(object):
                 _stat.saves = stat.get('saves', {}).get('@total', None)
                 _stat.save()
             except Exception as e:
-                print e.message
+                self.verbose_print(str(e))
+                pass
 
     def get_match_lineup(self, _match, teams, player_status='player'):
-        print "getting linepup"
+        self.verbose_print("Gettong lineup")
 
         if not _match or not teams:
             return
 
         if _match.get_extra('manual_mode'):
-            print "not updating lineup, match is in manual_mode"
+            # print "not updating lineup, match is in manual_mode"
+            self.verbose_print("Match is in manual mode")
             return
 
         for team_status in ['localteam', 'visitorteam']:
@@ -414,14 +440,14 @@ class Crawler(object):
 
                 _lineup.player_number=player.get('@number', _player.number) or None
                 _lineup.player_position=player.get('@pos', _player.position)
-                print "Saving match lineup"
+                # print "Saving match lineup"
                 _lineup.save()
 
-                print  _lineup
+                self.verbose_print(_lineup)
 
 
     def get_match_events(self, _match, events):
-        print "getting events"
+        self.verbose_print("Getting events")
         if not _match or not events:
             return
 
@@ -446,7 +472,7 @@ class Crawler(object):
 
     def get_matches(self, countries=COUNTRIES, match_id=None,
                     get_players=True, cat_id=None, schedule=False):
-        print "getting matches"
+        self.verbose_print("Getting matches")
         for country in countries:
             _country, created = Country.objects.get_or_create(
                 name=country.lower()
@@ -484,7 +510,8 @@ class Crawler(object):
 
                     if not schedule:
                         if filegroup and filegroup not in countries:
-                            print "NOT IN:", category.get('@file_group'), countries
+                            # print "NOT IN:", category.get('@file_group'), countries
+                            self.verbose_print("skipping {}".format(filegroup))
                             continue
 
                     _category, created = Category.objects.get_or_create(
@@ -496,7 +523,7 @@ class Crawler(object):
                         _category.country=_country
                         _category.save()
 
-                    print "category", _category.name, created
+                    # print "category", _category.name, created
 
                     # import ipdb; ipdb.set_trace()
 
@@ -507,26 +534,26 @@ class Crawler(object):
                     for match in matches:
 
                         if isinstance(match, (unicode, str)):
-                            print "match is unicode"
+                            # print "match is unicode"
                             continue
 
                         if not match.get('@static_id'):
-                            print  "Match not ready"
+                            self.verbose_print("Not ready")
                             continue
 
                         if match_id == [None]:
                             match_id = None
 
                         if match_id:
-                            print "passed match id", match_id
+                            # print "passed match id", match_id
                             if isinstance(match_id, list):
                                 if any(match_id):
                                     if not match.get('@static_id') in [str(item) for item in match_id]:
-                                        print match.get('@static_id'), " not in ", match_id
+                                        # print match.get('@static_id'), " not in ", match_id
                                         continue
                             else:
                                 if str(match_id) != match.get('@static_id'):
-                                    print match.get('@static_id'), "!=", match_id
+                                    # print match.get('@static_id'), "!=", match_id
                                     continue
 
                         _match, created = Match.objects.get_or_create(
@@ -534,7 +561,7 @@ class Crawler(object):
                             g_static_id=match['@static_id'],
                         )
 
-                        print "getting", _match.g_static_id
+                        # print "getting", _match.g_static_id
 
                         try:
 
@@ -570,9 +597,12 @@ class Crawler(object):
 
 
                         except Exception as e:
-                            print  e.message
+                            self.verbose_print(str(e))
+                            pass
                         else:
-                            print  "Match recorded", _match.pk
+                            # print  "Match recorded", _match.pk
+                            self.verbose_print("{0} match recorded".format(_match.pk))
+                            pass
 
                         if _match.g_static_id and get_players:
                             self.get_match_events(_match,  match.get('events'))
@@ -597,7 +627,7 @@ class Crawler(object):
             return _category
 
     def get_standings(self, country='brazil'):
-        print "get_standings"
+        self.verbose_print("Gettting standings")
         for xml in [item for item in STANDINGS if item.startswith(country)]:
 
             data = self.get(
@@ -605,7 +635,7 @@ class Crawler(object):
             )
 
             if not data:
-                print "not data"
+                self.verbose_print("No data")
                 continue
 
             standings = data.get('standings')
@@ -652,22 +682,22 @@ class Crawler(object):
                     _matchstandings.timestamp = timestamp
                     _matchstandings.save()
 
-                    print _matchstandings, created
+                    # print _matchstandings, created
 
 
     def get_fixtures(self, country='brazil'):
         # 'fixtures': '/getfeed/{gid}/soccerfixtures/{country}/{cat}'
-        print "getting fixtures", country
+        self.verbose_print("Getting fixtures")
         for item in FIXTURES.get(country, []):
             data = self.get(
                 URLS.get('fixtures').format(gid=self.gid, country=country, cat=item)
             )
 
             if not data:
-                print "not data"
+                self.verbose_print("No data")
                 continue
 
-            print "Fixtures"
+            # print "Fixtures"
 
             tournaments = data.get('results', {}).get('tournament', [])
             if not isinstance(tournaments, list):
@@ -745,17 +775,20 @@ class Crawler(object):
                                         if visitorteam_goals > (_match.visitorteam_goals or 0):
                                             _match.visitorteam_goals = visitorteam_goals
                                     except Exception as e:
-                                        print str(e)
+                                        self.verbose_print(str(e))
+                                        pass
 
                                 except Exception as e:
-                                    print  str(e)
+                                    self.verbose_print(str(e))
+                                    pass
 
                             try:
                                 _match.save()
                             except Exception as e:
                                 # probably integity error
                                 # because GoalServer API does not send proper IDS
-                                print str(e)
+                                self.verbose_print(str(e))
+                                pass
 
 
 
@@ -808,7 +841,7 @@ class Crawler(object):
                 _race.track = self.get_track_by_name(race.get('@track'))
                 _race.save()
 
-                print race.keys()
+                # print race.keys()
 
                 # TODO: save results
                 if race.get('results'):
@@ -861,7 +894,8 @@ class Crawler(object):
         if data:
             for team in data['standings']['teams']['team']:
                 if team_id == team.get('@id'):
-                    # print "found team", team
+                    # # print "found team", team
+                    self.verbose_print("Found {0}".format(team))
                     _team.post = team.get('@post') or None
                     _team.points = team.get('@points') or None
                     _team.name = _team.name or team.get('@name')
@@ -890,7 +924,7 @@ class Crawler(object):
 
             return _driver
         except Exception as e:
-            print str(e)
+            self.verbose_print(str(e))
             return
 
 
