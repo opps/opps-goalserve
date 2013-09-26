@@ -23,9 +23,11 @@ class TeamAdmin(GoalServeAdmin):
     raw_id_fields = ['country', 'stadium', 'image_file']
 
 class MatchAdmin(GoalServeAdmin):
-    search_fields = ['name', 'status']
+    search_fields = ['localteam__name', 'visitorteam__name', 'status']
     list_filter = ['category', 'match_time', 'week_number']
     raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
+    list_display = ['name', 'id', 'localteam', 'visitorteam', 'g_static_id',
+                    'category']
 
 admin.site.register(opps.goalserve.models.Player, PlayerAdmin)
 admin.site.register(opps.goalserve.models.Team, TeamAdmin)
