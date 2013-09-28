@@ -1,3 +1,4 @@
+
 # coding: utf-8
 import json
 import celery
@@ -34,7 +35,7 @@ def get_matches(country_name, match_id=None, cat_id=None):
     log_it('get_matches')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
+@celery.task.periodic_task(run_every=timezone.timedelta(minutes=10))
 def set_images_for_active_transmissions(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
@@ -68,7 +69,7 @@ def set_images_for_active_transmissions(transmission_id=None):
     log_it('set_images_for_active_transmissions')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
+@celery.task.periodic_task(run_every=timezone.timedelta(minutes=15))
 def update_feed_for_active_transmissions(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
@@ -98,7 +99,7 @@ def update_schedule():
     log_it('update_schedule')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
 def update_standings(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
@@ -114,7 +115,7 @@ def update_standings(transmission_id=None):
     log_it('update_standings')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=8))
 def update_fixtures(transmission_id=None):
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
