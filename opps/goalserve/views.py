@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
+from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from django.views.decorators.csrf import csrf_exempt
@@ -127,6 +128,19 @@ def lineup_delete(request):
         error = True
 
     return HttpResponse("SUCCESS" if not error else "ERROR")
+
+
+@login_required
+def lineup_list(request, match_id):
+    match = Match.objects.get(id=int(match_id))
+    lineups = match.matchlineup_set.order_by(
+        'team', 'player__name', 'player_status'
+    )
+    context = {
+        "lineups": lineups,
+        "match": match
+    }
+    return render_to_response('goalserve/lineuplist.html', context)
 
     
 class JSONStandingsF1View(JSONView):
