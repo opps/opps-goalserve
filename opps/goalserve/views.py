@@ -77,8 +77,8 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormVi
         team = Team.objects.get(pk=data.get('team_id'))
         player = Player.objects.create(
             name=data.get('player_name'),
-            number=data.get('player_number'),
-            position=data.get('player_position'),
+            number=data.get('player_number') or None,
+            position=data.get('player_position') or None,
             team=team
         )
 
@@ -114,12 +114,12 @@ class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormV
         set_to_manual(lineup.match)
 
         lineup.player.name = data.get('player_name')
-        lineup.player.position = data.get('player_position')
-        lineup.player.number = data.get('player_number')
+        lineup.player.position = data.get('player_position') or None
+        lineup.player.number = data.get('player_number') or None
         lineup.player.save()
 
-        lineup.player_position = data.get('player_position')
-        lineup.player_number = data.get('player_number')
+        lineup.player_position = data.get('player_position') or None
+        lineup.player_number = data.get('player_number') or None
         lineup.player_status = data.get('player_status')
         lineup.save()
 

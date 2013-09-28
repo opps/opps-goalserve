@@ -9,8 +9,8 @@ class LineupAddForm(forms.Form):
     team_id = forms.CharField(required=True)
     team_status = forms.ChoiceField(required=True, choices=TEAM_STATUS)
     player_name = forms.CharField(required=True)
-    player_number = forms.CharField(required=True)
-    player_position = forms.CharField(required=True)
+    player_number = forms.CharField(required=False)
+    player_position = forms.CharField(required=False)
     player_status = forms.ChoiceField(required=True, choices=PLAYER_STATUS)
 
 
@@ -20,8 +20,8 @@ class LineupEditForm(forms.Form):
     team_id = forms.CharField(required=False)
     team_status = forms.ChoiceField(choices=TEAM_STATUS, required=False)
     player_name = forms.CharField(required=True)
-    player_number = forms.CharField(required=True)
-    player_position = forms.CharField(required=True)
+    player_number = forms.CharField(required=False)
+    player_position = forms.CharField(required=False)
     player_status = forms.ChoiceField(required=True, choices=PLAYER_STATUS)
 
     
