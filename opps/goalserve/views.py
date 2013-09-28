@@ -2,13 +2,18 @@
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import FormView
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from opps.db import Db
 from opps.views.generic.json_views import JSONResponse, JSONPResponse, JSONView
 
 from .models import Match, Category, Driver, F1Team
+from .models import MatchLineUp, Player, Team
 from .tasks import get_matches
 from .utils import data_match, serialize, get_tournament_standings
+from .forms import LineupAddForm
 
 from celery.result import AsyncResult
 from dateutil.tz import tzutc
@@ -17,11 +22,65 @@ import time
 UTC = tzutc()
 
 
+class CSRFExemptMixin(object):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(CSRFExemptMixin, self).dispatch(*args, **kwargs)
+
+        
+class LoginRequiredMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+        
+
+class SuccessURLMixin(object):
+    def get_success_url(self):
+        return self.request.path + "?status=success"
+
+        
+class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormView):
+    template_name = 'goalserve/lineupform.html'
+    form_class = LineupAddForm
+
+    def get_initial(self):
+        initial = {}
+        for field in self.form_class.base_fields.keys():
+            if field in self.request.GET:
+                initial[field] = self.request.GET.get(field)
+        return initial
+        
+    def form_valid(self, form):
+        data = form.cleaned_data
+        match = Match.objects.get(pk=data.get('match_id'))
+        team = Team.objects.get(pk=data.get('team_id'))
+        player = Player.objects.create(
+            name=data.get('player_name'),
+            number=data.get('player_number'),
+            position=data.get('player_position'),
+            team=team
+        )
+
+        MatchLineUp.objects.create(
+            team=team,
+            player=player,
+            player_position=player.position,
+            player_number=player.number,
+            match=match,
+            player_status=data.get('player_status'),
+            team_status=data.get('team_status'),
+        )
+        
+        return super(LineupAddView, self).form_valid(form)
+        
+
+        
 class JSONStandingsF1View(JSONView):
     def get_context_data(self, **kwargs):
         # agrregate tournaments
         return {}
 
+        
 class JSONStandingsDriversView(JSONView):
     def get_context_data(self, **kwargs):
         data = {
@@ -38,6 +97,7 @@ class JSONStandingsDriversView(JSONView):
         }
         return data
 
+        
 class JSONStandingsTeamsView(JSONView):
     def get_context_data(self, **kwargs):
         data = {

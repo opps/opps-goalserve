@@ -1,0 +1,10 @@
+{% load i18n %}
+{% if request.GET.status = 'success' %}
+<h1>{% trans "Player successfully added to lineup" %}</h1>
+{%else%}
+<form action="{{request.path}}" method="POST">
+{{form.as_p}}
+<hr />
+<input type="submit" value="Enviar" />
+</form>
+{% endif %}
