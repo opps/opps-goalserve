@@ -19,8 +19,12 @@ from .forms import LineupAddForm, LineupEditForm
 from celery.result import AsyncResult
 from dateutil.tz import tzutc
 import time
+import logging
 
 UTC = tzutc()
+
+
+logger = logging.getLogger()
 
 
 class CSRFExemptMixin(object):
@@ -39,6 +43,21 @@ class SuccessURLMixin(object):
     def get_success_url(self):
         return self.request.path + "?status=success"
 
+
+def set_to_manual(match):
+    try:
+        # put match in manual mode
+        # celery tasks will ignore lineup updates
+        match.set_extra(manual_mode=True)
+        match.save()
+    except Exception as e:
+        logger.warning(
+            "Error putting in manual mode {m.id} - {msg}".format(
+                m=match,
+                msg=str(e)
+            )
+        )
+
         
 class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormView):
     template_name = 'goalserve/lineupform.html'
@@ -54,6 +73,7 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormVi
     def form_valid(self, form):
         data = form.cleaned_data
         match = Match.objects.get(pk=data.get('match_id'))
+        set_to_manual(match)
         team = Team.objects.get(pk=data.get('team_id'))
         player = Player.objects.create(
             name=data.get('player_name'),
@@ -91,6 +111,8 @@ class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormV
         lineup = MatchLineUp.objects.get(
             pk=data.get('lineup_id'))
 
+        set_to_manual(lineup.match)
+
         lineup.player.name = data.get('player_name')
         lineup.player.position = data.get('player_position')
         lineup.player.number = data.get('player_number')
@@ -124,6 +146,7 @@ def lineup_delete(request):
 
     try:
         qs.delete()
+        set_to_manual(Match.objects.get(pk=int(match_id)))
     except:
         error = True
 
