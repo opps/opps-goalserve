@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from django.shortcuts import get_object_or_404
-
+from django.utils.text import slugify
 from dateutil.tz import tzutc
 
 from .models import Match, MatchStandings, Category
@@ -196,7 +196,7 @@ def get_tournament_standings():
     categories = Category.objects.filter(country__name='brazil')
 
     for category in categories:
-        item = {'title': category.name}
+        item = {'title': category.name, 'id': category.id, 'slug': slugify(category.name)}
 
         standings = MatchStandings.objects.filter(
             category=category).order_by('position')
