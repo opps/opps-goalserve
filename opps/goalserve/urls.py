@@ -4,7 +4,8 @@ from opps.goalserve.views import (match, ajax_categories_by_country_name,
                                   ajax_match_by_category_id, ajax_get_matches,
                                   get_task_status, JSONStandingsView,
                                   JSONStandingsF1View, JSONStandingsDriversView,
-                                  JSONStandingsTeamsView, LineupAddView)
+                                  JSONStandingsTeamsView, LineupAddView,
+                                  LineupEditView, lineup_delete)
 
 from tastypie.api import Api
 from opps.goalserve.api import PlayerResource
@@ -29,6 +30,7 @@ urlpatterns = patterns('',
     (r'^standings/f1/teams/', JSONStandingsTeamsView.as_view(), {}, 'standings-teams'),
     (r'^standings/f1/', JSONStandingsF1View.as_view(), {}, 'standings-f1'),
     (r'^standings/', JSONStandingsView.as_view(), {}, 'standings'),
-    (r'^lineup/add/', LineupAddView.as_view(), {}, 'lineup'),
-
+    (r'^lineup/add/', LineupAddView.as_view(), {}, 'lineup_add'),
+    (r'^lineup/edit/', LineupEditView.as_view(), {}, 'lineup_edit'),
+    (r'^lineup/delete/', lineup_delete, {}, 'lineup_delete'),
 )

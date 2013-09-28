@@ -13,7 +13,7 @@ from .models import Match, Category, Driver, F1Team
 from .models import MatchLineUp, Player, Team
 from .tasks import get_matches
 from .utils import data_match, serialize, get_tournament_standings
-from .forms import LineupAddForm
+from .forms import LineupAddForm, LineupEditForm
 
 from celery.result import AsyncResult
 from dateutil.tz import tzutc
@@ -74,7 +74,61 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormVi
         return super(LineupAddView, self).form_valid(form)
         
 
-        
+class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormView):
+    template_name = 'goalserve/lineupform.html'
+    form_class = LineupEditForm
+
+    def get_initial(self):
+        initial = {}
+        for field in self.form_class.base_fields.keys():
+            if field in self.request.GET:
+                initial[field] = self.request.GET.get(field)
+        return initial
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        lineup = MatchLineUp.objects.get(
+            pk=data.get('lineup_id'))
+
+        lineup.player.name = data.get('player_name')
+        lineup.player.position = data.get('player_position')
+        lineup.player.number = data.get('player_number')
+        lineup.player.save()
+
+        lineup.player_position = data.get('player_position')
+        lineup.player_number = data.get('player_number')
+        lineup.player_status = data.get('player_status')
+        lineup.save()
+
+        return super(LineupEditView, self).form_valid(form)
+
+
+@login_required
+def lineup_delete(request):
+    match_id = request.REQUEST.get('match_id')
+    lineup_id = request.REQUEST.get('lineup_id')
+
+    if not match_id or not lineup_id:
+        return HttpResponse("ERROR: Provide match_id and lineup_id")
+    
+    qs = MatchLineUp.objects.filter(
+        match__id=int(match_id),
+        pk=int(lineup_id)
+    )
+
+    if not qs.count():
+        return HttpResponse("ERROR: No object found to delete")
+
+    error = False
+
+    try:
+        qs.delete()
+    except:
+        error = True
+
+    return HttpResponse("SUCCESS" if not error else "ERROR")
+
+    
 class JSONStandingsF1View(JSONView):
     def get_context_data(self, **kwargs):
         # agrregate tournaments
