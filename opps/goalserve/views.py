@@ -67,7 +67,9 @@ class PostMixin(object):
 
         if response.lower() == "jsonp":
             if form.is_valid():
+                self.form_valid(form)
                 data = form.cleaned_data
+                data['lineup_id'] = self.lineup.id
                 data['error'] = False
                 return JSONPResponse(data)
             else:
@@ -105,7 +107,7 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMi
             team=team
         )
 
-        MatchLineUp.objects.create(
+        self.lineup = MatchLineUp.objects.create(
             team=team,
             player=player,
             player_position=player.position,
@@ -134,6 +136,7 @@ class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostM
         lineup = MatchLineUp.objects.get(
             pk=data.get('lineup_id'))
 
+        self.lineup = lineup
         set_to_manual(lineup.match)
 
         lineup.player.name = data.get('player_name')
