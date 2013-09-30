@@ -12,7 +12,7 @@ class LineupAddForm(forms.Form):
     player_number = forms.CharField(required=False)
     player_position = forms.CharField(required=False)
     player_status = forms.ChoiceField(required=True, choices=PLAYER_STATUS)
-
+    order = forms.CharField(required=False)
 
 class LineupEditForm(forms.Form):
     lineup_id = forms.CharField(required=True)
@@ -23,6 +23,6 @@ class LineupEditForm(forms.Form):
     player_number = forms.CharField(required=False)
     player_position = forms.CharField(required=False)
     player_status = forms.ChoiceField(required=True, choices=PLAYER_STATUS)
-
+    order = forms.CharField(required=False)
     
 
