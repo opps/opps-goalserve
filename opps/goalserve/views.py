@@ -70,6 +70,9 @@ class PostMixin(object):
                 self.form_valid(form)
                 data = form.cleaned_data
                 data['lineup_id'] = self.lineup.id
+                data['player_id'] = self.player.id
+                data['team_id'] = self.team.id
+                data['match_id'] = self.match.id
                 data['order'] = self.lineup.order
                 data['error'] = False
                 return JSONPResponse(data)
@@ -108,6 +111,10 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMi
             team=team
         )
 
+        self.player = player
+        self.team = team
+        self.match = match
+        
         self.lineup = MatchLineUp.objects.create(
             team=team,
             player=player,
@@ -152,6 +159,9 @@ class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostM
         lineup.save()
         
         self.lineup = lineup
+        self.player = lineup.player
+        self.team = lineup.team
+        self.match = lineup.match
         
         return super(LineupEditView, self).form_valid(form)
 
