@@ -139,6 +139,10 @@ class Country(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255, unique=True,
                             choices=COUNTRIES)
 
+    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    def get_name(self):
+        return self.display_name or self.name
+
     def __unicode__(self):
         return self.name
 
@@ -153,6 +157,10 @@ class Category(GoalServeModel):
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
 
+    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    def get_name(self):
+        return self.display_name or self.name
+
     # alias
 
     def __unicode__(self):
@@ -166,6 +174,12 @@ class Category(GoalServeModel):
 class Stadium(GoalServeModel, Base64Imaged):
 
     name = models.CharField(_("Stadium name"), max_length=255, null=True, blank=True)
+
+    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+
+    def get_name(self):
+        return self.display_name or self.name
+        
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
     surface = models.CharField(max_length=255, null=True, blank=True)
@@ -182,6 +196,11 @@ class Stadium(GoalServeModel, Base64Imaged):
 class Team(GoalServeModel, Base64Imaged):
 
     name = models.CharField(_("Team name"), max_length=255, null=True, blank=True)
+
+    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    def get_name(self):
+        return self.display_name or self.name
+
     full_name = models.CharField(_("Team full name"), max_length=255,
                                  null=True, blank=True)
     country = models.ForeignKey("goalserve.Country",
@@ -542,7 +561,10 @@ RACE_TYPES = (
 
 class F1Tournament(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255)
-
+    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    def get_name(self):
+        return self.display_name or self.name
+    
     class Meta:
         verbose_name = _('F1 Tournament')
         verbose_name_plural = _('F1 Tournaments')
@@ -554,6 +576,8 @@ class F1Tournament(GoalServeModel):
 class F1Track(models.Model):
     name = models.CharField(_("Name"), max_length=255)
 
+    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    
     country = models.CharField(_("Country"), max_length=255,
                                null=True, blank=True)
 
@@ -575,7 +599,9 @@ class F1Track(models.Model):
     def __unicode__(self):
         return u"{o.name} - {o.country} - {o.locality}".format(o=self)
 
-
+    def get_name(self):
+        return self.display_name or self.name
+        
     class Meta:
         verbose_name = _(u'F1 Track')
         verbose_name_plural = _(u'F1 Tracks')
