@@ -67,9 +67,13 @@ class PostMixin(object):
 
         if response == "jsonp":
             if form.is_valid():
-                return JSONPResponse(form.cleaned_data)
+                data = form.cleaned_data
+                data['error'] = False
+                return JSONPResponse(data)
             else:
-                return JSONPResponse(form.errors)
+                errors = form.errors
+                errors['error'] = True
+                return JSONPResponse(errors)
         else:
             if form.is_valid():
                 return self.form_valid(form)
