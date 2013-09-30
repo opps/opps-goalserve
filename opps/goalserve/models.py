@@ -682,3 +682,21 @@ class F1Commentary(GoalServeModel):
 
     def __unicode__(self):
         return self.comment
+
+
+class RaceDriverPosition(models.Model):
+    TABLE = (
+        ("1", _(u"Start")),
+        ("2", _(u"Real time")),
+        ("3", _(u"Final"))
+    )
+    race = models.ForeignKey(F1Race)
+    table = models.CharField(max_length=255, choices=TABLE)
+    driver = models.ForeignKey(Driver)
+    position = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('position',)
+
+    def __unicode__(self):
+        return u"{s.race} {s.driver.name} {s.table} {s.position}".format(s=self)

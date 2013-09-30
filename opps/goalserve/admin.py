@@ -29,6 +29,14 @@ class MatchAdmin(GoalServeAdmin):
     list_display = ['name', 'id', 'localteam', 'visitorteam', 'g_static_id',
                     'category']
 
+
+class RaceDriverPositionAdmin(admin.ModelAdmin):
+    search_fields = ['driver__name']
+    list_filter = ['race', 'table']
+    raw_id_fields = ['driver', 'race']
+    list_display = ['race', 'table', 'driver', 'position']
+
+admin.site.register(opps.goalserve.models.RaceDriverPosition, RaceDriverPositionAdmin)
 admin.site.register(opps.goalserve.models.Player, PlayerAdmin)
 admin.site.register(opps.goalserve.models.Team, TeamAdmin)
 admin.site.register(opps.goalserve.models.Match, MatchAdmin)
