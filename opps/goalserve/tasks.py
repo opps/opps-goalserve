@@ -9,7 +9,7 @@ from opps.db import Db
 
 from .crawler import Crawler
 from .no_photo import team_no_photo, player_no_photo
-from .actions import  get_match,get_schedule, get_standings, get_fixtures # set_team_image, set_player_image, set_stadium_image,
+from .actions import get_match, get_schedule, get_standings, get_fixtures # set_team_image, set_player_image, set_stadium_image,
 from .utils import data_match
 
 # TODO: set this model dynamically
@@ -17,6 +17,7 @@ from .utils import data_match
 from portal.transmission.models import Transmission
 
 GID = 'c93ce5a5b570433b8a7d96b3c53f119d'
+
 
 def log_it(s):
     try:
@@ -71,10 +72,13 @@ def set_images_for_active_transmissions(transmission_id=None):
 
 @celery.task.periodic_task(run_every=timezone.timedelta(minutes=15))
 def update_feed_for_active_transmissions(transmission_id=None):
+    start_date = timezone.now() - datetime.timedelta(hours=4)
+    end_date = timezone.now() + datetime.timedelta(hours=4)
     if not transmission_id:
         active_transmissions = Transmission.objects.filter(
-            published=True,
-            event_type__slug="soccer"
+            match__match_time__range=(start_date, end_date),
+            event_type__slug="soccer",
+            published=True
         )
     else:
         active_transmissions = Transmission.objects.filter(pk=transmission_id)
@@ -93,6 +97,7 @@ def update_feed_for_active_transmissions(transmission_id=None):
 
     log_it('update_feed_for_active_transmissions')
 
+
 @celery.task.periodic_task(run_every=timezone.timedelta(hours=24))
 def update_schedule():
     get_schedule()
@@ -101,16 +106,21 @@ def update_schedule():
 
 @celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
 def update_standings(transmission_id=None):
+    start_date = timezone.now() - datetime.timedelta(hours=24)
+    end_date = timezone.now() + datetime.timedelta(hours=24)
     if not transmission_id:
-        active_transmissions = Transmission.objects.filter(
+        countries = Transmission.objects.filter(
             published=True,
+            match__match_time__range=(start_date, end_date),
             event_type__slug="soccer"
-        )
+        ).values_list('match__category__country__name', flat=True)
     else:
-        active_transmissions = Transmission.objects.filter(pk=transmission_id)
+        countries = Transmission.objects.filter(
+            pk=transmission_id
+        ).values_list('match__category__country__name', flat=True)
 
-    for transmission in active_transmissions:
-        get_standings(country=transmission.match.category.country.name.lower())
+    for country in set(countries):
+        get_standings(country=country)
 
     log_it('update_standings')
 
