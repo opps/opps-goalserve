@@ -63,9 +63,9 @@ class PostMixin(object):
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        response = request.REQUEST.get('response')
+        response = request.REQUEST.get('response', '')
 
-        if response == "jsonp":
+        if response.lower() == "jsonp":
             if form.is_valid():
                 data = form.cleaned_data
                 data['error'] = False
@@ -153,8 +153,7 @@ class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostM
 def lineup_delete(request):
     match_id = request.REQUEST.get('match_id')
     lineup_id = request.REQUEST.get('lineup_id')
-    response = request.REQUEST.get(
-        'response')
+    response = request.REQUEST.get('response', '')
     
     if not match_id or not lineup_id:
         return HttpResponse("ERROR: Provide match_id and lineup_id")
@@ -175,7 +174,7 @@ def lineup_delete(request):
     except:
         error = True
 
-    if response == "jsonp":
+    if response.lower() == "jsonp":
         data = {"lineup_id": lineup_id, "match_id": match_id}
         if error:
             data["error"] = True
