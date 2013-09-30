@@ -128,14 +128,17 @@ def update_standings(transmission_id=None):
 @celery.task.periodic_task(run_every=timezone.timedelta(hours=8))
 def update_fixtures(transmission_id=None):
     if not transmission_id:
-        active_transmissions = Transmission.objects.filter(
+        countries = Transmission.objects.filter(
             published=True,
             event_type__slug="soccer"
-        )
-    else:
-        active_transmissions = Transmission.objects.filter(pk=transmission_id)
+        ).values_list('match__category__country__name', flat=True)
 
-    for transmission in active_transmissions:
-        get_fixtures(country=transmission.match.category.country.name.lower())
+    else:
+        countries = Transmission.objects.filter(
+            pk=transmission_id
+        ).values_list('match__category__country__name', flat=True)
+
+    for country in set(countries):
+        get_fixtures(country=country)
 
     log_it('update_standings')
