@@ -58,10 +58,29 @@ def set_to_manual(match):
             )
         )
 
-        
-class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormView):
+
+class PostMixin(object):
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        response = request.REQUEST.get('response')
+
+        if response == "jsonp":
+            if form.is_valid():
+                return JSONPResponse(form.cleaned_data)
+            else:
+                return JSONPResponse(form.errors)
+        else:
+            if form.is_valid():
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
+
+                
+class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMixin, FormView):
     template_name = 'goalserve/lineupform.html'
     form_class = LineupAddForm
+
 
     def get_initial(self):
         initial = {}
@@ -95,7 +114,7 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormVi
         return super(LineupAddView, self).form_valid(form)
         
 
-class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormView):
+class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMixin, FormView):
     template_name = 'goalserve/lineupform.html'
     form_class = LineupEditForm
 
@@ -130,7 +149,9 @@ class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, FormV
 def lineup_delete(request):
     match_id = request.REQUEST.get('match_id')
     lineup_id = request.REQUEST.get('lineup_id')
-
+    response = request.REQUEST.get(
+        'response')
+    
     if not match_id or not lineup_id:
         return HttpResponse("ERROR: Provide match_id and lineup_id")
     
@@ -150,7 +171,16 @@ def lineup_delete(request):
     except:
         error = True
 
-    return HttpResponse("SUCCESS" if not error else "ERROR")
+    if response == "jsonp":
+        data = {"lineup_id": lineup_id, "match_id": match_id}
+        if error:
+            data["error"] = True
+        else:
+            data["error"] = False
+            
+        return JSONPResponse(data)
+    else:
+        return HttpResponse("SUCCESS" if not error else "ERROR")
 
 
 @login_required
