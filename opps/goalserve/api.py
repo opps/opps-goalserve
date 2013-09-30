@@ -2,12 +2,13 @@
 
 import logging
 
-from opps.goalserve.models import Team, Player, F1Team, Driver, MatchLineUp
+from opps.goalserve.models import Team, Player, F1Team, Driver, MatchLineUp, RaceDriverPosition
 
 # tastypie
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.exceptions import Unauthorized
+from tastypie.resources import ALL, ALL_WITH_RELATIONS
 
 
 logger = logging.getLogger()
@@ -53,6 +54,25 @@ class GoalserveAuthorization(Authorization):
 
     def delete_detail(self, object_list, bundle):
         raise Unauthorized("Sorry, no deletes.")
+
+
+class RaceDriverPositionResoure(ModelResource):
+    class Meta:
+        queryset = RaceDriverPosition.objects.all()
+        resource_name = "racedriverposition"
+        authorization = GoalserveAuthorization()
+        filtering = {
+            'race': ALL_WITH_RELATIONS,
+            'driver': ALL_WITH_RELATIONS,
+            'table': ALL,
+        }
+
+    def dehydrate(self, bundle):
+        # import ipdb;ipdb.set_trace()
+        bundle.data['race_id'] = bundle.obj.race.id
+        bundle.data['driver_id'] = bundle.obj.driver.id
+        return bundle
+
 
 class PlayerResource(ModelResource):
     class Meta:

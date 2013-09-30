@@ -8,10 +8,11 @@ from opps.goalserve.views import (match, ajax_categories_by_country_name,
                                   LineupEditView, lineup_delete, lineup_list)
 
 from tastypie.api import Api
-from opps.goalserve.api import PlayerResource
+from opps.goalserve.api import PlayerResource, RaceDriverPositionResoure
 
 v1_api = Api(api_name='v1')
 v1_api.register(PlayerResource())
+v1_api.register(RaceDriverPositionResoure())
 
 urlpatterns = patterns('',
     (r'^match/(?P<match_pk>\d+)/(?P<mode>\w+)/$', match, {}, 'match'),
