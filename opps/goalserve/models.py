@@ -33,6 +33,12 @@ PLAYER_STATUS = (
     ('player', _('Player'))
 )
 
+PLAYER_POSITION = {
+    'goalkeeper': _("Goal Keeper"),
+    'midfielder': _("Mid Fielder"),
+    'attacker': _("Attacker"),
+}
+
 
 class GoalServeModel(models.Model):
 
@@ -256,6 +262,12 @@ class Player(GoalServeModel, Base64Imaged):
         verbose_name = _('Player')
         verbose_name_plural = _('Players')
 
+    def get_position(self):
+        return PLAYER_POSITION.get(
+            self.position.lower() if self.position else '',
+            self.position
+        )
+
 
 class Match(GoalServeModel):
 
@@ -419,6 +431,12 @@ class MatchLineUp(models.Model):
 
     order = models.IntegerField(_("Order"), default=0)
 
+    def get_position(self):
+        return PLAYER_POSITION.get(
+            self.player_position.lower() if self.player_position else '',
+            self.player_position
+        )
+        
     def __unicode__(self):
         return u"{} - {} - {}".format(self.match, self.player.name, self.team.name)
 
