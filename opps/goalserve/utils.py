@@ -137,6 +137,7 @@ def get_players(_players):
 
         player['number'] = _player.player_number or _player.player.number
         player['status'] = _player.player_status
+        player['order'] = _player.order
         # player['position'] = _player.player_position or player['position']
         player['image'] = _player.player.image_url
 
