@@ -226,9 +226,11 @@ class JSONStandingsDriversView(JSONView):
     def get_context_data(self, **kwargs):
         data = {
             'drivers': [
-                {"name": driver.name,
+                {"name": driver.get_name(),
                  "post": driver.post,
-                 "team": driver.team.name if driver.team else "",
+                 "helmet": driver.helmet_url,
+                 "country": driver.country,
+                 "team": driver.team.get_name() if driver.team else "",
                  "points": driver.points}
                 for driver in sorted(
                     [driver for driver in Driver.objects.filter(post__isnull=False)],
@@ -243,7 +245,7 @@ class JSONStandingsTeamsView(JSONView):
     def get_context_data(self, **kwargs):
         data = {
             'teams': [
-                {"name": team.name,
+                {"name": team.get_name(),
                  "post": team.post,
                  "points": team.points}
                 for team in sorted(

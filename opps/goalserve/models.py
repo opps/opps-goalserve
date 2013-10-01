@@ -673,6 +673,10 @@ class F1Team(GoalServeModel, Base64Imaged):
     name = models.CharField(_("Name"), max_length=255)
     post = models.IntegerField(_("Post"), null=True, blank=True)
     points = models.IntegerField(_("Points"), null=True, blank=True)
+    display_name = models.CharField(_('Display name'), blank=True, null=True, max_length=255)
+
+    def get_name(self):
+        return self.display_name or self.name
 
     class Meta:
         verbose_name = _('F1 Team')
@@ -689,6 +693,20 @@ class Driver(GoalServeModel, Base64Imaged):
     post = models.IntegerField(_("Post"), null=True, blank=True)
     points = models.IntegerField(_("Points"), null=True, blank=True)
 
+    helmet = models.ForeignKey('images.Image', null=True, blank=True, related_name='driver_helmet')
+    display_name = models.CharField(_('Display name '), blank=True, null=True, max_length=255)
+
+    country = models.CharField(_('Country'), null=True, blank=True, max_length=255)
+    
+    def get_name(self):
+        return self.display_name or self.name
+
+    @property
+    def helmet_url(self):
+        if not self.helmet:
+            return "http;//placehold.it/50x50/"
+        return self.helmet.archive.url
+        
     class Meta:
         verbose_name = _('Driver')
         verbose_name_plural = _('Drivers')
