@@ -354,6 +354,33 @@ class Match(GoalServeModel):
     def visitor_lineup(self):
         return self.matchlineup_set.filter(team=self.visitorteam)
 
+    def get_transmission_events(self):
+        t = self.transmission_set.filter(
+            transmissionevent__isnull=False
+        )
+        if not t:
+            return {}
+
+        t = t[0]
+
+        return [
+           {
+               "id_message": e.id_message,
+               "event": e.event,
+               "minute": e.minute,
+               "team": e.team.id if e.team else '',
+               "player": e.player.id if e.player else '', 
+               "player_in": e.player_in.id if e.player_in else '',
+               "player_out": e.player_out.id if e.player_out else '',
+               "f1team": e.f1team.id if e.f1team else '',
+               "driver": e.driver.id if e.driver else '',
+               "acao": e.acao,
+               "half": e.half,
+               "text": e.text
+           }
+           for e in t.transmissionevent_set.all()
+        ]
+        
     class Meta:
         verbose_name = _('Match')
         verbose_name_plural = _('Matches')
