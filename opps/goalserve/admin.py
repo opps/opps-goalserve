@@ -52,7 +52,7 @@ class RaceAdmin(GoalServeAdmin):
         return qs.filter(**self.opps_filters)
 
 class DriverAdmin(GoalServeAdmin):
-    raw_id_fields = ['team', 'image_file']
+    raw_id_fields = ['team', 'image_file', 'helmet']
     list_filter = ['team']
 
 class ResultsAdmin(GoalServeAdmin):
