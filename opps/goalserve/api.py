@@ -71,6 +71,18 @@ class RaceDriverPositionResoure(ModelResource):
         # import ipdb;ipdb.set_trace()
         bundle.data['race_id'] = bundle.obj.race.id
         bundle.data['driver_id'] = bundle.obj.driver.id
+        bundle.data['driver_name'] = bundle.obj.driver.name
+        bundle.data['driver_display_name'] = bundle.obj.driver.display_name
+        bundle.data['driver_helmet'] = bundle.obj.driver.helmet_url
+        bundle.data['driver_country'] = bundle.obj.driver.country
+        
+        try:
+            bundle.data['team_name'] = bundle.obj.driver.team.name
+            bundle.data['team_display_name'] = bundle.obj.driver.team.display_name
+        except:
+            bundle.data['team_name'] = ''
+            bundle.data['team_display_name'] = ''
+            
         return bundle
 
 
