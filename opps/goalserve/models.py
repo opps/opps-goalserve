@@ -731,7 +731,7 @@ class Driver(GoalServeModel, Base64Imaged):
     @property
     def helmet_url(self):
         if not self.helmet:
-            return "http;//placehold.it/50x50/"
+            return "http://placehold.it/32x32/"
         return self.helmet.archive.url
         
     class Meta:
