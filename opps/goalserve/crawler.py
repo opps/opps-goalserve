@@ -912,13 +912,21 @@ class Crawler(object):
 
 
     def f1_get_driver(self, driver, _team=None):
+        did = driver.get('@id') or driver.get('@driver_id')
+        if not did:
+            did = driver.get('@name', '').lower().strip()
+            
         try:
             _driver, created = Driver.objects.get_or_create(
-                g_driver_id=driver.get('@id')
+                g_driver_id=did
             )
 
             _driver.name = _driver.name or driver.get("@name")
 
+            print driver
+            print _driver
+            print created
+            
             if driver.get("@post"):
                 _driver.post = driver.get("@post") or None
             if driver.get('@points'):
