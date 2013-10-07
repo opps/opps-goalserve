@@ -4,12 +4,15 @@ import json
 import celery
 import datetime
 from django.utils import timezone
+from django.conf import settings
 
 from opps.db import Db
 
 from .crawler import Crawler
 from .no_photo import team_no_photo, player_no_photo
-from .actions import get_match, get_schedule, get_standings, get_fixtures # set_team_image, set_player_image, set_stadium_image,
+from .actions import get_match, get_schedule, get_standings, get_fixtures, goalserve
+
+# set_team_image, set_player_image, set_stadium_image,
 from .utils import data_match
 
 # TODO: set this model dynamically
@@ -70,7 +73,7 @@ def set_images_for_active_transmissions(transmission_id=None):
     log_it('set_images_for_active_transmissions')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(minutes=15))
+@celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
 def update_feed_for_active_transmissions(transmission_id=None):
     start_date = timezone.now() - datetime.timedelta(hours=4)
     end_date = timezone.now() + datetime.timedelta(hours=4)
@@ -104,7 +107,7 @@ def update_schedule():
     log_it('update_schedule')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
+@celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
 def update_standings(transmission_id=None):
     start_date = timezone.now() - datetime.timedelta(hours=24)
     end_date = timezone.now() + datetime.timedelta(hours=24)
@@ -125,6 +128,14 @@ def update_standings(transmission_id=None):
     log_it('update_standings')
 
 
+@celery.task.periodic_task(run_every=timezone.timedelta(minutes=30))
+def update_general_standings():
+    countries = getattr(settings, 'OPPS_GOALSERVE_STANDINGS_COUNTRIES', ['brazil'])
+    for country in countries:
+        get_standings(country=country)
+    log_it('update_general__standings')
+
+
 @celery.task.periodic_task(run_every=timezone.timedelta(hours=8))
 def update_fixtures(transmission_id=None):
     if not transmission_id:
@@ -142,3 +153,18 @@ def update_fixtures(transmission_id=None):
         get_fixtures(country=country)
 
     log_it('update_standings')
+
+
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
+def update_f1_drivers():
+    goalserve('get_f1_drivers')
+
+
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=6))
+def update_f1_races():
+    goalserve('get_races', feed='f1-shedule')
+
+
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=8))
+def update_f1_results():
+    goalserve('get_races', feed='f1-results')
