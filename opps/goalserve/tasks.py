@@ -155,16 +155,16 @@ def update_fixtures(transmission_id=None):
     log_it('update_standings')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(hours=4))
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=1))
 def update_f1_drivers():
     goalserve('get_f1_drivers')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(hours=6))
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=24))
 def update_f1_races():
     goalserve('get_races', feed='f1-shedule')
 
-
-@celery.task.periodic_task(run_every=timezone.timedelta(hours=8))
+    
+@celery.task.periodic_task(run_every=timezone.timedelta(hours=1))
 def update_f1_results():
     goalserve('get_races', feed='f1-results')
