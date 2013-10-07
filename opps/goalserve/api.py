@@ -2,7 +2,7 @@
 
 import logging
 
-from opps.goalserve.models import Team, Player, F1Team, Driver, MatchLineUp, RaceDriverPosition
+from opps.goalserve.models import Team, Player, F1Team, Driver, MatchLineUp, RaceDriverPosition, F1Race, F1Results
 
 # tastypie
 from tastypie.authorization import Authorization
@@ -67,6 +67,29 @@ class RaceDriverPositionResoure(ModelResource):
             'table': ALL,
         }
 
+   
+    def alter_list_data_to_serialize(self, request, data):
+        race_id = request.GET.get('race__id')
+        if race_id:
+            race = F1Race.objects.get(pk=race_id)
+            results =  F1Results.objects.filter(
+                race__tournament=race.tournament,
+            ).order_by('pos')
+            data['qualification'] = [
+                {'driver': r.driver.get_name(),
+                 'pos': r.pos,
+                 'team': r.team.get_name()}
+                for r in results.filter(race__race_type='qualification')
+            ]
+            data['race'] = [
+                {'driver': r.driver.get_name(),
+                 'pos': r.pos,
+                 'team': r.team.get_name()}
+                for r in results.filter(race__race_type='race')
+            ]
+            
+        return data
+        
     def dehydrate(self, bundle):
         # import ipdb;ipdb.set_trace()
         bundle.data['race_id'] = bundle.obj.race.id
