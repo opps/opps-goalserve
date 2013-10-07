@@ -53,6 +53,7 @@ class Crawler(object):
         self.update_all_players = update_all_players
         self.update_all_teams = update_all_teams
         self.verbose = verbose
+        self.cache = {}
 
     def verbose_print(self, s):
         if self.verbose:
@@ -65,13 +66,18 @@ class Crawler(object):
             )
 
     def get(self, url):
+        if url in self.cache:
+            return self.cache[url]
+            
         self.verbose_print("getting {0}".format(url))
         try:
-            return parse(
+            data = parse(
                 urllib.urlopen(
                     DOMAIN + url
                 ).read()
             )
+            self.cache[url] = data
+            return data
         except Exception as e:
             self.verbose_print(str(e))
             return None
