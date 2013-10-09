@@ -2,13 +2,16 @@
 
 import logging
 
+from opps.contrib.notifications.tasks import notify
 from opps.goalserve.models import Team, Player, F1Team, Driver, MatchLineUp, RaceDriverPosition, F1Race, F1Results
+from opps.containers.models import Container
 
 # tastypie
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.exceptions import Unauthorized
-from tastypie.resources import ALL, ALL_WITH_RELATIONS
+from tastypie.resources import ALL, ALL_WITH_RELATIONS, convert_post_to_patch
+
 
 
 logger = logging.getLogger()
@@ -56,7 +59,24 @@ class GoalserveAuthorization(Authorization):
         raise Unauthorized("Sorry, no deletes.")
 
 
-class RaceDriverPositionResoure(ModelResource):
+class SSEMixin(object):
+    def patch_list(self, request, **kwargs):
+        response = super(SSEMixin, self).patch_list(request, **kwargs)
+
+        patch = convert_post_to_patch(request)
+        data = self.deserialize(patch, patch.body)
+        
+        try:
+            objects = data.get('objects', [])
+            container = Container.objects.get(pk=data.get('container_id'))
+            notify.delay(objects, type="json", container=container, user=request.user)            
+        except Exception as e:
+            logger.error("Impossible to create notification {}, {}".format(data, e))
+
+        return response
+        
+        
+class RaceDriverPositionResoure(SSEMixin, ModelResource):
     class Meta:
         queryset = RaceDriverPosition.objects.all()
         resource_name = "racedriverposition"
@@ -77,12 +97,14 @@ class RaceDriverPositionResoure(ModelResource):
             ).order_by('pos')
             data['qualification'] = [
                 {'driver': r.driver.get_name(),
+                 'driver_id': r.driver.id,
                  'pos': r.pos,
                  'team': r.team.get_name()}
                 for r in results.filter(race__race_type='qualification')
             ]
             data['race'] = [
                 {'driver': r.driver.get_name(),
+                 'driver_id': r.driver.id,
                  'pos': r.pos,
                  'team': r.team.get_name()}
                 for r in results.filter(race__race_type='race')
@@ -109,7 +131,7 @@ class RaceDriverPositionResoure(ModelResource):
         return bundle
 
 
-class PlayerResource(ModelResource):
+class PlayerResource(SSEMixin, ModelResource):
     class Meta:
         queryset = Player.objects.all()
         resource_name = "player"
@@ -117,6 +139,7 @@ class PlayerResource(ModelResource):
         excludes = ('image_base', 'created_at', 'extra', 'g_bet_id',
                     'g_driver_id', 'g_event_id', 'g_fix_id', 'g_player_id',
                     'g_static_id', 'g_team_id')
+
 
     def hydrate(self, bundle):
 
