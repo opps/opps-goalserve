@@ -65,17 +65,17 @@ class SSEMixin(object):
 
         patch = convert_post_to_patch(request)
         data = self.deserialize(patch, patch.body)
-        
+
         try:
             objects = data.get('objects', [])
             container = Container.objects.get(pk=data.get('container_id'))
-            notify.delay(objects, type="json", container=container, user=request.user)            
+            notify.delay(objects, type="json", container=container, user=request.user)
         except Exception as e:
             logger.error("Impossible to create notification {}, {}".format(data, e))
 
         return response
-        
-        
+
+
 class RaceDriverPositionResoure(SSEMixin, ModelResource):
     class Meta:
         queryset = RaceDriverPosition.objects.all()
@@ -87,7 +87,7 @@ class RaceDriverPositionResoure(SSEMixin, ModelResource):
             'table': ALL,
         }
 
-   
+
     def alter_list_data_to_serialize(self, request, data):
         race_id = request.GET.get('race__id')
         if race_id:
@@ -109,9 +109,9 @@ class RaceDriverPositionResoure(SSEMixin, ModelResource):
                  'team': r.team.get_name()}
                 for r in results.filter(race__race_type='race')
             ]
-            
+
         return data
-        
+
     def dehydrate(self, bundle):
         # import ipdb;ipdb.set_trace()
         bundle.data['race_id'] = bundle.obj.race.id
@@ -120,14 +120,37 @@ class RaceDriverPositionResoure(SSEMixin, ModelResource):
         bundle.data['driver_display_name'] = bundle.obj.driver.display_name
         bundle.data['driver_helmet'] = bundle.obj.driver.helmet_url
         bundle.data['driver_country'] = bundle.obj.driver.country
-        
+
         try:
             bundle.data['team_name'] = bundle.obj.driver.team.name
             bundle.data['team_display_name'] = bundle.obj.driver.team.display_name
         except:
             bundle.data['team_name'] = ''
             bundle.data['team_display_name'] = ''
-            
+
+        return bundle
+
+
+    def save(self, bundle, **kwargs):
+        obj_id = bundle.data.get('id')
+        race = F1Race.objects.get(pk=bundle.data.get('race_id'))
+        table = bundle.data.get('table')
+        driver = Driver.objects.get(pk=bundle.data.get('driver_id'))
+        position = bundle.data.get('position', 0)
+        if obj_id:
+            # existing should update
+            obj = RaceDriverPosition.objects.get(pk=obj_id)
+            obj.table = table
+            obj.position = position
+            obj.save()
+        else:
+            # new should create
+            RaceDriverPosition.objects.create(
+                race=race,
+                table=table,
+                driver=driver,
+                position=position
+            )
         return bundle
 
 
