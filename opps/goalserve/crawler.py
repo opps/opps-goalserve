@@ -551,7 +551,7 @@ class Crawler(object):
                         if match_id == [None]:
                             match_id = None
 
-                        if match_id:
+                        if match_id and not match.get('@status', '').strip() in ('TBA',):
                             # print "passed match id", match_id
                             if isinstance(match_id, list):
                                 if any(match_id):
