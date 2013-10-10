@@ -68,7 +68,7 @@ class Crawler(object):
     def get(self, url):
         if url in self.cache:
             return self.cache[url]
-            
+
         self.verbose_print("getting {0}".format(url))
         try:
             data = parse(
@@ -502,11 +502,12 @@ class Crawler(object):
                 data = self.get(url)
 
                 if not data:
-                    return
+                    continue
 
                 categories = data['scores'].get('category')
                 if not categories:
                     continue
+
                 if not isinstance(categories, list):
                     categories = [categories]
 
@@ -575,10 +576,12 @@ class Crawler(object):
                             visitorteam = match.get('visitorteam')
 
                             _match.status=match.get('@status')
+
                             _match.match_time=self.parse_date(
                                            match.get('@formatted_date'),
                                            match.get('@time')
                             )
+
                             _match.localteam=self.get_team(localteam, get_players=get_players)
                             _match.visitorteam=self.get_team(visitorteam, get_players=get_players)
                             _match.ht_result=match.get('ht', {}).get('@score')
@@ -915,7 +918,7 @@ class Crawler(object):
         did = driver.get('@id') or driver.get('@driver_id')
         if not did:
             did = driver.get('@name', '').lower().strip()
-            
+
         try:
             _driver, created = Driver.objects.get_or_create(
                 g_driver_id=did
@@ -923,7 +926,7 @@ class Crawler(object):
 
             _driver.name = _driver.name or driver.get("@name")
 
-                        
+
             if driver.get("@post"):
                 _driver.post = driver.get("@post") or None
             if driver.get('@points'):
