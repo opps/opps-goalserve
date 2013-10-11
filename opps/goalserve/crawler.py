@@ -678,6 +678,9 @@ class Crawler(object):
                     _matchstandings.total_gd = team.get('total', {}).get('@gd')
                     _matchstandings.total_p = team.get('total', {}).get('@p')
 
+                    #if team.get('@id') == "7254":
+                    #    print team.get('total')
+                    
                     _matchstandings.overall_gp = team.get('overall', {}).get('@gp')
                     _matchstandings.overall_w = team.get('overall', {}).get('@w')
                     _matchstandings.overall_l = team.get('overall', {}).get('@l')

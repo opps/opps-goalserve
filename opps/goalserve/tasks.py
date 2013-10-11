@@ -128,7 +128,7 @@ def update_standings(transmission_id=None):
     log_it('update_standings')
 
 
-@celery.task.periodic_task(run_every=timezone.timedelta(minutes=30))
+@celery.task.periodic_task(run_every=timezone.timedelta(minutes=5))
 def update_general_standings():
     countries = getattr(settings, 'OPPS_GOALSERVE_STANDINGS_COUNTRIES', ['brazil'])
     for country in countries:
