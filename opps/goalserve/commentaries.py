@@ -28,6 +28,7 @@ COMMENTARIES = {
     'spain': ['spain.xml', 'spain_cup.xml', 'spain_segunda.xml'],
     'home': ['sudamericana.xml'],
     'southamerica': ['sudamericana.xml'],
+    'world': ['intl_friendly.xml'],
     # france.xml
     # france_cup.xml
     # france_league2.xml

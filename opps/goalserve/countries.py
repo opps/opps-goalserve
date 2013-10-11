@@ -67,4 +67,5 @@ COUNTRIES = (
  (u'venezuela', _(u'Venezuela')),
  (u'wales', _(u'Wales')),
  (u'worldcup', _(u'World Cup')),
+ (u'world', _(u'World')),
 )

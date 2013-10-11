@@ -2,6 +2,9 @@
 
 import urllib
 import datetime
+
+from django.conf import settings
+
 from .xml2dict import parse
 from .countries import COUNTRIES
 from .commentaries import COMMENTARIES
@@ -13,6 +16,8 @@ from .models import (Country, Category, Match, Team, Stadium, Player, MatchLineU
                     F1Track)
 
 DOMAIN = 'http://www.goalserve.com'
+
+GID = getattr(settings, "OPPS_GOALSERVE_GID", "")
 
 COUNTRIES = [country[0] for country in COUNTRIES]
 
@@ -47,9 +52,9 @@ TZ_DELTA = datetime.timedelta(hours=3)
 
 
 class Crawler(object):
-    def __init__(self, gid, update_all_players=False, update_all_teams=False,
+    def __init__(self, gid=None, update_all_players=False, update_all_teams=False,
                  verbose=False):
-        self.gid = gid
+        self.gid = gid or GID
         self.update_all_players = update_all_players
         self.update_all_teams = update_all_teams
         self.verbose = verbose
@@ -219,17 +224,29 @@ class Crawler(object):
         self.verbose_print(_player)
         return _player
 
-    def get_commentaries(self, _match, country_name=None, commentary_available=None):
+
+    def get_commentaries_for_match_id(self, match_id, force_feed=None):
+        _match = Match.objects.filter(g_static_id=match_id)[0]
+        self.get_commentaries(_match, force_feed=force_feed)
+        
+    def get_commentaries(self, _match, country_name=None, commentary_available=None, force_feed=None):
         # print "getting commentaries"
         # print "commentary_available", commentary_available
         self.verbose_print("Getting comments, feed available {0}".format(commentary_available))
 
+        self.verbose_print(force_feed)
+        
         if commentary_available:
             xmls = ["{}.xml".format(commentary_available)]
+        elif force_feed:
+            xmls = [force_feed] if not isinstance(force_feed, list) else force_feed
         else:
             xmls = COMMENTARIES.get(country_name or _match.category.country.name, [])
 
+        self.verbose_print(xmls)
+            
         for xml in xmls:
+            self.verbose_print("will get comments from {0}".format(xml))
             data = self.get(
                 URLS.get('comments').format(gid=self.gid, xml=xml)
             )
@@ -477,7 +494,8 @@ class Crawler(object):
 
 
     def get_matches(self, countries=COUNTRIES, match_id=None,
-                    get_players=True, cat_id=None, schedule=False):
+                    get_players=True, cat_id=None, schedule=False,
+                    force_feed=None):
         self.verbose_print("Getting matches")
         for country in countries:
             _country, created = Country.objects.get_or_create(
@@ -489,6 +507,8 @@ class Crawler(object):
             if cat_id:
                 url = URLS.get('home_cat').format(gid=self.gid, cat_id=cat_id)
                 urls.append(url)
+            elif force_feed:
+                urls.append(force_feed)
             else:
                 for xml_url in URLS.get('matches'):
                     url = xml_url.format(
@@ -500,6 +520,8 @@ class Crawler(object):
             for url in urls:
 
                 data = self.get(url)
+
+                self.verbose_print("already get data")
 
                 if not data:
                     continue
