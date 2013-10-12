@@ -865,15 +865,19 @@ class Crawler(object):
                    race_type=race_type
                 )
 
-                _race.status = race.get('@status')
-                _race.race_time = self.parse_date(race.get('@date'),
-                                                  race.get('@time'),
-                                                  '%d/%m/%Y %H:%M')
-                _race.total_laps = race.get('@total_laps')
-                _race.laps_running = race.get('@laps_running')
-                _race.distance = race.get('@distance')
-                _race.track = self.get_track_by_name(race.get('@track'))
-                _race.save()
+                if _race.get_extra('manual_mode'):
+                    # print "not updating data race is in manual_mode"
+                    self.verbose_print("Race is in manual mode")
+                else:    
+                    _race.status = race.get('@status')
+                    _race.race_time = self.parse_date(race.get('@date'),
+                                                      race.get('@time'),
+                                                      '%d/%m/%Y %H:%M')
+                    _race.total_laps = race.get('@total_laps')
+                    _race.laps_running = race.get('@laps_running')
+                    _race.distance = race.get('@distance')
+                    _race.track = self.get_track_by_name(race.get('@track'))
+                    _race.save()
 
                 # print race.keys()
 

@@ -151,6 +151,9 @@ class RaceDriverPositionResoure(SSEMixin, ModelResource):
                 driver=driver,
                 position=position
             )
+
+        race.set_extra(manual_mode=True)
+        race.save()
         return bundle
 
 

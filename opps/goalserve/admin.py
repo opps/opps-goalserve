@@ -47,6 +47,10 @@ class RaceAdmin(GoalServeAdmin):
     list_filter = ['tournament']
     opps_filters = FILTERS.get('RaceAdmin', {})
 
+    def save_model(self, request, obj, form, change):
+        obj.set_extra(manual_mode=True)
+        obj.save()
+        
     def queryset(self, request):
         qs = super(RaceAdmin, self).queryset(request)
         return qs.filter(**self.opps_filters)
