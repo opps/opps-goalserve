@@ -4,6 +4,7 @@ import urllib
 import datetime
 
 from django.conf import settings
+from django.core.exceptions import MultipleObjectsReturned
 
 from .xml2dict import parse
 from .countries import COUNTRIES
@@ -860,10 +861,16 @@ class Crawler(object):
                 if not race:
                     continue
 
-                _race, created = F1Race.objects.get_or_create(
-                   tournament=_tournament,
-                   race_type=race_type
-                )
+                try:
+                    _race, created = F1Race.objects.get_or_create(
+                       tournament=_tournament,
+                       race_type=race_type
+                    )
+                except MultipleObjectsReturned:
+                    _race = F1Race.objects.filter(
+                        tournament=_tournament,
+                        race_type=race_type
+                    )[0]
 
                 if _race.get_extra('manual_mode'):
                     # print "not updating data race is in manual_mode"
