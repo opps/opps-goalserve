@@ -646,7 +646,7 @@ class F1Track(models.Model):
 
     def get_name(self):
         return self.display_name or self.name
-        
+
     class Meta:
         verbose_name = _(u'F1 Track')
         verbose_name_plural = _(u'F1 Tracks')
@@ -678,6 +678,18 @@ class F1Race(GoalServeModel, Base64Imaged):
 
     def __unicode__(self):
         return u"{self.race_type} - {self.tournament}".format(self=self)
+
+    @property
+    def lap_length(self):
+        """
+        Lap is served in miles
+        """
+        if self.distance:
+            try:
+                return round(float(self.distance) / 100 * 1.6, 3)
+            except:
+                return self.distance
+        return 0
 
     @property
     def results(self):
