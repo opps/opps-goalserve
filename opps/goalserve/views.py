@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.db.models import Q
 
 from opps.db import Db
 from opps.views.generic.json_views import JSONResponse, JSONPResponse, JSONView
@@ -261,6 +262,118 @@ class JSONStandingsView(JSONView):
     def get_context_data(self, **kwargs):
         return get_tournament_standings()
 
+
+class JSONCategoryView(JSONView):
+    def get_context_data(self, **kwargs):
+        start = int(self.request.REQUEST.get('start', 0))
+        end = int(self.request.REQUEST.get('end', 200))
+        filters = dict(country__isnull=False)
+        request_filters = self.request.GET.dict()
+
+        if 'start' in request_filters:
+            del request_filters['start']
+        if 'end' in request_filters:
+            del request_filters['end']
+
+        filters.update(request_filters)
+        categories = Category.objects.filter(
+            **filters)
+
+        return {
+
+           "objects:": [
+               {
+                  "id": category.id,
+                  "name": category.name,
+                  "display_name": category.display_name,
+                  "country": category.country.name,
+                  "goalserve_id": category.g_id  
+               }
+                for category in categories[start: end]
+           ],
+           "meta": {
+               "start": start,
+               "end": end,
+               "total": categories.count(),
+               "filters": filters
+           } 
+       }        
+
+        
+class JSONMatchView(JSONView):
+    def get_context_data(self, **kwargs):
+        start = int(self.request.REQUEST.get('start', 0))
+        end = int(self.request.REQUEST.get('end', 100))
+        filters = dict(visitorteam__isnull=False, localteam__isnull=False,
+                       category__isnull=False)
+        request_filters = self.request.GET.dict()
+
+        team_name = self.request.REQUEST.get('team_name')
+        team_id = self.request.REQUEST.get('team_id')
+
+        if 'start' in request_filters:
+            del request_filters['start']
+        if 'end' in request_filters:
+            del request_filters['end']
+        if 'team_name' in request_filters:
+            del request_filters['team_name']
+        if 'team_id' in request_filters:
+            del request_filters['team_id']
+                        
+        filters.update(request_filters)
+        matches = Match.objects.filter(
+            **filters)
+
+        if team_name:
+            matches = matches.filter(
+                Q(localteam__name__icontains=team_name) |
+                Q(visitorteam__name__icontains=team_name)
+            )
+
+        if team_id:
+            matches = matches.filter(
+               Q(localteam__id=team_id) | Q(visitorteam__id=team_id)
+            )
+        
+        matches = matches.order_by('-match_time')
+
+        return {
+
+           "objects:": [
+               {
+                  "id": match.id,
+                  "name": u"{m.localteam.name} x {m.visitorteam.name}".format(
+                      m=match),
+                  "status": match.status,
+                  "category": match.category.name,
+                  "category_display_name": match.category.display_name,
+                  "match_time": match.match_time.strftime("%Y-%m-%d %H:%M") if match.match_time else '',
+                  "localteam_id": match.localteam.id,
+                   "localteam_name": match.localteam.name,
+                   "localteam_display_name": match.localteam.display_name,
+                  "visitorteam_id": match.visitorteam.id,
+                   "visitorteam_name": match.visitorteam.name,
+                   "visitorteam_display_name": match.visitorteam.display_name,
+                   "stadium": match.stadium.name if match.stadium else '',
+                   "stadium_display_name": match.stadium.display_name if match.stadium else '',
+                   "week_number": match.week_number,
+                   "localteam_goals": match.localteam_goals,
+                   "visitorteam_goals": match.visitorteam_goals,
+                   "localteam_image": match.localteam.image_url,
+                   "visitorteam_image": match.visitorteam.image_url,
+                   "goalserve_id": match.g_id
+               }
+                for match in matches[start: end]
+           ],
+           "meta": {
+               "start": start,
+               "end": end,
+               "total": matches.count(),
+               "filters": filters
+           } 
+       }
+
+    
 def response_mimetype(request):
     if "application/json" in request.META['HTTP_ACCEPT']:
         return "application/json"
@@ -279,6 +392,7 @@ def get_team_stats(_stats):
 
         return data
     return {}
+
 
 def get_team_substitutions(_substitutions):
     if not _substitutions:
