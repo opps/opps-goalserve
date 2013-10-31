@@ -185,7 +185,7 @@ class Stadium(GoalServeModel, Base64Imaged):
 
     def get_name(self):
         return self.display_name or self.name
-        
+
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
     surface = models.CharField(max_length=255, null=True, blank=True)
@@ -225,7 +225,7 @@ class Team(GoalServeModel, Base64Imaged):
                             max_length=255)
 
     def __unicode__(self):
-        return u"{} - {}".format(self.name, self.country)
+        return self.name
 
     class Meta:
         verbose_name = _('Team')
@@ -344,7 +344,7 @@ class Match(GoalServeModel):
             return self.pk
 
     def __unicode__(self):
-        return u"({}) - {} x {}".format(self.g_static_id, self.localteam, self.visitorteam)
+        return u"{0} x {1}".format(self.localteam, self.visitorteam)
 
 
     def local_lineup(self):
@@ -369,7 +369,7 @@ class Match(GoalServeModel):
                "event": e.event,
                "minute": e.minute,
                "team": e.team.id if e.team else '',
-               "player": e.player.id if e.player else '', 
+               "player": e.player.id if e.player else '',
                "player_in": e.player_in.id if e.player_in else '',
                "player_out": e.player_out.id if e.player_out else '',
                "f1team": e.f1team.id if e.f1team else '',
@@ -380,7 +380,7 @@ class Match(GoalServeModel):
            }
            for e in t.transmissionevent_set.all()
         ]
-        
+
     class Meta:
         verbose_name = _('Match')
         verbose_name_plural = _('Matches')
@@ -463,7 +463,7 @@ class MatchLineUp(models.Model):
             self.player_position.lower() if self.player_position else '',
             self.player_position
         )
-        
+
     def __unicode__(self):
         return u"{} - {} - {}".format(self.match, self.player.name, self.team.name)
 
@@ -609,7 +609,7 @@ class F1Tournament(GoalServeModel):
     display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
     def get_name(self):
         return self.display_name or self.name
-    
+
     class Meta:
         verbose_name = _('F1 Tournament')
         verbose_name_plural = _('F1 Tournaments')
@@ -622,7 +622,7 @@ class F1Track(models.Model):
     name = models.CharField(_("Name"), max_length=255)
 
     display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
-    
+
     country = models.CharField(_("Country"), max_length=255,
                                null=True, blank=True)
 
@@ -736,7 +736,7 @@ class Driver(GoalServeModel, Base64Imaged):
     display_name = models.CharField(_('Display name '), blank=True, null=True, max_length=255)
 
     country = models.CharField(_('Country'), null=True, blank=True, max_length=255)
-    
+
     def get_name(self):
         return self.display_name or self.name
 
@@ -745,7 +745,7 @@ class Driver(GoalServeModel, Base64Imaged):
         if not self.helmet:
             return "http://placehold.it/32x32/"
         return self.helmet.archive.url
-        
+
     class Meta:
         verbose_name = _('Driver')
         verbose_name_plural = _('Drivers')
