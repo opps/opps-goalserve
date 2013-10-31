@@ -49,7 +49,7 @@ RACE_TYPES = (
     "first_practice",
 )
 
-TZ_DELTA = datetime.timedelta(hours=3)
+TZ_DELTA = datetime.timedelta(hours=getattr(settings, "TZ_DELTA", 2))
 
 
 class Crawler(object):
@@ -229,14 +229,14 @@ class Crawler(object):
     def get_commentaries_for_match_id(self, match_id, force_feed=None):
         _match = Match.objects.filter(g_static_id=match_id)[0]
         self.get_commentaries(_match, force_feed=force_feed)
-        
+
     def get_commentaries(self, _match, country_name=None, commentary_available=None, force_feed=None):
         # print "getting commentaries"
         # print "commentary_available", commentary_available
         self.verbose_print("Getting comments, feed available {0}".format(commentary_available))
 
         self.verbose_print(force_feed)
-        
+
         if commentary_available:
             xmls = ["{}.xml".format(commentary_available)]
         elif force_feed:
@@ -245,7 +245,7 @@ class Crawler(object):
             xmls = COMMENTARIES.get(country_name or _match.category.country.name, [])
 
         self.verbose_print(xmls)
-            
+
         for xml in xmls:
             self.verbose_print("will get comments from {0}".format(xml))
             data = self.get(
@@ -703,7 +703,7 @@ class Crawler(object):
 
                     #if team.get('@id') == "7254":
                     #    print team.get('total')
-                    
+
                     _matchstandings.overall_gp = team.get('overall', {}).get('@gp')
                     _matchstandings.overall_w = team.get('overall', {}).get('@w')
                     _matchstandings.overall_l = team.get('overall', {}).get('@l')
@@ -875,7 +875,7 @@ class Crawler(object):
                 if _race.get_extra('manual_mode'):
                     # print "not updating data race is in manual_mode"
                     self.verbose_print("Race is in manual mode")
-                else:    
+                else:
                     _race.status = race.get('@status')
                     _race.race_time = self.parse_date(race.get('@date'),
                                                       race.get('@time'),
