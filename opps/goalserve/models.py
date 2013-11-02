@@ -225,7 +225,7 @@ class Team(GoalServeModel, Base64Imaged):
                             max_length=255)
 
     def __unicode__(self):
-        return self.name
+        return self.name or u''
 
     class Meta:
         verbose_name = _('Team')
@@ -256,7 +256,7 @@ class Player(GoalServeModel, Base64Imaged):
     number = models.CharField(_("Number"), max_length=255, null=True, blank=True)
 
     def __unicode__(self):
-        return u"{} - {}".format(self.name, self.team)
+        return u"{} - {}".format(self.name or u'', self.team)
 
     class Meta:
         verbose_name = _('Player')
