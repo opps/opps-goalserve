@@ -73,9 +73,12 @@ admin.site.register(opps.goalserve.models.F1Race, RaceAdmin)
 admin.site.register(opps.goalserve.models.F1Results, ResultsAdmin)
 admin.site.register(opps.goalserve.models.F1Track, F1TrackAdmin)
 
+class F1TeamAdmin(admin.ModelAdmin):
+    raw_id_fields = ['image_file', ]
+admin.site.register(opps.goalserve.models.F1Team, F1TeamAdmin)
 
 # lazy programmer at work
-classes = "Country Category Stadium MatchStats MatchLineUp MatchSubstitutions MatchCommentary MatchEvent F1Tournament F1Team F1Commentary MatchStandings".split()
+classes = "Country Category Stadium MatchStats MatchLineUp MatchSubstitutions MatchCommentary MatchEvent F1Tournament F1Commentary MatchStandings".split()
 
 for model in classes:
     admin.site.register(
