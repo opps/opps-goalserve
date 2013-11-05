@@ -713,6 +713,12 @@ class F1Team(GoalServeModel, Base64Imaged):
     post = models.IntegerField(_("Post"), null=True, blank=True)
     points = models.IntegerField(_("Points"), null=True, blank=True)
     display_name = models.CharField(_('Display name'), blank=True, null=True, max_length=255)
+    country = models.CharField(_('Country'), null=True, blank=True, max_length=255)
+    tires = models.CharField(_(u'Tires'), null=True, blank=True, max_length=255)
+    website = models.URLField(_(u'Site'), null=True, blank=True)
+    engine = models.CharField(_(u'Engine'), null=True, blank=True, max_length=255)
+    titles = models.CharField(_(u'Titles'), null=True, blank=True, max_length=255)
+    launch_date = models.IntegerField(_(u'Launch date'), blank=True, null=True)
 
     def get_name(self):
         return self.display_name or self.name
@@ -736,6 +742,12 @@ class Driver(GoalServeModel, Base64Imaged):
     display_name = models.CharField(_('Display name '), blank=True, null=True, max_length=255)
 
     country = models.CharField(_('Country'), null=True, blank=True, max_length=255)
+    short_name = models.CharField(_("Name"), blank=True, null=True, max_length=255)
+    birthday = models.DateField(_('Birthday'), blank=True, null=True)
+    birth_city = models.CharField(_("Birth City"), blank=True, null=True, max_length=255)
+    titles = models.CharField(_("Titles"), blank=True, null=True, max_length=255)
+    past_teams = models.CharField(_("Past Teams"), blank=True, null=True, max_length=255)
+    first_race = models.CharField(_("First Race"), blank=True, null=True, max_length=255)
 
     def get_name(self):
         return self.display_name or self.name
