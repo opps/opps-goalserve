@@ -26,12 +26,12 @@ class GoalserveAuthorization(Authorization):
 
     def read_list(self, object_list, bundle):
         # This assumes a ``QuerySet`` from ``ModelResource``.
-        check_access(bundle.request.user)
+        #check_access(bundle.request.user)
         return object_list
 
     def read_detail(self, object_list, bundle):
         # Is the requested object owned by the user?
-        check_access(bundle.request.user)
+        #check_access(bundle.request.user)
         return True
 
     def create_list(self, object_list, bundle):
