@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opps-goalserve\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 19:35-0200\n"
+"POT-Creation-Date: 2013-11-06 11:25-0200\n"
 "PO-Revision-Date: 2013-09-12 17:20+0000\n"
 "Last-Translator: Ellison Leão\n"
 "Language-Team: Portuguese (Brazil) <opps-developers@googlegroups.com>\n"
@@ -356,7 +356,7 @@ msgid "Image File"
 msgstr "Arquivo da Imagem"
 
 #: models.py:145 models.py:162 models.py:608 models.py:622 models.py:712
-#: models.py:735 models.py:745
+#: models.py:735
 msgid "Name"
 msgstr "Nome"
 
@@ -771,6 +771,10 @@ msgstr "Times F1"
 #: models.py:742
 msgid "Display name "
 msgstr "Nome na visualização"
+
+#: models.py:745
+msgid "Short name"
+msgstr "Nome curto"
 
 #: models.py:746
 msgid "Birthday"

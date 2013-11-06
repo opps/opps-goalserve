@@ -742,7 +742,7 @@ class Driver(GoalServeModel, Base64Imaged):
     display_name = models.CharField(_('Display name '), blank=True, null=True, max_length=255)
 
     country = models.CharField(_('Country'), null=True, blank=True, max_length=255)
-    short_name = models.CharField(_("Name"), blank=True, null=True, max_length=255)
+    short_name = models.CharField(_("Short name"), blank=True, null=True, max_length=255)
     birthday = models.DateField(_('Birthday'), blank=True, null=True)
     birth_city = models.CharField(_("Birth City"), blank=True, null=True, max_length=255)
     titles = models.CharField(_("Titles"), blank=True, null=True, max_length=255)
