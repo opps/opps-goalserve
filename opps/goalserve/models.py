@@ -810,6 +810,8 @@ class RaceDriverPosition(models.Model):
 
     class Meta:
         ordering = ('position',)
+        verbose_name = _(u'Race driver position')
+        verbose_name_plural = _(u'Race driver positions')
 
     def __unicode__(self):
         return u"{s.race} {s.driver.name} {s.table} {s.position}".format(s=self)

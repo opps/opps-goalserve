@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opps-goalserve\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-06 11:25-0200\n"
+"POT-Creation-Date: 2013-11-08 16:01-0200\n"
 "PO-Revision-Date: 2013-09-12 17:20+0000\n"
 "Last-Translator: Ellison Leão\n"
 "Language-Team: Portuguese (Brazil) <opps-developers@googlegroups.com>\n"
@@ -835,6 +835,14 @@ msgstr "Tempo Real"
 #: models.py:804
 msgid "Final"
 msgstr ""
+
+#: models.py:813
+msgid "Race driver position"
+msgstr "Posição do piloto"
+
+#: models.py:814
+msgid "Race driver positions"
+msgstr "Posições dos pilotos"
 
 #: templates/goalserve/lineupform.html:10
 msgid "Player successfully added to lineup"
