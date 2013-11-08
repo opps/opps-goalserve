@@ -19,6 +19,8 @@ class PlayerAdmin(GoalServeAdmin):
 
 class TeamAdmin(GoalServeAdmin):
     search_fields = ['name']
+    list_display = ['name', 'display_name', 'full_name', 'abbr']
+    list_display_links = list_display
     list_filter = ['country']
     raw_id_fields = ['country', 'stadium', 'image_file']
 
@@ -50,7 +52,7 @@ class RaceAdmin(GoalServeAdmin):
     def save_model(self, request, obj, form, change):
         obj.set_extra(manual_mode=True)
         obj.save()
-        
+
     def queryset(self, request):
         qs = super(RaceAdmin, self).queryset(request)
         return qs.filter(**self.opps_filters)
