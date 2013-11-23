@@ -2,6 +2,7 @@
 
 import urllib
 import datetime
+import logging
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
@@ -621,7 +622,8 @@ class Crawler(object):
                                 if visitorteam_goals > (_match.visitorteam_goals or 0):
                                     _match.visitorteam_goals = visitorteam_goals
 
-                            except:
+                            except Exception as e:
+                                logging.error(u"Can't get goals %s" % e)
                                 pass
 
 
@@ -629,6 +631,7 @@ class Crawler(object):
 
 
                         except Exception as e:
+                            logging.error(u"Can't get local or visitor team info %s" % e)
                             self.verbose_print(str(e))
                             pass
                         else:
