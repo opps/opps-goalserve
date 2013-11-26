@@ -2,7 +2,6 @@
 
 import urllib
 import datetime
-import logging
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
@@ -53,6 +52,15 @@ RACE_TYPES = (
 TZ_DELTA = datetime.timedelta(hours=getattr(settings, "TZ_DELTA", 2))
 
 
+def log_it(s):
+    try:
+        open("/tmp/crawler_run.log", "a").write(
+            u"{now} - {s}\n".format(now=datetime.datetime.now(), s=s)
+        )
+    except:
+        pass
+
+
 class Crawler(object):
     def __init__(self, gid=None, update_all_players=False, update_all_teams=False,
                  verbose=False):
@@ -61,8 +69,11 @@ class Crawler(object):
         self.update_all_teams = update_all_teams
         self.verbose = verbose
         self.cache = {}
+        self.verbose_print("Crawler started to run")
+        self.verbose_print("_" * 80)
 
     def verbose_print(self, s):
+        log_it(s)
         if self.verbose:
             print(s)
 
@@ -120,8 +131,8 @@ class Crawler(object):
         try:
             if parsed and time:
                 parsed = parsed - TZ_DELTA
-        except:
-            pass
+        except Exception as e:
+            self.verbose_print(str(e))
 
         self.verbose_print(parsed)
 
@@ -147,7 +158,6 @@ class Crawler(object):
             _stadium.save()
         except Exception as e:
             self.verbose_print(str(e))
-            pass
 
         return _stadium
 
@@ -236,7 +246,7 @@ class Crawler(object):
         # print "commentary_available", commentary_available
         self.verbose_print("Getting comments, feed available {0}".format(commentary_available))
 
-        self.verbose_print(force_feed)
+        self.verbose_print("Forcing feed %s" % force_feed)
 
         if commentary_available:
             xmls = ["{}.xml".format(commentary_available)]
@@ -296,14 +306,13 @@ class Crawler(object):
                                 country=self.get_country_by_name(stadium_country.strip().lower())
                             )
 
-                    except:
-                        pass
+                    except Exception as e:
+                        self.verbose_print(str(e))
 
 
                     _match.save()
                 except Exception as e:
                     self.verbose_print(str(e))
-                    pass
 
                 else:
                     self.get_match_lineup(_match, match.get('teams'))
@@ -498,7 +507,14 @@ class Crawler(object):
     def get_matches(self, countries=COUNTRIES, match_id=None,
                     get_players=True, cat_id=None, schedule=False,
                     force_feed=None):
-        self.verbose_print("Getting matches")
+        self.verbose_print(
+            ("get_matches: Countries: %(countries)s,"
+             "match_id:  %(match_id)s,"
+             "get_players: %(get_players)s,"
+             "cat_id: %(cat_id)s,"
+             "sched %(schedule)s,"
+             "force feed:  %(force_feed)s") % locals()
+        )
         for country in countries:
             _country, created = Country.objects.get_or_create(
                 name=country.lower()
@@ -510,6 +526,9 @@ class Crawler(object):
                 url = URLS.get('home_cat').format(gid=self.gid, cat_id=cat_id)
                 urls.append(url)
             elif force_feed:
+                if not force_feed.startswith("/getfeed/"):
+                    feed_base = '/getfeed/c93ce5a5b570433b8a7d96b3c53f119d%s'
+                    force_feed = feed_base % force_feed
                 urls.append(force_feed)
             else:
                 for xml_url in URLS.get('matches'):
@@ -518,6 +537,7 @@ class Crawler(object):
                     )
                     urls.append(url)
 
+            self.verbose_print(urls)
 
             for url in urls:
 
@@ -526,10 +546,12 @@ class Crawler(object):
                 self.verbose_print("already get data")
 
                 if not data:
+                    self.verbose_print("data is empty")
                     continue
 
                 categories = data['scores'].get('category')
                 if not categories:
+                    self.verbose_print("categories empty")
                     continue
 
                 if not isinstance(categories, list):
@@ -539,11 +561,13 @@ class Crawler(object):
 
                     filegroup = category.get('@file_group')
 
-                    if not schedule:
-                        if filegroup and filegroup not in countries:
-                            # print "NOT IN:", category.get('@file_group'), countries
-                            self.verbose_print("skipping {}".format(filegroup))
-                            continue
+                    # can't filter by file_group because sometimes
+                    # goalserve send wrong filegroup
+                    #if not schedule:
+                    #    if filegroup and filegroup not in countries:
+                    #        # print "NOT IN:", category.get('@file_group'), countries
+                    #        self.verbose_print("skipping {}".format(filegroup))
+                    #        continue
 
                     _category, created = Category.objects.get_or_create(
                         g_id=category['@id']
@@ -566,6 +590,7 @@ class Crawler(object):
 
                         if isinstance(match, (unicode, str)):
                             # print "match is unicode"
+                            self.verbose_print("match is not an feed object %s" % match)
                             continue
 
                         if not match.get('@static_id'):
@@ -616,24 +641,20 @@ class Crawler(object):
                                 localteam_goals = int(localteam.get('@goals') or 0)
                                 visitorteam_goals = int(visitorteam.get('@goals') or 0)
 
-                                if localteam_goals > (_match.localteam_goals or 0):
+                                if str(localteam_goals).isdigit() and  localteam_goals > (_match.localteam_goals or 0):
                                     _match.localteam_goals = localteam_goals
 
-                                if visitorteam_goals > (_match.visitorteam_goals or 0):
+                                if str(visitorteam_goals).isdigit() and visitorteam_goals > (_match.visitorteam_goals or 0):
                                     _match.visitorteam_goals = visitorteam_goals
 
                             except Exception as e:
-                                logging.error(u"Can't get goals %s" % e)
-                                pass
-
+                                self.verbose_print(str(e))
 
                             _match.save()
 
 
                         except Exception as e:
-                            logging.error(u"Can't get local or visitor team info %s" % e)
                             self.verbose_print(str(e))
-                            pass
                         else:
                             # print  "Match recorded", _match.pk
                             self.verbose_print("{0} match recorded".format(_match.pk))
@@ -650,8 +671,10 @@ class Crawler(object):
     def get_category_by_id(self, g_id, tournament=None, country=None):
         try:
             return Category.objects.get(g_id=g_id)
-        except:
+        except Exception as e:
+            self.verbose_print(str(e))
             if not tournament:
+                self.verbose_print("No tournament")
                 return
 
             _category = Category.objects.create(

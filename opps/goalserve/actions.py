@@ -45,17 +45,18 @@ def goalserve(method, **kwargs):
     getattr(crawler, method)(**kwargs)
 
 
-def get_match(country='brazil', match_id=None, get_players=None, cat_id=None):
+def get_match(country='brazil', match_id=None, get_players=None, cat_id=None, force_feed=None):
     crawler = Crawler(GID)
     crawler.get_matches(country.split(','),
                         cat_id=cat_id,
                         match_id=match_id,
+                        force_feed=force_feed,
                         get_players=get_players)
 
 
 def get_schedule():
     crawler = Crawler(GID)
-    crawler.get_matches(['home', 'd1', 'd2', 'd3'], get_players=False)
+    crawler.get_matches(['home', 'd-1', 'd1', 'd2', 'd3'], get_players=False)
 
 
 def get_standings(**kwargs):
