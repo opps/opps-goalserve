@@ -10,7 +10,7 @@ FILTERS = OPPS_ADMIN_FILTERS.get('opps.goalserve', {})
 class GoalServeAdmin(admin.ModelAdmin):
     exclude = ('g_id', 'g_static_id', 'g_fix_id',
                'g_player_id', 'g_event_id', 'g_bet_id',
-               'g_driver_id', 'g_team_id', 'extra')
+               'g_driver_id', 'g_team_id')
 
 class PlayerAdmin(GoalServeAdmin):
     search_fields = ['name']
