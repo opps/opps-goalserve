@@ -86,7 +86,17 @@ class RaceDriverPositionResoure(SSEMixin, ModelResource):
             'driver': ALL_WITH_RELATIONS,
             'table': ALL,
         }
-
+        
+    def get_object_list(self, request):
+        race_id = request.GET.get('race__id')
+        filters = {}
+        if race_id:
+            race = F1Race.objects.get(pk=race_id)
+            filters = dict(race__tournament=race.tournament)
+        return super(
+            RaceDriverPositionResoure,
+            self
+        ).get_object_list(request).filter(**filters)
 
     def alter_list_data_to_serialize(self, request, data):
         race_id = request.GET.get('race__id')
