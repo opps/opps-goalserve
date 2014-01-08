@@ -204,8 +204,10 @@ def get_tournament_standings():
     for category in categories:
         item = {'title': category.name, 'id': category.id, 'slug': slugify(category.name)}
 
-        standings = MatchStandings.objects.filter(
-            category=category).order_by('position')
+        #standings = MatchStandings.objects.filter(
+        #    category=category).order_by('position')
+        standings = MatchStandings.objects.select_related(
+            'team', 'team').filter(category=category).order_by('position')
         if not standings:
             continue
 
