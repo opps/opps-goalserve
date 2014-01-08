@@ -207,7 +207,8 @@ def get_tournament_standings():
         #standings = MatchStandings.objects.filter(
         #    category=category).order_by('position')
         standings = MatchStandings.objects.select_related(
-            'team', 'team').filter(category=category).order_by('position')
+            'team', 'team__image_file', 'team__image_file__archive').filter(
+                category=category).order_by('position')
         if not standings:
             continue
 
