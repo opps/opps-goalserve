@@ -56,7 +56,7 @@ def get_match(country='brazil', match_id=None, get_players=None, cat_id=None, fo
 
 def get_schedule():
     crawler = Crawler(GID)
-    crawler.get_matches(['home', 'd-1', 'd1', 'd2', 'd3'], get_players=False)
+    crawler.get_matches(['home', 'd-1', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'], get_players=False)
 
 
 def get_standings(**kwargs):
