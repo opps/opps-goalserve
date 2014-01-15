@@ -29,7 +29,7 @@ class MatchAdmin(GoalServeAdmin):
     list_filter = ['category', 'match_time']
     #search_fields = ['localteam__name', 'visitorteam__name', 'status']
     #list_filter = ['category', 'match_time', 'week_number']
-    #raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
+    raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
     #list_display = ['name', 'id', 'localteam', 'visitorteam', 'g_static_id',
     #                'category']
 
