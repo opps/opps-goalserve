@@ -201,7 +201,7 @@ def get_tournament_standings(**kwargs):
 
     def filter_kwargs_by_key(key):
         try:
-            return {k[len(key)]:v for k,v in kwargs.items() if k.startswith(key)}
+            return {k[len(key):]:v for k,v in kwargs.items() if k.startswith(key)}
         except Exception, e:
             return {}
 
