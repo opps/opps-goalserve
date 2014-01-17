@@ -196,19 +196,28 @@ def get_event(_event):
     return _event.__dict__
 
 
-def get_tournament_standings():
+def get_tournament_standings(**kwargs):
     data = {'tournaments': []}
 
-    categories = Category.objects.filter(country__name='brazil')
+    def filter_kwargs_by_key(key):
+        try:
+            return {k[len(key)]:v for k,v in kwargs.items() if k.startswith(key)}
+        except Exception, e:
+            return {}
+
+    category_kwargs =  filter_kwargs_by_key('category__')
+    categories = Category.objects.filter(country__name='brazil', **category_kwargs)
 
     for category in categories:
-        item = {'title': category.name, 'id': category.id, 'slug': slugify(category.name)}
+        item = {'title': category.name, 'id': category.id, 'slug': slugify(category.name), 'display_name': category.display_name}
 
         #standings = MatchStandings.objects.filter(
         #    category=category).order_by('position')
+        category_kwargs =  filter_kwargs_by_key('match__')
         standings = MatchStandings.objects.select_related(
             'team', 'team__image_file', 'team__image_file__archive').filter(
-                category=category).order_by('position')
+                category=category, **match_kwargs).order_by('position')
+
         if not standings:
             continue
 

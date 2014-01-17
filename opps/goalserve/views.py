@@ -260,7 +260,7 @@ class JSONStandingsTeamsView(JSONView):
 
 class JSONStandingsView(JSONView):
     def get_context_data(self, **kwargs):
-        return get_tournament_standings()
+        return get_tournament_standings(**kwargs)
 
 
 class JSONCategoryView(JSONView):
