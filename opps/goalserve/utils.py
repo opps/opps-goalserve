@@ -234,7 +234,7 @@ def get_tournament_standings(**kwargs):
                     stand.__dict__,
                     exclude=['g_player_id', 'g_fix_id', 'g_bet_id',
                              'category_id', 'g_event_id', 'country_id', 'g_id',
-                             'status', 'updated_at', 'team_id', 'timestamp',]
+                             'status', 'updated_at', 'timestamp',]
                 )
             )
 
