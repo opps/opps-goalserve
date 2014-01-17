@@ -213,7 +213,7 @@ def get_tournament_standings(**kwargs):
 
         #standings = MatchStandings.objects.filter(
         #    category=category).order_by('position')
-        category_kwargs =  filter_kwargs_by_key('match__')
+        match_kwargs =  filter_kwargs_by_key('match__')
         standings = MatchStandings.objects.select_related(
             'team', 'team__image_file', 'team__image_file__archive').filter(
                 category=category, **match_kwargs).order_by('position')
