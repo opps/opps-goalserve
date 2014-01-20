@@ -5,6 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
+from django.db import transaction, IntegrityError
 
 from .xml2dict import parse
 from .countries import COUNTRIES
@@ -573,11 +574,10 @@ class Crawler(object):
                         _category, created = Category.objects.get_or_create(
                             g_id=category['@id']
                         )
-                    except Exception as e:
-                                # probably integity error
-                                # because GoalServer API does not send proper IDS
-                                self.verbose_print(str(e))
-                                continue
+                    except IntegrityError:
+                        # probably because GoalServer API does not send proper IDS
+                        transaction.rollback()
+                        continue
 
                     if created:
                         _category.name=category['@name']
@@ -623,11 +623,10 @@ class Crawler(object):
                                 category=_category,
                                 g_static_id=match['@static_id'],
                             )
-                        except Exception as e:
-                                # probably integity error
-                                # because GoalServer API does not send proper IDS
-                                self.verbose_print(str(e))
-                                continue
+                        except IntegrityError:
+                            # probably because GoalServer API does not send proper IDS
+                            transaction.rollback()
+                            continue
 
                         # print "getting", _match.g_static_id
 
