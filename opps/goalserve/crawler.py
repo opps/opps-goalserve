@@ -5,7 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
-from django.db import transaction, DatabaseError
+from django.db import DatabaseError
 
 from .xml2dict import parse
 from .countries import COUNTRIES
@@ -576,7 +576,6 @@ class Crawler(object):
                         )
                     except DatabaseError:
                         # probably because GoalServer API does not send proper IDS
-                        transaction.rollback()
                         continue
 
                     if created:
@@ -625,7 +624,6 @@ class Crawler(object):
                             )
                         except DatabaseError:
                             # probably because GoalServer API does not send proper IDS
-                            transaction.rollback()
                             continue
 
                         # print "getting", _match.g_static_id
