@@ -5,7 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
-from django.db import transaction, IntegrityError
+from django.db import transaction, DatabaseError
 
 from .xml2dict import parse
 from .countries import COUNTRIES
@@ -574,7 +574,7 @@ class Crawler(object):
                         _category, created = Category.objects.get_or_create(
                             g_id=category['@id']
                         )
-                    except IntegrityError:
+                    except DatabaseError:
                         # probably because GoalServer API does not send proper IDS
                         transaction.rollback()
                         continue
@@ -623,7 +623,7 @@ class Crawler(object):
                                 category=_category,
                                 g_static_id=match['@static_id'],
                             )
-                        except IntegrityError:
+                        except DatabaseError:
                             # probably because GoalServer API does not send proper IDS
                             transaction.rollback()
                             continue
