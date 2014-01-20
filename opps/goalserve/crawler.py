@@ -569,9 +569,15 @@ class Crawler(object):
                     #        self.verbose_print("skipping {}".format(filegroup))
                     #        continue
 
-                    _category, created = Category.objects.get_or_create(
-                        g_id=category['@id']
-                    )
+                    try:
+                        _category, created = Category.objects.get_or_create(
+                            g_id=category['@id']
+                        )
+                    except Exception as e:
+                                # probably integity error
+                                # because GoalServer API does not send proper IDS
+                                self.verbose_print(str(e))
+                                continue
 
                     if created:
                         _category.name=category['@name']
@@ -612,10 +618,16 @@ class Crawler(object):
                                     # print match.get('@static_id'), "!=", match_id
                                     continue
 
-                        _match, created = Match.objects.get_or_create(
-                            category=_category,
-                            g_static_id=match['@static_id'],
-                        )
+                        try:
+                            _match, created = Match.objects.get_or_create(
+                                category=_category,
+                                g_static_id=match['@static_id'],
+                            )
+                        except Exception as e:
+                                # probably integity error
+                                # because GoalServer API does not send proper IDS
+                                self.verbose_print(str(e))
+                                continue
 
                         # print "getting", _match.g_static_id
 
