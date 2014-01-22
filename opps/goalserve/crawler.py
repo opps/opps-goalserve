@@ -791,7 +791,7 @@ class Crawler(object):
                     _match, created = Match.objects.get_or_create(
                         g_static_id=match.get('@static_id')
                     )
-                except DatabaseError:
+                except DatabaseError as e:
                     # Probably a match with a same `Match.g_id`
                     # causing a IntegrityError
                     self.verbose_print(str(e))
