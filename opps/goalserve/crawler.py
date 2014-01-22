@@ -787,9 +787,15 @@ class Crawler(object):
                 if 'TBA' in match.get('@date'):
                     continue
 
-                _match, created = Match.objects.get_or_create(
-                    g_static_id=match.get('@static_id')
-                )
+                try:
+                    _match, created = Match.objects.get_or_create(
+                        g_static_id=match.get('@static_id')
+                    )
+                except DatabaseError:
+                    # Probably a match with a same `Match.g_id`
+                    # causing a IntegrityError
+                    self.verbose_print(str(e))
+                    continue
 
                 if created:
                     _match.category = _category
