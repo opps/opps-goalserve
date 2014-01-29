@@ -30,6 +30,3 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-
-# Localization
-*.mo
