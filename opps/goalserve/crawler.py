@@ -5,7 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
-from django.db import DatabaseError
+from django.db import connection, transaction, DatabaseError, IntegrityError
 
 from .xml2dict import parse
 from .countries import COUNTRIES
@@ -765,12 +765,15 @@ class Crawler(object):
         weeks = stage.get('week')
 
         # create the category
-        _category = self.get_category_by_id(
-            g_id=g_id,
-            country=self.get_country_by_name(country)
-        )
 
-        if not _category:
+        try:
+            _category, _ = Category.objects.get_or_create(
+                g_id=g_id,
+                defaults=dict(country=self.get_country_by_name(country))
+            )
+        except DatabaseError as e:
+            self.verbose_print(str(e))
+            print "Can't create category {}".format(g_id)
             return
 
         if not isinstance(weeks, list):
@@ -795,6 +798,8 @@ class Crawler(object):
                     # Probably a match with a same `Match.g_id`
                     # causing a IntegrityError
                     self.verbose_print(str(e))
+                    print "Can't create match {}".format(match.get('@static_id'))
+                    connection.close()
                     continue
 
                 if created:
