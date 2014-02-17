@@ -206,7 +206,7 @@ def get_tournament_standings(**kwargs):
             return {}
 
     category_kwargs =  filter_kwargs_by_key('category__')
-    categories = Category.objects.filter(country__name='brazil', **category_kwargs)
+    categories = Category.objects.filter(country__name__in=['brazil', 'intl'], **category_kwargs)
 
     for category in categories:
         item = {'title': category.name, 'id': category.id, 'slug': slugify(category.name), 'display_name': category.display_name}
