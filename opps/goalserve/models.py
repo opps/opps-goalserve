@@ -170,7 +170,7 @@ class Category(GoalServeModel):
     # alias
 
     def __unicode__(self):
-        return self.name
+        return self.name or unicode(_('No name'))
 
     class Meta:
         verbose_name = _('Category')
