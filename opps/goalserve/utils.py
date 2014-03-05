@@ -3,6 +3,7 @@
 import datetime
 from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
+from django.utils.translation import ugettext_lazy as _
 from dateutil.tz import tzutc
 
 from .models import Match, MatchStandings, Category
@@ -211,7 +212,7 @@ def get_tournament_standings(**kwargs):
     ], **category_kwargs)
 
     for category in categories:
-        category_name = category.name if category.name else 'unknown'
+        category_name = category.name if category.name else unicode(_('No name'))
         item = {
             'title': category_name,
             'id': category.id,
