@@ -1,5 +1,5 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 import datetime
 from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
@@ -211,7 +211,13 @@ def get_tournament_standings(**kwargs):
     ], **category_kwargs)
 
     for category in categories:
-        item = {'title': category.name, 'id': category.id, 'slug': slugify(category.name), 'display_name': category.display_name}
+        category_name = category.name if category.name else 'unknown'
+        item = {
+            'title': category_name,
+            'id': category.id,
+            'slug': slugify(category_name),
+            'display_name': category.display_name
+        }
 
         #standings = MatchStandings.objects.filter(
         #    category=category).order_by('position')
