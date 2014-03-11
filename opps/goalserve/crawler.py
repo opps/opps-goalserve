@@ -766,7 +766,7 @@ class Crawler(object):
         g_id = tournament.get('@id')
         try:
             defaults = dict(country=self.get_country_by_name(country))
-            _category, _ = _category.objects.get_or_create(g_id=g_id, defaults=defaults)
+            _category, _ = Category.objects.get_or_create(g_id=g_id, defaults=defaults)
         except DatabaseError as e:
             self.verbose_print(str(e))
             print "Can't create category {}".format(g_id)
