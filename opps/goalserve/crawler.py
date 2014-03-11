@@ -754,35 +754,30 @@ class Crawler(object):
 
                     # print _matchstandings, created
 
-
-    def _process_fixture_week(self, stage, tournament, country):
-        # assume week = round
-        # league = tournament.get('@league')
-        # season = tournament.get('@season')
-        # stage_id = tournament.get('@stage_id')
-
-        g_id = tournament.get('@id')
-        weeks = stage.get('week')
+    def _process_fixture(self, stage, tournament, country):
+        if 'week' in stage:
+            match_sets = stage.get('week')
+        elif 'aggregate' in stage:
+            match_sets = stage.get('aggregate')
+        else:
+            return
 
         # create the category
-
+        g_id = tournament.get('@id')
         try:
-            _category, _ = Category.objects.get_or_create(
-                g_id=g_id,
-                defaults=dict(country=self.get_country_by_name(country))
-            )
+            defaults = dict(country=self.get_country_by_name(country))
+            _category, _ = _category.objects.get_or_create(g_id=g_id, defaults=defaults)
         except DatabaseError as e:
             self.verbose_print(str(e))
             print "Can't create category {}".format(g_id)
             return
 
-        if not isinstance(weeks, list):
-            weeks = [weeks]
+        if not isinstance(match_sets, list):
+            match_sets = [match_sets]
 
-        # iterate weeks
-        for week in weeks:
-            round_number = week.get('@number')
-            matches = week.get('match')
+        for match_set in match_sets:
+            round_number = match_set.get('@number')
+            matches = match_set.get('match')
             if not isinstance(matches, list):
                 matches = [matches]
 
@@ -798,7 +793,8 @@ class Crawler(object):
                     # Probably a match with a same `Match.g_id`
                     # causing a IntegrityError
                     self.verbose_print(str(e))
-                    print "Can't create match {}".format(match.get('@static_id'))
+                    match_id = match.get('@static_id')
+                    print "Can't create match {}".format(match_id)
                     connection.close()
                     continue
 
@@ -827,17 +823,14 @@ class Crawler(object):
 
                         try:
                             localteam_goals = int(localteam.get('@score') or 0)
-                            visitorteam_goals = int(visitorteam.get('@score') or 0)
-
+                            visitor_goals = int(visitorteam.get('@score') or 0)
                             if localteam_goals > (_match.localteam_goals or 0):
                                 _match.localteam_goals = localteam_goals
-
-                            if visitorteam_goals > (_match.visitorteam_goals or 0):
-                                _match.visitorteam_goals = visitorteam_goals
+                            if visitor_goals > (_match.visitor_goals or 0):
+                                _match.visitor_goals = visitor_goals
                         except Exception as e:
                             self.verbose_print(str(e))
                             pass
-
                     except Exception as e:
                         self.verbose_print(str(e))
                         pass
@@ -849,7 +842,6 @@ class Crawler(object):
                     # because GoalServer API does not send proper IDS
                     self.verbose_print(str(e))
                     pass
-
 
     def get_fixtures(self, country='brazil'):
         # 'fixtures': '/getfeed/{gid}/soccerfixtures/{country}/{cat}'
@@ -874,9 +866,7 @@ class Crawler(object):
                 if not isinstance(stages, list):
                     stages = [stages]
                 for stage in stages:
-                    if 'week' in stage:
-                        self._process_fixture_week(stage, tournament, country)
-                    # TODO: Deal with "<aggregate>" (by now, we only process <week>)
+                    self._process_fixture(stage, tournament, country)
 
 
     # F1
