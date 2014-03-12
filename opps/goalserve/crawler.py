@@ -770,6 +770,7 @@ class Crawler(object):
         except DatabaseError as e:
             self.verbose_print(str(e))
             print "Can't create category {}".format(g_id)
+            connection.close()
             return
 
         if not isinstance(match_sets, list):
