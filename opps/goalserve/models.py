@@ -170,7 +170,7 @@ class Category(GoalServeModel):
     # alias
 
     def __unicode__(self):
-        return self.name
+        return self.name or unicode(_('No name'))
 
     class Meta:
         verbose_name = _('Category')
@@ -179,15 +179,19 @@ class Category(GoalServeModel):
 
 class Stadium(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Stadium name"), max_length=255, null=True, blank=True)
+    name = models.CharField(_("Stadium name"), max_length=255, null=True,
+                            blank=True)
 
-    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    display_name = models.CharField(_("Display name"), max_length=255,
+                                    null=True, blank=True)
 
     def get_name(self):
         return self.display_name or self.name
 
-    country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
+    country = models.ForeignKey("goalserve.Country",
+                                verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
+
     surface = models.CharField(max_length=255, null=True, blank=True)
     capacity = models.IntegerField(null=True, blank=True)
 
@@ -201,41 +205,50 @@ class Stadium(GoalServeModel, Base64Imaged):
 
 class Team(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Team name"), max_length=255, null=True, blank=True)
+    name = models.CharField(_(u"Team name"), max_length=255, null=True,
+                            blank=True)
 
-    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
-    def get_name(self):
-        return self.display_name or self.name
+    display_name = models.CharField(_(u"Display name"), max_length=255,
+                                    null=True, blank=True)
 
     full_name = models.CharField(_("Team full name"), max_length=255,
                                  null=True, blank=True)
+
     country = models.ForeignKey("goalserve.Country",
                                 verbose_name=_("Country"),
                                 null=True, blank=True,
                                 on_delete=models.SET_NULL)
+
     stadium = models.ForeignKey("goalserve.Stadium",
                                 verbose_name=_("Stadium"),
                                 null=True, blank=True,
                                 on_delete=models.SET_NULL)
-    founded = models.CharField(_("Founded"), null=True,
-                                 max_length=255, blank=True)
-    coach = models.CharField(_("Coach"), null=True, max_length=255, blank=True)
 
-    abbr = models.CharField(_('Abbreviation'), null=True, blank=True,
+    founded = models.CharField(_(u"Founded"), null=True,
+                               max_length=255, blank=True)
+
+    coach = models.CharField(_(u"Coach"), null=True, max_length=255,
+                             blank=True)
+
+    abbr = models.CharField(_(u'Abbreviation'), null=True, blank=True,
                             max_length=255)
 
+    def get_name(self):
+        return self.display_name or self.name
+
     def __unicode__(self):
-        return self.name or u''
+        return self.name or unicode(_('No name'))
 
     class Meta:
         verbose_name = _('Team')
         verbose_name_plural = _('Teams')
 
 
-
 class Player(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Player name"), max_length=255, null=True, blank=True)
+    name = models.CharField(_("Player name"), max_length=255, null=True,
+                            blank=True)
+
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              null=True, blank=True,
                              on_delete=models.SET_NULL)
@@ -253,7 +266,8 @@ class Player(GoalServeModel, Base64Imaged):
                               null=True, blank=True)
     height = models.CharField(_("Height"), max_length=255,
                               null=True, blank=True)
-    number = models.CharField(_("Number"), max_length=255, null=True, blank=True)
+    number = models.CharField(_("Number"), max_length=255, null=True,
+                              blank=True)
 
     def __unicode__(self):
         return u"{} - {}".format(self.name or u'', self.team)
@@ -284,24 +298,31 @@ class Match(GoalServeModel):
     localteam = models.ForeignKey("goalserve.Team", verbose_name=_("Local"),
                                   on_delete=models.SET_NULL, null=True,
                                   related_name='match_localteam')
+
     visitorteam = models.ForeignKey("goalserve.Team",
                                     verbose_name=_("Visitor"),
                                     related_name='match_visitorteam',
                                     null=True,
                                     on_delete=models.SET_NULL)
+
     ht_result = models.CharField(_("HT Result"), max_length=255,
                                  null=True, blank=True)
+
     stadium = models.ForeignKey("goalserve.Stadium", verbose_name=_("Stadium"),
                                 null=True, blank=True,
                                 on_delete=models.SET_NULL)
+
     attendance_name = models.CharField(_("Attendance name"), max_length=255,
                                        null=True, blank=True)
+
     time_name = models.CharField(_("Time name"), max_length=255,
                                  null=True, blank=True)
+
     referee_name = models.CharField(_("Referee name"), max_length=255,
                                     null=True, blank=True)
 
     localteam_goals = models.IntegerField(_("Local result"), default=0)
+
     visitorteam_goals = models.IntegerField(_("Visitor result"), default=0)
 
     week_number = models.IntegerField(_('Week number'), null=True, blank=True)
@@ -338,18 +359,16 @@ class Match(GoalServeModel):
     @property
     def title(self):
         try:
-            return u"""{self.category.name} - {self.localteam.name} x {self.visitorteam.name}"""\
-                   .format(self=self)
+            return (u"{self.category.name} - {self.localteam.name} x "
+                    u"{self.visitorteam.name}".format(self=self))
         except:
             return self.pk
 
     def __unicode__(self):
         return u"{0} x {1}".format(self.localteam, self.visitorteam)
 
-
     def local_lineup(self):
         return self.matchlineup_set.filter(team=self.localteam)
-
 
     def visitor_lineup(self):
         return self.matchlineup_set.filter(team=self.visitorteam)
@@ -389,24 +408,30 @@ class Match(GoalServeModel):
 class MatchStats(models.Model):
 
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
+
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              on_delete=models.SET_NULL, null=True)
+
     team_status = models.CharField(_("Team status"), max_length=255,
                                    choices=TEAM_STATUS)
 
     shots = models.IntegerField(_("Shots"), null=True, blank=True)
+
     shots_on_goal = models.IntegerField(_("Shots on goal"), null=True,
                                         blank=True)
     fouls = models.IntegerField(_("Fouls"), null=True, blank=True)
+
     corners = models.IntegerField(_("Corners"), null=True, blank=True)
+
     offsides = models.IntegerField(_("Offsides"), null=True, blank=True)
+
     possesiontime = models.CharField(_("Possesion time"), null=True,
-                                        blank=True, max_length=255)
+                                     blank=True, max_length=255)
+
     saves = models.IntegerField(_("Saves"), null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
-
 
     @property
     def yellowcards(self):
@@ -439,19 +464,23 @@ class MatchStats(models.Model):
 
 class MatchLineUp(models.Model):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
+
     team_status = models.CharField(_("Team status"), max_length=255,
                                    choices=TEAM_STATUS)
+
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              on_delete=models.SET_NULL, null=True)
 
     player_status = models.CharField(_("Player Status"), max_length=255,
                                      choices=PLAYER_STATUS, default="player")
+
     player = models.ForeignKey("goalserve.Player", verbose_name=_("Player"))
+
     player_number = models.IntegerField(_("Player number"), null=True,
                                         blank=True)
-    player_position = models.CharField(_("Player position"), max_length=255,
-                                         blank=True, null=True)
 
+    player_position = models.CharField(_("Player position"), max_length=255,
+                                       blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
@@ -465,7 +494,8 @@ class MatchLineUp(models.Model):
         )
 
     def __unicode__(self):
-        return u"{} - {} - {}".format(self.match, self.player.name, self.team.name)
+        return u"{} - {} - {}".format(self.match, self.player.name,
+                                      self.team.name)
 
     class Meta:
         verbose_name = _('Match Lineup')
@@ -473,17 +503,19 @@ class MatchLineUp(models.Model):
         ordering = ('order',)
 
 
-
 class MatchSubstitutions(models.Model):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
+
     player_off = models.ForeignKey("goalserve.Player",
                                    verbose_name=_("Player Off"),
                                    related_name='matchsubstitutions_off',
                                    null=True, blank=True)
+
     player_in = models.ForeignKey("goalserve.Player",
                                   verbose_name=_("Player In"),
                                   related_name='matchsubstitutions_in',
                                   null=True, blank=True)
+
     minute = models.IntegerField(_("Minute"), null=True, blank=True)
 
     team_status = models.CharField(_("Team status"), max_length=255,
@@ -495,12 +527,12 @@ class MatchSubstitutions(models.Model):
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
 
     def __unicode__(self):
-        return u"{} - off:{} in:{}".format(self.match, self.player_off, self.player_in)
+        return u"{} - off:{} in:{}".format(self.match, self.player_off,
+                                           self.player_in)
 
     class Meta:
         verbose_name = _('Match Substitution')
         verbose_name_plural = _('Match Substitutions')
-
 
 
 class MatchCommentary(GoalServeModel):
@@ -540,7 +572,8 @@ class MatchEvent(GoalServeModel):
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              on_delete=models.SET_NULL, null=True)
     player = models.ForeignKey("goalserve.Player", verbose_name=_("Player"),
-                               null=True, blank=True, on_delete=models.SET_NULL)
+                               null=True, blank=True,
+                               on_delete=models.SET_NULL)
     result = models.CharField(_("Result"), max_length=255, null=True,
                               blank=True)
 
@@ -581,13 +614,12 @@ class MatchStandings(GoalServeModel):
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):
-        return u"{self.category} - {self.team} = {self.position}".format(self=self)
+        return u"{self.category} - {self.team} = {self.position}".format(
+            self=self)
 
     class Meta:
         verbose_name = _('Match Standing')
         verbose_name_plural = _('Match Standings')
-
-
 
 
 # ==============================================================================
@@ -606,7 +638,9 @@ RACE_TYPES = (
 
 class F1Tournament(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255)
-    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    display_name = models.CharField(_("Display name"), max_length=255,
+                                    null=True, blank=True)
+
     def get_name(self):
         return self.display_name or self.name
 
@@ -621,7 +655,8 @@ class F1Tournament(GoalServeModel):
 class F1Track(models.Model):
     name = models.CharField(_("Name"), max_length=255)
 
-    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    display_name = models.CharField(_("Display name"), max_length=255,
+                                    null=True, blank=True)
 
     country = models.CharField(_("Country"), max_length=255,
                                null=True, blank=True)
@@ -630,16 +665,17 @@ class F1Track(models.Model):
                                 null=True, blank=True)
 
     link = models.CharField(_("Link"), max_length=255,
-                                null=True, blank=True)
+                            null=True, blank=True)
 
     flag = models.ForeignKey('images.Image', null=True, blank=True,
-                              on_delete=models.SET_NULL,
-                              verbose_name=_(u"Flag"),
-                              related_name='f1track_flag')
+                             on_delete=models.SET_NULL,
+                             verbose_name=_(u"Flag"),
+                             related_name='f1track_flag')
+
     track_map = models.ForeignKey('images.Image', null=True, blank=True,
-                                   on_delete=models.SET_NULL,
-                                   verbose_name=_(u"Mapa do circuito"),
-                                   related_name='f1track_map')
+                                  on_delete=models.SET_NULL,
+                                  verbose_name=_(u"Mapa do circuito"),
+                                  related_name='f1track_map')
 
     def __unicode__(self):
         return u"{o.name} - {o.country} - {o.locality}".format(o=self)
@@ -654,16 +690,16 @@ class F1Track(models.Model):
 
 class F1Race(GoalServeModel, Base64Imaged):
     tournament = models.ForeignKey("goalserve.F1Tournament",
-                                 verbose_name=_("Category"),
-                                 on_delete=models.SET_NULL, null=True)
+                                   verbose_name=_("Category"),
+                                   on_delete=models.SET_NULL, null=True)
     race_type = models.CharField(_("Race Type"), max_length=255,
                                  choices=RACE_TYPES, default="race")
     status = models.CharField(_("Status"), max_length=255, null=True,
                               blank=True)
     circuit = models.ForeignKey('goalserve.F1Track',
-                               verbose_name=_("Track"),
-                               on_delete=models.SET_NULL,
-                               null=True, blank=True)
+                                verbose_name=_("Track"),
+                                on_delete=models.SET_NULL,
+                                null=True, blank=True)
     distance = models.CharField(_("Distance"), max_length=255, null=True,
                                 blank=True)
     total_laps = models.CharField(_("Total laps"), max_length=255, null=True,
@@ -712,13 +748,19 @@ class F1Team(GoalServeModel, Base64Imaged):
     name = models.CharField(_("Name"), max_length=255)
     post = models.IntegerField(_("Post"), null=True, blank=True)
     points = models.IntegerField(_("Points"), null=True, blank=True)
-    display_name = models.CharField(_('Display name'), blank=True, null=True, max_length=255)
-    country = models.CharField(_('Country'), null=True, blank=True, max_length=255)
-    tires = models.CharField(_(u'Tires'), null=True, blank=True, max_length=255)
+    display_name = models.CharField(_('Display name'), blank=True, null=True,
+                                    max_length=255)
+    country = models.CharField(_('Country'), null=True, blank=True,
+                               max_length=255)
+    tires = models.CharField(_(u'Tires'), null=True, blank=True,
+                             max_length=255)
     website = models.URLField(_(u'Site'), null=True, blank=True)
-    engine = models.CharField(_(u'Engine'), null=True, blank=True, max_length=255)
-    titles = models.CharField(_(u'Titles'), null=True, blank=True, max_length=255)
-    launch_date = models.IntegerField(_(u'Launch date'), blank=True, null=True)
+    engine = models.CharField(_(u'Engine'), null=True, blank=True,
+                              max_length=255)
+    titles = models.CharField(_(u'Titles'), null=True, blank=True,
+                              max_length=255)
+    launch_date = models.IntegerField(_(u'Launch date'), blank=True,
+                                      null=True)
 
     def get_name(self):
         return self.display_name or self.name
@@ -738,16 +780,24 @@ class Driver(GoalServeModel, Base64Imaged):
     post = models.IntegerField(_("Post"), null=True, blank=True)
     points = models.IntegerField(_("Points"), null=True, blank=True)
 
-    helmet = models.ForeignKey('images.Image', null=True, blank=True, related_name='driver_helmet')
-    display_name = models.CharField(_('Display name '), blank=True, null=True, max_length=255)
+    helmet = models.ForeignKey('images.Image', null=True, blank=True,
+                               related_name='driver_helmet')
+    display_name = models.CharField(_('Display name '), blank=True, null=True,
+                                    max_length=255)
 
-    country = models.CharField(_('Country'), null=True, blank=True, max_length=255)
-    short_name = models.CharField(_("Short name"), blank=True, null=True, max_length=255)
+    country = models.CharField(_('Country'), null=True, blank=True,
+                               max_length=255)
+    short_name = models.CharField(_("Short name"), blank=True, null=True,
+                                  max_length=255)
     birthday = models.DateField(_('Birthday'), blank=True, null=True)
-    birth_city = models.CharField(_("Birth City"), blank=True, null=True, max_length=255)
-    titles = models.CharField(_("Titles"), blank=True, null=True, max_length=255)
-    past_teams = models.CharField(_("Past Teams"), blank=True, null=True, max_length=255)
-    first_race = models.CharField(_("First Race"), blank=True, null=True, max_length=255)
+    birth_city = models.CharField(_("Birth City"), blank=True, null=True,
+                                  max_length=255)
+    titles = models.CharField(_("Titles"), blank=True, null=True,
+                              max_length=255)
+    past_teams = models.CharField(_("Past Teams"), blank=True, null=True,
+                                  max_length=255)
+    first_race = models.CharField(_("First Race"), blank=True, null=True,
+                                  max_length=255)
 
     def get_name(self):
         return self.display_name or self.name
@@ -783,7 +833,6 @@ class F1Results(GoalServeModel):
         return "{self.race} - {self.driver} - {self.pos}".format(self=self)
 
 
-
 class F1Commentary(GoalServeModel):
     race = models.ForeignKey("goalserve.F1Race", verbose_name=_("Race"))
     period = models.CharField(_("Period"), max_length=255, null=True)
@@ -814,4 +863,5 @@ class RaceDriverPosition(models.Model):
         verbose_name_plural = _(u'Race driver positions')
 
     def __unicode__(self):
-        return u"{s.race} {s.driver.name} {s.table} {s.position}".format(s=self)
+        return u"{s.race} {s.driver.name} {s.table} {s.position}".format(
+            s=self)

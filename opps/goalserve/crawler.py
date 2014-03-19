@@ -5,6 +5,7 @@ import datetime
 
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
+from django.db import connection, transaction, DatabaseError, IntegrityError
 
 from .xml2dict import parse
 from .countries import COUNTRIES
@@ -569,9 +570,13 @@ class Crawler(object):
                     #        self.verbose_print("skipping {}".format(filegroup))
                     #        continue
 
-                    _category, created = Category.objects.get_or_create(
-                        g_id=category['@id']
-                    )
+                    try:
+                        _category, created = Category.objects.get_or_create(
+                            g_id=category['@id']
+                        )
+                    except DatabaseError:
+                        # probably because GoalServer API does not send proper IDS
+                        continue
 
                     if created:
                         _category.name=category['@name']
@@ -612,10 +617,14 @@ class Crawler(object):
                                     # print match.get('@static_id'), "!=", match_id
                                     continue
 
-                        _match, created = Match.objects.get_or_create(
-                            category=_category,
-                            g_static_id=match['@static_id'],
-                        )
+                        try:
+                            _match, created = Match.objects.get_or_create(
+                                category=_category,
+                                g_static_id=match['@static_id'],
+                            )
+                        except DatabaseError:
+                            # probably because GoalServer API does not send proper IDS
+                            continue
 
                         # print "getting", _match.g_static_id
 
@@ -745,6 +754,95 @@ class Crawler(object):
 
                     # print _matchstandings, created
 
+    def _process_fixture(self, stage, tournament, country):
+        if 'week' in stage:
+            match_sets = stage.get('week')
+        elif 'aggregate' in stage:
+            match_sets = stage.get('aggregate')
+        else:
+            return
+
+        # create the category
+        g_id = tournament.get('@id')
+        try:
+            defaults = dict(country=self.get_country_by_name(country))
+            _category, _ = Category.objects.get_or_create(g_id=g_id, defaults=defaults)
+        except DatabaseError as e:
+            self.verbose_print(str(e))
+            print "Can't create category {}".format(g_id)
+            connection.close()
+            return
+
+        if not isinstance(match_sets, list):
+            match_sets = [match_sets]
+
+        for match_set in match_sets:
+            round_number = match_set.get('@number')
+            matches = match_set.get('match')
+            if not isinstance(matches, list):
+                matches = [matches]
+
+            for match in matches:
+                if 'TBA' in match.get('@date'):
+                    continue
+
+                try:
+                    _match, created = Match.objects.get_or_create(
+                        g_static_id=match.get('@static_id')
+                    )
+                except DatabaseError as e:
+                    # Probably a match with a same `Match.g_id`
+                    # causing a IntegrityError
+                    self.verbose_print(str(e))
+                    match_id = match.get('@static_id')
+                    print "Can't create match {}".format(match_id)
+                    connection.close()
+                    continue
+
+                if created:
+                    _match.category = _category
+
+                if not _match.week_number and round_number:
+                    _match.week_number = round_number or None
+
+                if match.get('@status') == 'FT' or created:
+                    try:
+                        localteam = match.get('localteam')
+                        visitorteam = match.get('visitorteam')
+
+                        _match.status = match.get('@status')
+                        _match.match_time = self.parse_date(
+                            match.get('@date'),
+                            match.get('@time'),
+                            format="%d.%m.%Y %H:%M"
+                        )
+                        _match.localteam = self.get_team(localteam)
+                        _match.visitorteam = self.get_team(visitorteam)
+                        # _match.ht_result=match.get('ht', {}).get('@score')
+                        _match.g_id = match.get('@id')
+                        _match.g_fix_id = match.get('@fix_id')
+
+                        try:
+                            localteam_goals = int(localteam.get('@score') or 0)
+                            visitor_goals = int(visitorteam.get('@score') or 0)
+                            if localteam_goals > (_match.localteam_goals or 0):
+                                _match.localteam_goals = localteam_goals
+                            if visitor_goals > (_match.visitor_goals or 0):
+                                _match.visitor_goals = visitor_goals
+                        except Exception as e:
+                            self.verbose_print(str(e))
+                            pass
+                    except Exception as e:
+                        self.verbose_print(str(e))
+                        pass
+
+                try:
+                    _match.save()
+                except Exception as e:
+                    # probably integity error
+                    # because GoalServer API does not send proper IDS
+                    self.verbose_print(str(e))
+                    pass
 
     def get_fixtures(self, country='brazil'):
         # 'fixtures': '/getfeed/{gid}/soccerfixtures/{country}/{cat}'
@@ -753,104 +851,23 @@ class Crawler(object):
             data = self.get(
                 URLS.get('fixtures').format(gid=self.gid, country=country, cat=item)
             )
-
             if not data:
                 self.verbose_print("No data")
                 continue
 
-            # print "Fixtures"
-
             tournaments = data.get('results', {}).get('tournament', [])
             if not isinstance(tournaments, list):
                 tournaments = [tournaments]
-
             for tournament in tournaments:
-                # TODO: Deal with stage based fixtures
-                if 'week' in tournament:
-                    # assume week = round
-                    # league = tournament.get('@league')
-                    # season = tournament.get('@season')
-                    # stage_id = tournament.get('@stage_id')
+                if 'stage' in tournament:
+                    stages = tournament.get('stage')
+                else:
+                    stages = [tournament]
 
-                    g_id = tournament.get('@id')
-                    weeks = tournament.get('week')
-
-                    # create the category
-                    _category = self.get_category_by_id(
-                        g_id=g_id,
-                        tournament=tournament,
-                        country=self.get_country_by_name(country)
-                    )
-
-                    if not _category:
-                        continue
-
-                    if not isinstance(weeks, list):
-                        weeks = [weeks]
-
-                    # iterate weeks
-                    for week in weeks:
-                        round_number = week.get('@number')
-                        matches = week.get('match')
-                        if not isinstance(matches, list):
-                            matches = [matches]
-
-                        for match in matches:
-                            if 'TBA' in match.get('@date'):
-                                continue
-
-                            _match, created = Match.objects.get_or_create(
-                                g_static_id=match.get('@static_id')
-                            )
-
-                            if created:
-                                _match.category = _category
-
-                            if not _match.week_number and round_number:
-                                _match.week_number = round_number or None
-
-                            if match.get('@status') == 'FT' or created:
-                                try:
-                                    localteam = match.get('localteam')
-                                    visitorteam = match.get('visitorteam')
-
-                                    _match.status=match.get('@status')
-                                    _match.match_time=self.parse_date(
-                                                   match.get('@date'),
-                                                   match.get('@time'),
-                                                   format="%d.%m.%Y %H:%M"
-                                    )
-                                    _match.localteam=self.get_team(localteam)
-                                    _match.visitorteam=self.get_team(visitorteam)
-                                    # _match.ht_result=match.get('ht', {}).get('@score')
-                                    _match.g_id=match.get('@id')
-                                    _match.g_fix_id=match.get('@fix_id')
-
-                                    try:
-                                        localteam_goals = int(localteam.get('@score') or 0)
-                                        visitorteam_goals = int(visitorteam.get('@score') or 0)
-
-                                        if localteam_goals > (_match.localteam_goals or 0):
-                                            _match.localteam_goals = localteam_goals
-
-                                        if visitorteam_goals > (_match.visitorteam_goals or 0):
-                                            _match.visitorteam_goals = visitorteam_goals
-                                    except Exception as e:
-                                        self.verbose_print(str(e))
-                                        pass
-
-                                except Exception as e:
-                                    self.verbose_print(str(e))
-                                    pass
-
-                            try:
-                                _match.save()
-                            except Exception as e:
-                                # probably integity error
-                                # because GoalServer API does not send proper IDS
-                                self.verbose_print(str(e))
-                                pass
-
+                if not isinstance(stages, list):
+                    stages = [stages]
+                for stage in stages:
+                    self._process_fixture(stage, tournament, country)
 
 
     # F1
