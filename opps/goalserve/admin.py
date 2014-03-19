@@ -26,8 +26,8 @@ class TeamAdmin(GoalServeAdmin):
 
 class MatchAdmin(GoalServeAdmin):
     list_display = ['id', 'name', 'category', 'match_time']
-    list_filter = ['category', 'match_time']
-    #search_fields = ['localteam__name', 'visitorteam__name', 'status']
+    list_filter = ['category', 'match_time', 'status']
+    search_fields = ['localteam__name', 'visitorteam__name', 'category', 'stadium']
     #list_filter = ['category', 'match_time', 'week_number']
     raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
     #list_display = ['name', 'id', 'localteam', 'visitorteam', 'g_static_id',
