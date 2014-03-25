@@ -660,8 +660,10 @@ class Crawler(object):
                                 self.verbose_print(str(e))
 
                             _match.save()
-
-
+                        except DatabaseError as e:
+                            self.verbose_print(str(e))
+                            connection.close()
+                            continue
                         except Exception as e:
                             self.verbose_print(str(e))
                         else:
