@@ -756,7 +756,7 @@ class Crawler(object):
 
                     # print _matchstandings, created
 
-    def _process_fixture(self, stage, tournament, country):
+    def _process_fixture(self, stage, tournament, country, force_update=False):
         if 'week' in stage:
             match_sets = stage.get('week')
         elif 'aggregate' in stage:
@@ -807,7 +807,7 @@ class Crawler(object):
                 if not _match.week_number and round_number:
                     _match.week_number = round_number or None
 
-                if match.get('@status') == 'FT' or created:
+                if match.get('@status') == 'FT' or created or force_update:
                     try:
                         localteam = match.get('localteam')
                         visitorteam = match.get('visitorteam')
@@ -846,7 +846,7 @@ class Crawler(object):
                     self.verbose_print(str(e))
                     pass
 
-    def get_fixtures(self, country='brazil'):
+    def get_fixtures(self, country='brazil', force_update=False):
         # 'fixtures': '/getfeed/{gid}/soccerfixtures/{country}/{cat}'
         self.verbose_print("Getting fixtures")
         for item in FIXTURES.get(country, []):
@@ -869,7 +869,7 @@ class Crawler(object):
                 if not isinstance(stages, list):
                     stages = [stages]
                 for stage in stages:
-                    self._process_fixture(stage, tournament, country)
+                    self._process_fixture(stage, tournament, country, force_update=force_update)
 
 
     # F1
