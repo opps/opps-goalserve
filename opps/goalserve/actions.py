@@ -5,7 +5,7 @@ from .models import Team, Player, Stadium
 
 from .no_photo import team_no_photo, player_no_photo
 
-GID = 'c93ce5a5b570433b8a7d96b3c53f119d'
+GID = getattr(settings, 'OPPS_GOALSERVE_GID', '')
 
 
 def set_team_image(filters=None):
