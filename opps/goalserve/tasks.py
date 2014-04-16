@@ -1,4 +1,3 @@
-
 # coding: utf-8
 import json
 import celery
@@ -19,7 +18,7 @@ from .utils import data_match
 # OPPS_GOALSERVE_TRANSMISSION_MODEL = 'x.Transmission'
 from portal.transmission.models import Transmission
 
-GID = 'c93ce5a5b570433b8a7d96b3c53f119d'
+GID = getattr(settings, 'GOALSERVE_API_ID', '')
 
 
 def log_it(s):
