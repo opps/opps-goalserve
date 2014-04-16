@@ -18,7 +18,7 @@ from .utils import data_match
 # OPPS_GOALSERVE_TRANSMISSION_MODEL = 'x.Transmission'
 from portal.transmission.models import Transmission
 
-GID = getattr(settings, 'GOALSERVE_API_ID', '')
+GID = getattr(settings, 'OPPS_GOALSERVE_GID', '')
 
 
 def log_it(s):
