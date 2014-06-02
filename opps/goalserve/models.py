@@ -618,6 +618,7 @@ class MatchStandings(GoalServeModel):
     overall_l = models.CharField(max_length=255, null=True, blank=True)
 
     description = models.CharField(max_length=255, null=True, blank=True)
+    group = models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return u"{self.category} - {self.team} = {self.position}".format(

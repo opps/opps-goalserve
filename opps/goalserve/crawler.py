@@ -1,4 +1,4 @@
-#coding: utf-8
+# -*- coding:utf-8 -*-
 
 import urllib
 import datetime
@@ -583,10 +583,6 @@ class Crawler(object):
                         _category.country=_country
                         _category.save()
 
-                    # print "category", _category.name, created
-
-                    # import ipdb; ipdb.set_trace()
-
                     matches = category['matches']['match']
                     if not isinstance(matches, list):
                         matches = [matches]
@@ -738,23 +734,17 @@ class Crawler(object):
                     _matchstandings.total_gd = team.get('total', {}).get('@gd')
                     _matchstandings.total_p = team.get('total', {}).get('@p')
 
-                    #if team.get('@id') == "7254":
-                    #    print team.get('total')
-
                     _matchstandings.overall_gp = team.get('overall', {}).get('@gp')
                     _matchstandings.overall_w = team.get('overall', {}).get('@w')
                     _matchstandings.overall_l = team.get('overall', {}).get('@l')
                     _matchstandings.overall_gs = team.get('overall', {}).get('@gs')
                     _matchstandings.overall_ga = team.get('overall', {}).get('@ga')
 
-
                     _matchstandings.description = team.get('description', {}).get('@value')
-
 
                     _matchstandings.timestamp = timestamp
                     _matchstandings.save()
 
-                    # print _matchstandings, created
 
     def _process_fixture(self, stage, tournament, country, force_update=False):
         if 'week' in stage:
