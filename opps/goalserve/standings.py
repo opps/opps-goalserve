@@ -109,6 +109,7 @@ STANDINGS = [
     'euro_qualifiers.xml',
     'faroe-islands.xml',
     'faroe-islands1.xml',
+    'fifa_worldcup.xml',
     'fiji-football-league.xml',
     'finland.xml',
     'finland1.xml',
