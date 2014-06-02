@@ -42,7 +42,8 @@ PLAYER_POSITION = {
 
 class GoalServeModel(models.Model):
 
-    g_id = models.CharField(_("Goalserve ID"), max_length=255, null=True, unique=True)
+    g_id = models.CharField(
+        _("Goalserve ID"), max_length=255, null=True, unique=True)
     g_static_id = models.CharField(_("Goalserve  Static ID"), max_length=255,
                                    null=True, unique=True)
     g_fix_id = models.CharField(_("Goalserve Fixture ID"), max_length=255,
@@ -51,11 +52,13 @@ class GoalServeModel(models.Model):
                                    null=True)
     g_event_id = models.CharField(_("Goalserve Event ID"), max_length=255,
                                   null=True)
-    g_bet_id = models.CharField(_("Goalserve Bet ID"), max_length=255,
-                                  null=True)
+    g_bet_id = models.CharField(
+        _("Goalserve Bet ID"), max_length=255, null=True)
 
-    g_driver_id = models.CharField(_("Goalserve Driver ID"), max_length=255, null=True, unique=True)
-    g_team_id = models.CharField(_("Goalserve Team ID"), max_length=255, null=True, unique=True)
+    g_driver_id = models.CharField(
+        _("Goalserve Driver ID"), max_length=255, null=True, unique=True)
+    g_team_id = models.CharField(
+        _("Goalserve Team ID"), max_length=255, null=True, unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True, default=datetime.now)
     updated_at = models.DateTimeField(auto_now=True, default=datetime.now)
@@ -135,7 +138,6 @@ class Base64Imaged(models.Model):
             self.image_file = self.create_image()
             self.save()
 
-
     class Meta:
         abstract = True
 
@@ -145,7 +147,9 @@ class Country(GoalServeModel):
     name = models.CharField(_("Name"), max_length=255, unique=True,
                             choices=COUNTRIES)
 
-    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    display_name = models.CharField(
+        _("Display name"), max_length=255, null=True, blank=True)
+
     def get_name(self):
         return self.display_name or self.name
 
@@ -163,7 +167,9 @@ class Category(GoalServeModel):
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
 
-    display_name = models.CharField(_("Display name"), max_length=255, null=True, blank=True)
+    display_name = models.CharField(
+        _("Display name"), max_length=255, null=True, blank=True)
+
     def get_name(self):
         return self.display_name or self.name
 
@@ -383,21 +389,21 @@ class Match(GoalServeModel):
         t = t[0]
 
         return [
-           {
-               "id_message": e.id_message,
-               "event": e.event,
-               "minute": e.minute,
-               "team": e.team.id if e.team else '',
-               "player": e.player.id if e.player else '',
-               "player_in": e.player_in.id if e.player_in else '',
-               "player_out": e.player_out.id if e.player_out else '',
-               "f1team": e.f1team.id if e.f1team else '',
-               "driver": e.driver.id if e.driver else '',
-               "acao": e.acao,
-               "half": e.half,
-               "text": e.text
-           }
-           for e in t.transmissionevent_set.all()
+            {
+                "id_message": e.id_message,
+                "event": e.event,
+                "minute": e.minute,
+                "team": e.team.id if e.team else '',
+                "player": e.player.id if e.player else '',
+                "player_in": e.player_in.id if e.player_in else '',
+                "player_out": e.player_out.id if e.player_out else '',
+                "f1team": e.f1team.id if e.f1team else '',
+                "driver": e.driver.id if e.driver else '',
+                "acao": e.acao,
+                "half": e.half,
+                "text": e.text
+            }
+            for e in t.transmissionevent_set.all()
         ]
 
     class Meta:
@@ -737,8 +743,7 @@ class F1Race(GoalServeModel, Base64Imaged):
         [html.append(
             "<li>{r.pos} - {r.driver.name} - {r.team.name}</li>".format(
                 r=result
-            )
-         ) for result in self.results]
+            )) for result in self.results]
         html += ['</ul>']
 
         return "".join(html)
