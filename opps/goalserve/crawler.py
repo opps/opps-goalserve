@@ -741,6 +741,7 @@ class Crawler(object):
                     _matchstandings.overall_ga = team.get('overall', {}).get('@ga')
 
                     _matchstandings.description = team.get('description', {}).get('@value')
+                    _matchstandings.group = tournament.get('@name')
 
                     _matchstandings.timestamp = timestamp
                     _matchstandings.save()
