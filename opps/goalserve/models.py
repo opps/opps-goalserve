@@ -357,7 +357,7 @@ class Match(GoalServeModel):
     @property
     def name(self):
         try:
-            return u"""{self.localteam.name} x {self.visitorteam.name}
+            return u"""{self.localteam} x {self.visitorteam}
             - {self.fmatch_time} - {self.fstatus}""".format(self=self)
         except:
             return self.pk
@@ -365,8 +365,8 @@ class Match(GoalServeModel):
     @property
     def title(self):
         try:
-            return (u"{self.category.name} - {self.localteam.name} x "
-                    u"{self.visitorteam.name}".format(self=self))
+            return (u"{self.category.name} - {self.localteam} x "
+                    u"{self.visitorteam}".format(self=self))
         except:
             return self.pk
 

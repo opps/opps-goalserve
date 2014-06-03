@@ -36,10 +36,11 @@ class MatchAdmin(GoalServeAdmin):
 
 
 class MatchStandingsAdmin(GoalServeAdmin):
-    list_display = ['team', 'group', 'category', 'id']
+    list_display = ['team', 'position', 'group', 'category', 'id']
     list_filter = ['category', 'group', 'status']
     search_fields = ['category__name', 'group']
     raw_id_fields = ['category', 'team']
+    exclude = ('timestamp', 'status') + GoalServeAdmin.exclude
 
 
 class RaceDriverPositionAdmin(admin.ModelAdmin):
