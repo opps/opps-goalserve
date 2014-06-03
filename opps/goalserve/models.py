@@ -243,7 +243,7 @@ class Team(GoalServeModel, Base64Imaged):
         return self.display_name or self.name
 
     def __unicode__(self):
-        return self.name or unicode(_('No name'))
+        return self.display_name or self.name or unicode(_('No name'))
 
     class Meta:
         verbose_name = _('Team')
