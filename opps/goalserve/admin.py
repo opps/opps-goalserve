@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from django.contrib import admin
 from django.conf import settings
 import opps.goalserve.models
@@ -31,10 +32,14 @@ class MatchAdmin(GoalServeAdmin):
     list_display = ['id', 'name', 'category', 'match_time']
     list_filter = ['category', 'match_time', 'status']
     search_fields = ['localteam__name', 'visitorteam__name', 'category__name']
-    #list_filter = ['category', 'match_time', 'week_number']
     raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
-    #list_display = ['name', 'id', 'localteam', 'visitorteam', 'g_static_id',
-    #                'category']
+
+
+class MatchStandingsAdmin(GoalServeAdmin):
+    list_display = ['team', 'group', 'category', 'id']
+    list_filter = ['category', 'group', 'status']
+    search_fields = ['category__name', 'group']
+    raw_id_fields = ['category', 'team']
 
 
 class RaceDriverPositionAdmin(admin.ModelAdmin):
@@ -88,6 +93,7 @@ admin.site.register(opps.goalserve.models.F1Race, RaceAdmin)
 admin.site.register(opps.goalserve.models.F1Results, ResultsAdmin)
 admin.site.register(opps.goalserve.models.F1Track, F1TrackAdmin)
 admin.site.register(opps.goalserve.models.F1Team, F1TeamAdmin)
+admin.site.register(opps.goalserve.models.MatchStandings, MatchStandingsAdmin)
 
 # other models
 admin.site.register(opps.goalserve.models.Country)
@@ -100,4 +106,3 @@ admin.site.register(opps.goalserve.models.MatchCommentary)
 admin.site.register(opps.goalserve.models.MatchEvent)
 admin.site.register(opps.goalserve.models.F1Tournament)
 admin.site.register(opps.goalserve.models.F1Commentary)
-admin.site.register(opps.goalserve.models.MatchStandings)
