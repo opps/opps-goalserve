@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opps-goalserve\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-22 00:40-0200\n"
+"POT-Creation-Date: 2014-06-03 18:00-0300\n"
 "PO-Revision-Date: 2013-09-12 17:20+0000\n"
 "Last-Translator: Ellison Leão\n"
 "Language-Team: Portuguese (Brazil) <opps-developers@googlegroups.com>\n"
@@ -283,11 +283,11 @@ msgstr "Copa do Mundo"
 msgid "World"
 msgstr "Mundo"
 
-#: models.py:26 models.py:298
+#: models.py:26 models.py:304
 msgid "Local"
 msgstr "Local"
 
-#: models.py:27 models.py:303
+#: models.py:27 models.py:309
 msgid "Visitor"
 msgstr "Visitante"
 
@@ -295,7 +295,7 @@ msgstr "Visitante"
 msgid "Substitute"
 msgstr "Substituto"
 
-#: models.py:33 models.py:276 models.py:477 models.py:574
+#: models.py:33 models.py:282 models.py:483 models.py:580
 msgid "Player"
 msgstr "Jogador"
 
@@ -311,540 +311,580 @@ msgstr "Meia"
 msgid "Attacker"
 msgstr "Atacante"
 
-#: models.py:45
+#: models.py:46
 msgid "Goalserve ID"
 msgstr "ID do Goalserve"
 
-#: models.py:46
+#: models.py:47
 msgid "Goalserve  Static ID"
 msgstr "ID estático do Goalserve"
 
-#: models.py:48
+#: models.py:49
 msgid "Goalserve Fixture ID"
 msgstr "ID da fixture Goalserve"
 
-#: models.py:50
+#: models.py:51
 msgid "Goalserve Player ID"
 msgstr "ID do jogador Goalserve"
 
-#: models.py:52
+#: models.py:53
 msgid "Goalserve Event ID"
 msgstr "ID evento goalserve"
 
-#: models.py:54
+#: models.py:56
 msgid "Goalserve Bet ID"
 msgstr "ID aposta goalserve"
 
-#: models.py:57
+#: models.py:59
 msgid "Goalserve Driver ID"
 msgstr "ID do Driver Goalserver"
 
-#: models.py:58
+#: models.py:61
 msgid "Goalserve Team ID"
 msgstr "ID do Time Goalserver"
 
-#: models.py:63
+#: models.py:66
 msgid "extra data"
 msgstr "dado extra"
 
-#: models.py:88
+#: models.py:91
 msgid "Image"
 msgstr "Imagem"
 
-#: models.py:91
+#: models.py:94
 msgid "Image File"
 msgstr "Arquivo da Imagem"
 
-#: models.py:145 models.py:162 models.py:640 models.py:656 models.py:748
-#: models.py:777
+#: models.py:147 models.py:166 models.py:660 models.py:676 models.py:767
+#: models.py:796
 msgid "Name"
 msgstr "Nome"
 
-#: models.py:148 models.py:166 models.py:185 models.py:211 models.py:641
-#: models.py:658 models.py:751
+#: models.py:151 models.py:171 models.py:191 models.py:217 models.py:661
+#: models.py:678 models.py:770
 msgid "Display name"
 msgstr "Nome na visualização"
 
-#: models.py:156 models.py:163 models.py:192 models.py:218 models.py:589
-#: models.py:661 models.py:753 models.py:788
+#: models.py:160 models.py:167 models.py:198 models.py:224 models.py:595
+#: models.py:681 models.py:772 models.py:807
 msgid "Country"
 msgstr "País"
 
-#: models.py:157
+#: models.py:161
 msgid "Countries"
 msgstr "Países"
 
-#: models.py:176 models.py:292 models.py:592 models.py:693
-msgid "Category"
-msgstr "Categoria"
-
-#: models.py:177
-msgid "Categories"
-msgstr "Categorias"
-
-#: models.py:182
-msgid "Stadium name"
-msgstr "Nome do estádio"
-
-#: models.py:202 models.py:223 models.py:311
-msgid "Stadium"
-msgstr "Estádio"
-
-#: models.py:203
-msgid "Stadiums"
-msgstr "Estádios"
-
-#: models.py:208
-msgid "Team name"
-msgstr "Nome do time"
-
-#: models.py:214
-msgid "Team full name"
-msgstr "Nome do time completo"
-
-#: models.py:227
-msgid "Founded"
-msgstr "Fundação"
-
-#: models.py:230
-msgid "Coach"
-msgstr "Técnico"
-
-#: models.py:233
-msgid "Abbreviation"
-msgstr "Abreviação"
-
-#: models.py:240
+#: models.py:179 models.py:246 utils.py:215
 msgid "No name"
 msgstr "Sem nome"
 
-#: models.py:243 models.py:252 models.py:412 models.py:471 models.py:523
-#: models.py:572 models.py:598
+#: models.py:182 models.py:298 models.py:598 models.py:713
+msgid "Category"
+msgstr "Categoria"
+
+#: models.py:183
+msgid "Categories"
+msgstr "Categorias"
+
+#: models.py:188
+msgid "Stadium name"
+msgstr "Nome do estádio"
+
+#: models.py:208 models.py:229 models.py:317
+msgid "Stadium"
+msgstr "Estádio"
+
+#: models.py:209
+msgid "Stadiums"
+msgstr "Estádios"
+
+#: models.py:214
+msgid "Team name"
+msgstr "Nome do time"
+
+#: models.py:220
+msgid "Team full name"
+msgstr "Nome do time completo"
+
+#: models.py:233
+msgid "Founded"
+msgstr "Fundação"
+
+#: models.py:236
+msgid "Coach"
+msgstr "Técnico"
+
+#: models.py:239
+msgid "Abbreviation"
+msgstr "Abreviação"
+
+#: models.py:249 models.py:258 models.py:418 models.py:477 models.py:529
+#: models.py:578 models.py:606
 msgid "Team"
 msgstr "Time"
 
-#: models.py:244
+#: models.py:250
 msgid "Teams"
 msgstr "Times"
 
-#: models.py:249
+#: models.py:255
 msgid "Player name"
 msgstr "Nome do jogador"
 
-#: models.py:256
+#: models.py:262
 msgid "Birth date"
 msgstr "Data de nascimento"
 
-#: models.py:257
+#: models.py:263
 msgid "Age"
 msgstr "Idade"
 
-#: models.py:259
+#: models.py:265
 msgid "Nationality"
 msgstr "Nacionalidade"
 
-#: models.py:261
+#: models.py:267
 msgid "Birth place"
 msgstr "Local de nascimento"
 
-#: models.py:263 models.py:821
+#: models.py:269 models.py:608 models.py:840
 msgid "Position"
 msgstr "Posição"
 
-#: models.py:265
+#: models.py:271
 msgid "Weight"
 msgstr "Peso"
 
-#: models.py:267
+#: models.py:273
 msgid "Height"
 msgstr "Altura"
 
-#: models.py:269
+#: models.py:275
 msgid "Number"
 msgstr "Número"
 
-#: models.py:277
+#: models.py:283
 msgid "Players"
 msgstr "Jogadores"
 
-#: models.py:288 models.py:697
+#: models.py:294 models.py:717
 msgid "Status"
 msgstr "Estado"
 
-#: models.py:296
+#: models.py:302
 msgid "Match time"
 msgstr "Hora do jogo"
 
-#: models.py:308
+#: models.py:314
 msgid "HT Result"
 msgstr "Resultado HT"
 
-#: models.py:315
+#: models.py:321
 msgid "Attendance name"
 msgstr "Capacidade"
 
-#: models.py:318
+#: models.py:324
 msgid "Time name"
 msgstr "Nome do time"
 
-#: models.py:321
+#: models.py:327
 msgid "Referee name"
 msgstr "Nome do juiz"
 
-#: models.py:324
+#: models.py:330
 msgid "Local result"
 msgstr "Resultado local"
 
-#: models.py:326
+#: models.py:332
 msgid "Visitor result"
 msgstr "Resultado visitante"
 
-#: models.py:328
+#: models.py:334
 msgid "Week number"
 msgstr "Número da semana"
 
-#: models.py:404 models.py:410 models.py:466 models.py:507 models.py:539
-#: models.py:561
+#: models.py:410 models.py:416 models.py:472 models.py:513 models.py:545
+#: models.py:567
 msgid "Match"
 msgstr "Partida"
 
-#: models.py:405
+#: models.py:411 models.py:618
 msgid "Matches"
 msgstr "Partidas"
 
-#: models.py:415 models.py:468 models.py:521 models.py:570
+#: models.py:421 models.py:474 models.py:527 models.py:576
 msgid "Team status"
 msgstr "Estado do time"
 
-#: models.py:418
+#: models.py:424
 msgid "Shots"
 msgstr "Chutes"
 
-#: models.py:420
+#: models.py:426
 msgid "Shots on goal"
 msgstr "Chutes no gol"
 
-#: models.py:422
+#: models.py:428
 msgid "Fouls"
 msgstr "Faltas"
 
-#: models.py:424
+#: models.py:430
 msgid "Corners"
 msgstr "Escanteios"
 
-#: models.py:426
+#: models.py:432
 msgid "Offsides"
 msgstr "Impedimentos"
 
-#: models.py:428
+#: models.py:434
 msgid "Possesion time"
 msgstr "Tempo de posse"
 
-#: models.py:431
+#: models.py:437
 msgid "Saves"
 msgstr "Defesas"
 
-#: models.py:461 models.py:462
+#: models.py:467 models.py:468
 msgid "Match Stats"
 msgstr "Estado das Partidas"
 
-#: models.py:474
+#: models.py:480
 msgid "Player Status"
 msgstr "Estado do jogador"
 
-#: models.py:479
+#: models.py:485
 msgid "Player number"
 msgstr "Número do jogador"
 
-#: models.py:482
+#: models.py:488
 msgid "Player position"
 msgstr "Posição do jogador"
 
-#: models.py:488
+#: models.py:494
 msgid "Order"
 msgstr "Ordem"
 
-#: models.py:501
+#: models.py:507
 msgid "Match Lineup"
 msgstr "Escalação da partida"
 
-#: models.py:502
+#: models.py:508
 msgid "Match Lineups"
 msgstr "Escalações das partidas"
 
-#: models.py:510
+#: models.py:516
 msgid "Player Off"
 msgstr "Jogador Fora"
 
-#: models.py:515
+#: models.py:521
 msgid "Player In"
 msgstr "Jogador dentro"
 
-#: models.py:519 models.py:542 models.py:569
+#: models.py:525 models.py:548 models.py:575
 msgid "Minute"
 msgstr "Minuto"
 
-#: models.py:534
+#: models.py:540
 msgid "Match Substitution"
 msgstr "Substituição da partida"
 
-#: models.py:535
+#: models.py:541
 msgid "Match Substitutions"
 msgstr "Substituições das partidas"
 
-#: models.py:540
+#: models.py:546
 msgid "Important"
 msgstr "Importante"
 
-#: models.py:541
+#: models.py:547
 msgid "Is Goal"
 msgstr "Foi gol"
 
-#: models.py:543 models.py:839
+#: models.py:549 models.py:858
 msgid "Comment"
 msgstr "Comentário"
 
-#: models.py:549
+#: models.py:555
 msgid "Match Commentary"
 msgstr "Comentário da partida"
 
-#: models.py:550
+#: models.py:556
 msgid "Match Commentaries"
 msgstr "Comentários das partidas"
 
-#: models.py:556
+#: models.py:562
 msgid "Goal"
 msgstr "Gol"
 
-#: models.py:557
+#: models.py:563
 msgid "Yellow Card"
 msgstr "Cartão amarelo"
 
-#: models.py:558
+#: models.py:564
 msgid "Red Card"
 msgstr "Cartão vermelho"
 
-#: models.py:563
+#: models.py:569
 msgid "Event type"
 msgstr "Tipo de evento"
 
-#: models.py:566
+#: models.py:572
 msgid "Own Goal"
 msgstr "Gol contra"
 
-#: models.py:567
+#: models.py:573
 msgid "Penalty"
 msgstr "Penalidade"
 
-#: models.py:577
+#: models.py:583
 msgid "Result"
 msgstr "Resultado"
 
-#: models.py:584
+#: models.py:590
 msgid "Match Event"
 msgstr "Evento da partida"
 
-#: models.py:585
+#: models.py:591
 msgid "Match Events"
 msgstr "Eventos da partida"
 
-#: models.py:621
-msgid "Match Standing"
-msgstr "Classificação"
+#: models.py:602
+msgid "Season"
+msgstr "Temporada"
 
-#: models.py:622
-msgid "Match Standings"
-msgstr "Classificações"
+#: models.py:604
+msgid "Round"
+msgstr "Rodada"
 
-#: models.py:631 models.py:820 models.py:837
-msgid "Race"
-msgstr "Corrida"
+#: models.py:611
+msgid "Recent results"
+msgstr "Resultado recentes"
 
-#: models.py:632
-msgid "Qualification"
-msgstr "Classificação"
+#: models.py:613
+msgid "Goals Difference"
+msgstr "Saldo de gols"
 
-#: models.py:633
-msgid "Last Practice"
-msgstr "Último treino"
-
-#: models.py:634
-msgid "Second Practice"
-msgstr "Segundo treino"
-
-#: models.py:635
-msgid "First Practice"
-msgstr "Primeiro treino"
-
-#: models.py:648
-msgid "F1 Tournament"
-msgstr "Torneio F1"
-
-#: models.py:649
-msgid "F1 Tournaments"
-msgstr "Torneios F1"
-
-#: models.py:664
-msgid "Locality"
-msgstr "Localidade"
-
-#: models.py:667
-msgid "Link"
-msgstr "Link"
-
-#: models.py:672
-msgid "Flag"
-msgstr "Bandeira"
-
-#: models.py:677
-msgid "Mapa do circuito"
-msgstr "Mapa do circuito"
-
-#: models.py:687
-msgid "F1 Track"
-msgstr "Pista F1"
-
-#: models.py:688
-msgid "F1 Tracks"
-msgstr "Pistas F1"
-
-#: models.py:695
-msgid "Race Type"
-msgstr "Tipo de corrida"
-
-#: models.py:700
-msgid "Track"
-msgstr "Pista"
-
-#: models.py:703
-msgid "Distance"
-msgstr "Distância"
-
-#: models.py:705 models.py:707
-msgid "Total laps"
-msgstr "Total de voltas"
-
-#: models.py:709
-msgid "Race time"
-msgstr "Tempo de corrida"
-
-#: models.py:712
-msgid "F1 Race"
-msgstr "Corrida F1"
-
-#: models.py:713
-msgid "F1 Races"
-msgstr "Corridas F1"
-
-#: models.py:749 models.py:780
-msgid "Post"
-msgstr "Post"
-
-#: models.py:750 models.py:781
+#: models.py:615 models.py:769 models.py:800
 msgid "Points"
 msgstr "Pontos"
 
-#: models.py:755
+#: models.py:621
+msgid "Goals Scored"
+msgstr "Gols pró"
+
+#: models.py:623
+msgid "Goals Against"
+msgstr "Gols contra"
+
+#: models.py:626
+msgid "Wins"
+msgstr "Vitórias"
+
+#: models.py:628
+msgid "Loses"
+msgstr "Derrotas"
+
+#: models.py:631
+msgid "Description"
+msgstr "Descrição"
+
+#: models.py:633
+msgid "Group"
+msgstr "Grupo"
+
+#: models.py:641
+msgid "Match Standing"
+msgstr "Classificação"
+
+#: models.py:642
+msgid "Match Standings"
+msgstr "Classificações"
+
+#: models.py:651 models.py:839 models.py:856
+msgid "Race"
+msgstr "Corrida"
+
+#: models.py:652
+msgid "Qualification"
+msgstr "Classificação"
+
+#: models.py:653
+msgid "Last Practice"
+msgstr "Último treino"
+
+#: models.py:654
+msgid "Second Practice"
+msgstr "Segundo treino"
+
+#: models.py:655
+msgid "First Practice"
+msgstr "Primeiro treino"
+
+#: models.py:668
+msgid "F1 Tournament"
+msgstr "Torneio F1"
+
+#: models.py:669
+msgid "F1 Tournaments"
+msgstr "Torneios F1"
+
+#: models.py:684
+msgid "Locality"
+msgstr "Localidade"
+
+#: models.py:687
+msgid "Link"
+msgstr "Link"
+
+#: models.py:692
+msgid "Flag"
+msgstr "Bandeira"
+
+#: models.py:697
+msgid "Mapa do circuito"
+msgstr "Mapa do circuito"
+
+#: models.py:707
+msgid "F1 Track"
+msgstr "Pista F1"
+
+#: models.py:708
+msgid "F1 Tracks"
+msgstr "Pistas F1"
+
+#: models.py:715
+msgid "Race Type"
+msgstr "Tipo de corrida"
+
+#: models.py:720
+msgid "Track"
+msgstr "Pista"
+
+#: models.py:723
+msgid "Distance"
+msgstr "Distância"
+
+#: models.py:725 models.py:727
+msgid "Total laps"
+msgstr "Total de voltas"
+
+#: models.py:729
+msgid "Race time"
+msgstr "Tempo de corrida"
+
+#: models.py:732
+msgid "F1 Race"
+msgstr "Corrida F1"
+
+#: models.py:733
+msgid "F1 Races"
+msgstr "Corridas F1"
+
+#: models.py:768 models.py:799
+msgid "Post"
+msgstr "Post"
+
+#: models.py:774
 msgid "Tires"
 msgstr "Pneus"
 
-#: models.py:757
+#: models.py:776
 msgid "Site"
 msgstr "Site"
 
-#: models.py:758
+#: models.py:777
 msgid "Engine"
 msgstr "Motor"
 
-#: models.py:760 models.py:795
+#: models.py:779 models.py:814
 msgid "Titles"
 msgstr "Títulos"
 
-#: models.py:762
+#: models.py:781
 msgid "Launch date"
 msgstr "Data de Início"
 
-#: models.py:769
+#: models.py:788
 msgid "F1 Team"
 msgstr "Time F1"
 
-#: models.py:770
+#: models.py:789
 msgid "F1 Teams"
 msgstr "Times F1"
 
-#: models.py:785
+#: models.py:804
 msgid "Display name "
 msgstr "Nome na visualização"
 
-#: models.py:790
+#: models.py:809
 msgid "Short name"
 msgstr "Nome curto"
 
-#: models.py:792
+#: models.py:811
 msgid "Birthday"
 msgstr "Data de nascimento"
 
-#: models.py:793
+#: models.py:812
 msgid "Birth City"
 msgstr "Cidade de nascimento"
 
-#: models.py:797
+#: models.py:816
 msgid "Past Teams"
 msgstr "Equipes F1 por onde passou"
 
-#: models.py:799
+#: models.py:818
 msgid "First Race"
 msgstr "Primeira corrida"
 
-#: models.py:812 models.py:822
+#: models.py:831 models.py:841
 msgid "Driver"
 msgstr "Piloto"
 
-#: models.py:813
+#: models.py:832
 msgid "Drivers"
 msgstr "Pilotos"
 
-#: models.py:824
+#: models.py:843
 msgid "Time"
 msgstr "Tempo"
 
-#: models.py:829
+#: models.py:848
 msgid "F1 Result"
 msgstr "Resultado F1"
 
-#: models.py:830
+#: models.py:849
 msgid "F1 Results"
 msgstr "Resultados F1"
 
-#: models.py:838
+#: models.py:857
 msgid "Period"
 msgstr "Período"
 
-#: models.py:842
+#: models.py:861
 msgid "F1 Commentary"
 msgstr "Comentário F1"
 
-#: models.py:843
+#: models.py:862
 msgid "F1 Commentaries"
 msgstr "Comentários F1"
 
-#: models.py:851
+#: models.py:870
 msgid "Start"
 msgstr "Início"
 
-#: models.py:852
+#: models.py:871
 msgid "Real time"
 msgstr "Tempo Real"
 
-#: models.py:853
+#: models.py:872
 msgid "Final"
 msgstr "Final"
 
-#: models.py:862
+#: models.py:881
 msgid "Race driver position"
 msgstr "Posição do piloto"
 
-#: models.py:863
+#: models.py:882
 msgid "Race driver positions"
 msgstr "Posições dos pilotos"
 

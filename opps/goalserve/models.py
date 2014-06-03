@@ -599,26 +599,39 @@ class MatchStandings(GoalServeModel):
                                  null=True, blank=True,
                                  on_delete=models.SET_NULL)
     timestamp = models.CharField(max_length=255, null=True, blank=True)
-    season = models.CharField(max_length=255, null=True, blank=True)
-    round = models.CharField(max_length=255, null=True, blank=True)
+    season = models.CharField(verbose_name=_("Season"),
+                              max_length=255, null=True, blank=True)
+    round = models.CharField(verbose_name=_("Round"),
+                             max_length=255, null=True, blank=True)
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              on_delete=models.SET_NULL, null=True)
-    position = models.CharField(max_length=255, null=True, blank=True)
+    position = models.CharField(verbose_name=_("Position"),
+                                max_length=255, null=True, blank=True)
     status = models.CharField(max_length=255, null=True, blank=True)
-    recent_form = models.CharField(max_length=255, null=True, blank=True)
-    total_gd = models.CharField(max_length=255, null=True, blank=True)
-    total_p = models.CharField(max_length=255, null=True, blank=True)
+    recent_form = models.CharField(verbose_name=_("Recent results"),
+                                   max_length=255, null=True, blank=True)
+    total_gd = models.CharField(verbose_name=_("Goals Difference"),
+                                max_length=255, null=True, blank=True)
+    total_p = models.CharField(verbose_name=_("Points"),
+                               max_length=255, null=True, blank=True)
 
-    overall_gp = models.CharField(max_length=255, null=True, blank=True)
+    overall_gp = models.CharField(verbose_name=_("Matches"),
+                                  max_length=255, null=True, blank=True)
 
-    overall_gs = models.CharField(max_length=255, null=True, blank=True)
-    overall_ga = models.CharField(max_length=255, null=True, blank=True)
+    overall_gs = models.CharField(verbose_name=_("Goals Scored"),
+                                  max_length=255, null=True, blank=True)
+    overall_ga = models.CharField(verbose_name=_("Goals Against"),
+                                  max_length=255, null=True, blank=True)
 
-    overall_w = models.CharField(max_length=255, null=True, blank=True)
-    overall_l = models.CharField(max_length=255, null=True, blank=True)
+    overall_w = models.CharField(verbose_name=_("Wins"),
+                                 max_length=255, null=True, blank=True)
+    overall_l = models.CharField(verbose_name=_("Loses"),
+                                 max_length=255, null=True, blank=True)
 
-    description = models.CharField(max_length=255, null=True, blank=True)
-    group = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(verbose_name=_("Description"),
+                                   max_length=255, null=True, blank=True)
+    group = models.CharField(verbose_name=_("Group"),
+                             max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return u"{self.category} - {self.team} = {self.position}".format(
