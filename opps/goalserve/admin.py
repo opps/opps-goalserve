@@ -43,6 +43,10 @@ class MatchStandingsAdmin(GoalServeAdmin):
     exclude = ('timestamp', 'status') + GoalServeAdmin.exclude
 
 
+class CategoryAdmin(GoalServeAdmin):
+    search_fields = ['name', 'display_name']
+
+
 class RaceDriverPositionAdmin(admin.ModelAdmin):
     search_fields = ['driver__name']
     list_filter = ['race', 'table']
@@ -95,10 +99,10 @@ admin.site.register(opps.goalserve.models.F1Results, ResultsAdmin)
 admin.site.register(opps.goalserve.models.F1Track, F1TrackAdmin)
 admin.site.register(opps.goalserve.models.F1Team, F1TeamAdmin)
 admin.site.register(opps.goalserve.models.MatchStandings, MatchStandingsAdmin)
+admin.site.register(opps.goalserve.models.Category, CategoryAdmin)
 
 # other models
 admin.site.register(opps.goalserve.models.Country)
-admin.site.register(opps.goalserve.models.Category)
 admin.site.register(opps.goalserve.models.Stadium)
 admin.site.register(opps.goalserve.models.MatchStats)
 admin.site.register(opps.goalserve.models.MatchLineUp)
