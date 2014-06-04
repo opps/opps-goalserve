@@ -173,10 +173,8 @@ class Category(GoalServeModel):
     def get_name(self):
         return self.display_name or self.name
 
-    # alias
-
     def __unicode__(self):
-        return self.name or unicode(_('No name'))
+        return self.display_name or self.name or unicode(_('No name'))
 
     class Meta:
         verbose_name = _('Category')
@@ -365,7 +363,7 @@ class Match(GoalServeModel):
     @property
     def title(self):
         try:
-            return (u"{self.category.name} - {self.localteam} x "
+            return (u"{self.category} - {self.localteam} x "
                     u"{self.visitorteam}".format(self=self))
         except:
             return self.pk
