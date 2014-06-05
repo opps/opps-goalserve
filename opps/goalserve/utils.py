@@ -162,7 +162,7 @@ def get_standings(_category):
     for stand in standings:
         rounds.setdefault(stand.round, [])
 
-        stand.team_name = stand.team.name
+        stand.team_name = stand.team.display_name or stand.team.name
         stand.image = stand.team.image_url
 
         rounds[stand.round].append(
@@ -235,7 +235,7 @@ def get_tournament_standings(**kwargs):
         for stand in standings:
             rounds.setdefault(stand.round, [])
 
-            stand.team_name = stand.team.name
+            stand.team_name = stand.team.display_name or stand.team.name
             stand.image = stand.team.image_url
 
             rounds[stand.round].append(
