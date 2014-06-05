@@ -41,7 +41,7 @@ def data_match(match_pk):
     '''
     data['events'] = [
         serialize(
-            get_event(event),   
+            get_event(event),
             exclude=[
                 'match_id', 'g_bet_id',
                 'g_static_id', 'g_player_id', 'g_fix_id', 'id', 'g_id', 'own_goal', 'updated_at',
@@ -52,7 +52,7 @@ def data_match(match_pk):
     '''
 
     data['events'] = _match.get_transmission_events()
-    
+
     # LOCALTEAM
     data['localteam'] = serialize(
         get_dict(_match, 'localteam'),
@@ -208,7 +208,7 @@ def get_tournament_standings(**kwargs):
 
     category_kwargs =  filter_kwargs_by_key('category__')
     categories = Category.objects.filter(country__name__in=[
-        'brazil', 'intl', 'international', 'southamerica'
+        'brazil', 'intl', 'international', 'southamerica', 'worldcup',
     ], **category_kwargs)
 
     for category in categories:
