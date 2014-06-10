@@ -33,12 +33,12 @@ class CSRFExemptMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(CSRFExemptMixin, self).dispatch(*args, **kwargs)
 
-        
+
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
-        
+
 
 class SuccessURLMixin(object):
     def get_success_url(self):
@@ -87,7 +87,7 @@ class PostMixin(object):
             else:
                 return self.form_invalid(form)
 
-                
+
 class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMixin, FormView):
     template_name = 'goalserve/lineupform.html'
     form_class = LineupAddForm
@@ -99,7 +99,7 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMi
             if field in self.request.GET:
                 initial[field] = self.request.GET.get(field)
         return initial
-        
+
     def form_valid(self, form):
         data = form.cleaned_data
         match = Match.objects.get(pk=data.get('match_id'))
@@ -115,7 +115,7 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMi
         self.player = player
         self.team = team
         self.match = match
-        
+
         self.lineup = MatchLineUp.objects.create(
             team=team,
             player=player,
@@ -126,9 +126,9 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMi
             team_status=data.get('team_status'),
             order=data.get('order') or 0
         )
-        
+
         return super(LineupAddView, self).form_valid(form)
-        
+
 
 class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMixin, FormView):
     template_name = 'goalserve/lineupform.html'
@@ -158,12 +158,12 @@ class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostM
         lineup.player_status = data.get('player_status')
         lineup.order = data.get('order', lineup.order) or 0
         lineup.save()
-        
+
         self.lineup = lineup
         self.player = lineup.player
         self.team = lineup.team
         self.match = lineup.match
-        
+
         return super(LineupEditView, self).form_valid(form)
 
 
@@ -172,10 +172,10 @@ def lineup_delete(request):
     match_id = request.REQUEST.get('match_id')
     lineup_id = request.REQUEST.get('lineup_id')
     response = request.REQUEST.get('response', '')
-    
+
     if not match_id or not lineup_id:
         return HttpResponse("ERROR: Provide match_id and lineup_id")
-    
+
     qs = MatchLineUp.objects.filter(
         match__id=int(match_id),
         pk=int(lineup_id)
@@ -198,7 +198,7 @@ def lineup_delete(request):
             data["error"] = True
         else:
             data["error"] = False
-            
+
         return JSONPResponse(data)
     else:
         return HttpResponse("SUCCESS" if not error else "ERROR")
@@ -216,13 +216,13 @@ def lineup_list(request, match_id):
     }
     return render_to_response('goalserve/lineuplist.html', context)
 
-    
+
 class JSONStandingsF1View(JSONView):
     def get_context_data(self, **kwargs):
         # agrregate tournaments
         return {}
 
-        
+
 class JSONStandingsDriversView(JSONView):
     def get_context_data(self, **kwargs):
         data = {
@@ -241,7 +241,7 @@ class JSONStandingsDriversView(JSONView):
         }
         return data
 
-        
+
 class JSONStandingsTeamsView(JSONView):
     def get_context_data(self, **kwargs):
         data = {
@@ -287,7 +287,7 @@ class JSONCategoryView(JSONView):
                   "name": category.name,
                   "display_name": category.display_name,
                   "country": category.country.name,
-                  "goalserve_id": category.g_id  
+                  "goalserve_id": category.g_id
                }
                 for category in categories[start: end]
            ],
@@ -296,10 +296,10 @@ class JSONCategoryView(JSONView):
                "end": end,
                "total": categories.count(),
                "filters": filters
-           } 
-       }        
+           }
+       }
 
-        
+
 class JSONMatchView(JSONView):
     def get_context_data(self, **kwargs):
         start = int(self.request.REQUEST.get('start', 0))
@@ -319,7 +319,7 @@ class JSONMatchView(JSONView):
             del request_filters['team_name']
         if 'team_id' in request_filters:
             del request_filters['team_id']
-                        
+
         filters.update(request_filters)
         matches = Match.objects.filter(
             **filters)
@@ -334,15 +334,14 @@ class JSONMatchView(JSONView):
             matches = matches.filter(
                Q(localteam__id=team_id) | Q(visitorteam__id=team_id)
             )
-        
+
         matches = matches.order_by('-match_time')
 
         return {
-
            "objects:": [
                {
                   "id": match.id,
-                  "name": u"{m.localteam.name} x {m.visitorteam.name}".format(
+                  "name": u"{m.localteam} x {m.visitorteam}".format(
                       m=match),
                   "status": match.status,
                   "category": match.category.name,
@@ -370,10 +369,10 @@ class JSONMatchView(JSONView):
                "end": end,
                "total": matches.count(),
                "filters": filters
-           } 
+           }
        }
 
-    
+
 def response_mimetype(request):
     if "application/json" in request.META['HTTP_ACCEPT']:
         return "application/json"
@@ -506,5 +505,4 @@ def ajax_get_matches(response, country_name, match_id=None):
 @login_required
 def get_task_status(request, task_id):
     res = AsyncResult(task_id)
-    # import ipdb;ipdb.set_trace()
     return HttpResponse(res.status)
