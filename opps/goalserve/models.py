@@ -324,6 +324,8 @@ class Match(GoalServeModel):
 
     referee_name = models.CharField(_("Referee name"), max_length=255,
                                     null=True, blank=True)
+    stadium_name = models.CharField(_("Stadium name"), max_length=255,
+                                    null=True, blank=True)
 
     localteam_goals = models.IntegerField(_("Local result"), default=0)
 
