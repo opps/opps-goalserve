@@ -355,7 +355,7 @@ class JSONMatchView(JSONView):
                    "visitorteam_name": match.visitorteam.name,
                    "visitorteam_display_name": match.visitorteam.display_name,
                    "stadium": match.stadium.name if match.stadium else '',
-                   "stadium_display_name": match.stadium.display_name if match.stadium else '',
+                   "stadium_display_name": match.stadium_name
                    "week_number": match.week_number,
                    "localteam_goals": match.localteam_goals,
                    "visitorteam_goals": match.visitorteam_goals,
