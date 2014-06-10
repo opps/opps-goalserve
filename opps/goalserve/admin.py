@@ -25,14 +25,16 @@ class TeamAdmin(GoalServeAdmin):
     list_display = ['name', 'display_name', 'full_name', 'abbr']
     list_display_links = list_display
     list_filter = ['country']
-    raw_id_fields = ['country', 'stadium', 'image_file']
+    raw_id_fields = ['country', 'image_file']
+    exclude = ('stadium',) + GoalServeAdmin.exclude
 
 
 class MatchAdmin(GoalServeAdmin):
     list_display = ['id', 'name', 'category', 'match_time']
     list_filter = ['category', 'match_time', 'status']
     search_fields = ['localteam__name', 'visitorteam__name', 'category__name']
-    raw_id_fields = ['localteam', 'visitorteam', 'category', 'stadium']
+    raw_id_fields = ['localteam', 'visitorteam', 'category']
+    exclude = ('stadium',) + GoalServeAdmin.exclude
 
 
 class MatchStandingsAdmin(GoalServeAdmin):
@@ -103,7 +105,6 @@ admin.site.register(opps.goalserve.models.Category, CategoryAdmin)
 
 # other models
 admin.site.register(opps.goalserve.models.Country)
-admin.site.register(opps.goalserve.models.Stadium)
 admin.site.register(opps.goalserve.models.MatchStats)
 admin.site.register(opps.goalserve.models.MatchLineUp)
 admin.site.register(opps.goalserve.models.MatchSubstitutions)
