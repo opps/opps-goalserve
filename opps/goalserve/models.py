@@ -355,6 +355,14 @@ class Match(GoalServeModel):
         return self.status
 
     @property
+    def group(self):
+        try:
+            return MatchStandings.objects.get(
+                category=self.category, team=self.localteam).group
+        except:
+            return None
+
+    @property
     def name(self):
         try:
             return u"""{self.localteam} x {self.visitorteam}

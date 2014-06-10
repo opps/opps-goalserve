@@ -344,6 +344,7 @@ class JSONMatchView(JSONView):
                   "name": u"{m.localteam} x {m.visitorteam}".format(
                       m=match),
                   "status": match.status,
+                  "group": match.group,
                   "category": match.category.name,
                   "category_display_name": match.category.display_name,
                   "match_time": match.match_time.strftime("%Y-%m-%d %H:%M") if match.match_time else '',
