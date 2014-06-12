@@ -2,21 +2,24 @@
 
 import base64
 import json
+
 from datetime import timedelta
 from django.utils import timezone as datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.files import File
 from django.utils.text import slugify
-from tempfile import NamedTemporaryFile
-
-from opps.images.models import Image
 from django.contrib.sites.models import Site
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from tempfile import NamedTemporaryFile
+
+from opps.images.models import Image
 from .countries import COUNTRIES
 
 User = get_user_model()
+
+TZ_DELTA = timedelta(hours=getattr(settings, "TZ_DELTA", 2))
 
 # ==============================================================================
 # Soccer
@@ -344,9 +347,8 @@ class Match(GoalServeModel):
     @property
     def fmatch_time(self):
         try:
-            # TODO: Fix timezone
-            self.match_time = self.match_time - timedelta(hours=3)
-            return self.match_time.strftime("%d/%m/%Y %H:%M")
+            match_time = self.match_time - TZ_DELTA
+            return match_time.strftime("%d/%m/%Y %H:%M")
         except:
             return ''
 

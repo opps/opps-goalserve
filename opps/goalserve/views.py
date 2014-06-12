@@ -24,7 +24,6 @@ import logging
 
 UTC = tzutc()
 
-
 logger = logging.getLogger()
 
 
@@ -347,7 +346,7 @@ class JSONMatchView(JSONView):
                   "group": match.group,
                   "category": match.category.name,
                   "category_display_name": match.category.display_name,
-                  "match_time": match.match_time.strftime("%Y-%m-%d %H:%M") if match.match_time else '',
+                  "match_time": match.fmatch_time,
                   "localteam_id": match.localteam.id,
                    "localteam_name": match.localteam.name,
                    "localteam_display_name": match.localteam.display_name,
