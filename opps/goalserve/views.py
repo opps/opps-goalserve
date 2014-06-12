@@ -335,7 +335,7 @@ class JSONMatchView(JSONView):
                Q(localteam__id=team_id) | Q(visitorteam__id=team_id)
             )
 
-        matches = matches.order_by('-match_time')
+        matches = matches.order_by('match_time')
 
         return {
            "objects:": [
