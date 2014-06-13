@@ -132,7 +132,7 @@ def update_general_standings():
     countries = getattr(settings, 'OPPS_GOALSERVE_STANDINGS_COUNTRIES', ['brazil'])
     for country in countries:
         get_standings(country=country)
-    log_it('update_general__standings')
+    log_it('update_general__standings for {}'.format(str(countries)))
 
 
 @celery.task.periodic_task(run_every=timezone.timedelta(hours=8))
@@ -163,7 +163,7 @@ def update_f1_drivers():
 def update_f1_races():
     goalserve('get_races', feed='f1-shedule')
 
-    
+
 @celery.task.periodic_task(run_every=timezone.timedelta(hours=1))
 def update_f1_results():
     goalserve('get_races', feed='f1-results')
