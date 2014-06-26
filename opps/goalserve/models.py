@@ -335,6 +335,8 @@ class Match(GoalServeModel):
     visitorteam_goals = models.IntegerField(_("Visitor result"), default=0)
 
     week_number = models.IntegerField(_('Week number'), null=True, blank=True)
+    group_name = models.CharField(_("Grupo"), max_length=255,
+                                  null=True, blank=True)
 
     @property
     def round_number(self):
@@ -358,7 +360,13 @@ class Match(GoalServeModel):
 
     @property
     def group(self):
+        """
+        set priority to group_name and if is empty should find group
+        through MatchStandings
+        """
         try:
+            if self.group_name:
+                return self.group_name
             return MatchStandings.objects.get(
                 category=self.category, team=self.localteam).group
         except:
