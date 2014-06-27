@@ -358,19 +358,21 @@ class Match(GoalServeModel):
     def fstatus(self):
         return self.status
 
+    def get_group(self):
+        """get group through MatchStandings"""
+        try:
+            return MatchStandings.objects.get(
+                category=self.category, team=self.localteam).group
+        except:
+            return None
+
     @property
     def group(self):
         """
         set priority to group_name and if is empty should find group
         through MatchStandings
         """
-        try:
-            if self.group_name:
-                return self.group_name
-            return MatchStandings.objects.get(
-                category=self.category, team=self.localteam).group
-        except:
-            return None
+        return self.group_name if self.group_name else self.get_group()
 
     @property
     def name(self):
