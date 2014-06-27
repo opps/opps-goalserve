@@ -344,6 +344,7 @@ class JSONMatchView(JSONView):
                       m=match),
                   "status": match.status,
                   "group": match.group,
+                  "group_name": match.group_name,
                   "category": match.category.name,
                   "category_display_name": match.category.display_name,
                   "match_time": match.fmatch_time,
