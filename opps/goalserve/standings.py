@@ -10,6 +10,21 @@ STANDINGS = [
     'brazil8.xml',
     'brazil9.xml',
     'brazil10.xml',
+    'libertadores_cup.xml',
+]
+
+VALID_STANDINGS = [
+    'brazil.xml',
+    'brazil1.xml',
+    'brazil2.xml',
+    'brazil3.xml',
+    'brazil4.xml',
+    'brazil5.xml',
+    'brazil6.xml',
+    'brazil7.xml',
+    'brazil8.xml',
+    'brazil9.xml',
+    'brazil10.xml',
     'afc_champions_league.xml',
     'africa_cup.xml',
     'albania.xml',
