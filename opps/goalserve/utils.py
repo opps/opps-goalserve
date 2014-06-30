@@ -206,9 +206,9 @@ def get_tournament_standings(**kwargs):
         except Exception, e:
             return {}
 
-    category_kwargs =  filter_kwargs_by_key('category__')
+    category_kwargs = filter_kwargs_by_key('category__')
     categories = Category.objects.filter(country__name__in=[
-        'brazil', 'intl', 'international', 'southamerica', 'worldcup',
+        'brazil', 'intl', 'international', 'southamerica',
     ], **category_kwargs)
 
     for category in categories:
