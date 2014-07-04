@@ -46,9 +46,11 @@ PLAYER_POSITION = {
 class GoalServeModel(models.Model):
 
     g_id = models.CharField(
-        _("Goalserve ID"), max_length=255, null=True, unique=True)
-    g_static_id = models.CharField(_("Goalserve  Static ID"), max_length=255,
-                                   null=True, unique=True)
+        _("Goalserve ID"), max_length=255, null=True,
+        unique=True, db_index=True)
+    g_static_id = models.CharField(
+        _("Goalserve  Static ID"), max_length=255,
+        null=True, unique=True, db_index=True)
     g_fix_id = models.CharField(_("Goalserve Fixture ID"), max_length=255,
                                 null=True)
     g_player_id = models.CharField(_("Goalserve Player ID"), max_length=255,
@@ -151,7 +153,8 @@ class Country(GoalServeModel):
                             choices=COUNTRIES)
 
     display_name = models.CharField(
-        _("Display name"), max_length=255, null=True, blank=True)
+        _("Display name"), max_length=255, null=True,
+        blank=True, db_index=True)
 
     def get_name(self):
         return self.display_name or self.name
@@ -166,12 +169,15 @@ class Country(GoalServeModel):
 
 class Category(GoalServeModel):
 
-    name = models.CharField(_("Name"), max_length=255, null=True, blank=True)
+    name = models.CharField(
+        _("Name"), max_length=255, null=True, blank=True, db_index=True)
+
     country = models.ForeignKey("goalserve.Country", verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
 
     display_name = models.CharField(
-        _("Display name"), max_length=255, null=True, blank=True)
+        _("Display name"), max_length=255,
+        null=True, blank=True, db_index=True)
 
     def get_name(self):
         return self.display_name or self.name
@@ -186,8 +192,9 @@ class Category(GoalServeModel):
 
 class Stadium(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_("Stadium name"), max_length=255, null=True,
-                            blank=True)
+    name = models.CharField(
+        _("Stadium name"), max_length=255, null=True,
+        blank=True, db_index=True)
 
     display_name = models.CharField(_("Display name"), max_length=255,
                                     null=True, blank=True)
@@ -212,11 +219,12 @@ class Stadium(GoalServeModel, Base64Imaged):
 
 class Team(GoalServeModel, Base64Imaged):
 
-    name = models.CharField(_(u"Team name"), max_length=255, null=True,
-                            blank=True)
+    name = models.CharField(
+        _(u"Team name"), max_length=255, null=True,
+        blank=True, db_index=True)
 
     display_name = models.CharField(_(u"Display name"), max_length=255,
-                                    null=True, blank=True)
+                                    null=True, blank=True, db_index=True)
 
     full_name = models.CharField(_("Team full name"), max_length=255,
                                  null=True, blank=True)
@@ -254,7 +262,7 @@ class Team(GoalServeModel, Base64Imaged):
 class Player(GoalServeModel, Base64Imaged):
 
     name = models.CharField(_("Player name"), max_length=255, null=True,
-                            blank=True)
+                            blank=True, db_index=True)
 
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              null=True, blank=True,
@@ -334,9 +342,10 @@ class Match(GoalServeModel):
 
     visitorteam_goals = models.IntegerField(_("Visitor result"), default=0)
 
-    week_number = models.IntegerField(_('Week number'), null=True, blank=True)
-    group_name = models.CharField(_("Grupo"), max_length=255,
-                                  null=True, blank=True)
+    week_number = models.IntegerField(
+        _('Week number'), null=True, blank=True, db_index=True)
+    group_name = models.CharField(
+        _("Grupo"), max_length=255, null=True, blank=True, db_index=True)
 
     @property
     def round_number(self):
@@ -587,7 +596,7 @@ class MatchEvent(GoalServeModel):
     match = models.ForeignKey("goalserve.Match", verbose_name=_("Match"))
 
     event_type = models.CharField(_("Event type"), max_length=255,
-                                  choices=EVENT_TYPES)
+                                  choices=EVENT_TYPES, db_index=True)
 
     own_goal = models.BooleanField(_("Own Goal"), default=False)
     penalty = models.BooleanField(_("Penalty"), default=False)
@@ -621,8 +630,9 @@ class MatchStandings(GoalServeModel):
     timestamp = models.CharField(max_length=255, null=True, blank=True)
     season = models.CharField(verbose_name=_("Season"),
                               max_length=255, null=True, blank=True)
-    round = models.CharField(verbose_name=_("Round"),
-                             max_length=255, null=True, blank=True)
+    round = models.CharField(
+        verbose_name=_("Round"), max_length=255,
+        null=True, blank=True, db_index=True)
     team = models.ForeignKey("goalserve.Team", verbose_name=_("Team"),
                              on_delete=models.SET_NULL, null=True)
     position = models.CharField(verbose_name=_("Position"),
@@ -650,8 +660,8 @@ class MatchStandings(GoalServeModel):
 
     description = models.CharField(verbose_name=_("Description"),
                                    max_length=255, null=True, blank=True)
-    group = models.CharField(verbose_name=_("Group"),
-                             max_length=255, null=True, blank=True)
+    group = models.CharField(verbose_name=_("Group"), max_length=255,
+                             null=True, blank=True, db_index=True)
 
     def __unicode__(self):
         return u"{self.category} - {self.team} = {self.position}".format(
