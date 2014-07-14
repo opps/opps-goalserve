@@ -199,9 +199,6 @@ class Stadium(GoalServeModel, Base64Imaged):
     display_name = models.CharField(_("Display name"), max_length=255,
                                     null=True, blank=True)
 
-    def get_name(self):
-        return self.display_name or self.name
-
     country = models.ForeignKey("goalserve.Country",
                                 verbose_name=_("Country"),
                                 on_delete=models.SET_NULL, null=True)
@@ -209,8 +206,11 @@ class Stadium(GoalServeModel, Base64Imaged):
     surface = models.CharField(max_length=255, null=True, blank=True)
     capacity = models.IntegerField(null=True, blank=True)
 
+    def get_name(self):
+        return self.display_name or self.name
+
     def __unicode__(self):
-        return self.name
+        return self.get_name()
 
     class Meta:
         verbose_name = _('Stadium')
