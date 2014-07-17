@@ -776,9 +776,6 @@ class Crawler(object):
                 matches = [matches]
 
             for match in matches:
-                if 'TBA' in match.get('@date'):
-                    continue
-
                 try:
                     _match, created = Match.objects.get_or_create(
                         g_static_id=match.get('@static_id')
