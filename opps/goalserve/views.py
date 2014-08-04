@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
 from django.shortcuts import render_to_response
@@ -87,10 +88,11 @@ class PostMixin(object):
                 return self.form_invalid(form)
 
 
-class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMixin, FormView):
+class LineupAddView(
+        CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin,
+        PostMixin, FormView):
     template_name = 'goalserve/lineupform.html'
     form_class = LineupAddForm
-
 
     def get_initial(self):
         initial = {}
@@ -129,7 +131,8 @@ class LineupAddView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMi
         return super(LineupAddView, self).form_valid(form)
 
 
-class LineupEditView(CSRFExemptMixin, LoginRequiredMixin, SuccessURLMixin, PostMixin, FormView):
+class LineupEditView(CSRFExemptMixin, LoginRequiredMixin,
+                     SuccessURLMixin, PostMixin, FormView):
     template_name = 'goalserve/lineupform.html'
     form_class = LineupEditForm
 
@@ -233,7 +236,8 @@ class JSONStandingsDriversView(JSONView):
                  "team": driver.team.get_name() if driver.team else "",
                  "points": driver.points}
                 for driver in sorted(
-                    [driver for driver in Driver.objects.filter(post__isnull=False)],
+                    [driver for driver in Driver.objects.filter(
+                        post__isnull=False)],
                     key=lambda d:int(d.post or 0)
                 )
             ]
@@ -249,7 +253,8 @@ class JSONStandingsTeamsView(JSONView):
                  "post": team.post,
                  "points": team.points}
                 for team in sorted(
-                    [team for team in F1Team.objects.filter(post__isnull=False)],
+                    [team for team in F1Team.objects.filter(
+                        post__isnull=False)],
                     key=lambda d:int(d.post or 0)
                 )
             ]
@@ -279,24 +284,19 @@ class JSONCategoryView(JSONView):
             **filters)
 
         return {
-
-           "objects:": [
-               {
-                  "id": category.id,
-                  "name": category.name,
-                  "display_name": category.display_name,
-                  "country": category.country.name,
-                  "goalserve_id": category.g_id
-               }
+            "objects:": [
+               {"id": category.id,
+                "name": category.name,
+                "display_name": category.display_name,
+                "country": category.country.name,
+                "goalserve_id": category.g_id}
                 for category in categories[start: end]
-           ],
-           "meta": {
-               "start": start,
-               "end": end,
-               "total": categories.count(),
-               "filters": filters
-           }
-       }
+            ],
+            "meta": {"start": start,
+                     "end": end,
+                     "total": categories.count(),
+                     "filters": filters}
+        }
 
 
 class JSONMatchView(JSONView):
@@ -331,53 +331,49 @@ class JSONMatchView(JSONView):
 
         if team_id:
             matches = matches.filter(
-               Q(localteam__id=team_id) | Q(visitorteam__id=team_id)
+                Q(localteam__id=team_id) | Q(visitorteam__id=team_id)
             )
 
         matches = matches.order_by('match_time')
 
         return {
-           "objects:": [
-               {
-                  "id": match.id,
-                  "name": u"{m.localteam} x {m.visitorteam}".format(
-                      m=match),
-                  "status": match.status,
-                  "group": match.group_name if match.group_name else match.group,
-                  "group_name": match.group_name,
-                  "category": match.category.name,
-                  "category_display_name": match.category.display_name,
-                  "match_time": match.fmatch_time,
-                  "localteam_id": match.localteam.id,
-                   "localteam_name": match.localteam.name,
-                   "localteam_display_name": match.localteam.display_name,
-                  "visitorteam_id": match.visitorteam.id,
-                   "visitorteam_name": match.visitorteam.name,
-                   "visitorteam_display_name": match.visitorteam.display_name,
-                   "stadium": match.stadium.name if match.stadium else '',
-                   "stadium_display_name": match.stadium_name,
-                   "week_number": match.week_number,
-                   "localteam_goals": match.localteam_goals,
-                   "visitorteam_goals": match.visitorteam_goals,
-                   "localteam_image": match.localteam.image_url,
-                   "visitorteam_image": match.visitorteam.image_url,
-                   "goalserve_id": match.g_id
-               }
-                for match in matches[start: end]
-           ],
-           "meta": {
-               "start": start,
-               "end": end,
-               "total": matches.count(),
-               "filters": filters
-           }
-       }
+            "objects:": [
+               {"id": match.id,
+                "name": u"{m.localteam} x {m.visitorteam}".format(
+                    m=match),
+                "status": match.status,
+                "group": match.group_name if match.group_name else match.group,
+                "group_name": match.group_name,
+                "category": match.category.name,
+                "category_display_name": match.category.display_name,
+                "match_time": match.fmatch_time,
+                "localteam_id": match.localteam.id,
+                "localteam_name": match.localteam.name,
+                "localteam_display_name": match.localteam.display_name,
+                "visitorteam_id": match.visitorteam.id,
+                "visitorteam_name": match.visitorteam.name,
+                "visitorteam_display_name": match.visitorteam.display_name,
+                "stadium": match.stadium.name if match.stadium else '',
+                "stadium_display_name": match.stadium_name,
+                "week_number": match.week_number,
+                "localteam_goals": match.localteam_goals,
+                "visitorteam_goals": match.visitorteam_goals,
+                "localteam_image": match.localteam.image_url,
+                "visitorteam_image": match.visitorteam.image_url,
+                "goalserve_id": match.g_id} for match in matches[start: end]
+            ],
+            "meta": {"start": start,
+                     "end": end,
+                     "total": matches.count(),
+                     "filters": filters}
+            }
 
 
 def response_mimetype(request):
     if "application/json" in request.META['HTTP_ACCEPT']:
         return "application/json"
     return "text/plain"
+
 
 def get_team_stats(_stats):
     if _stats:
@@ -430,7 +426,8 @@ def match(request, match_pk, mode='response'):
 
     def _json_response():
         try:
-            response = JSONPResponse(data, {}, response_mimetype(request), request.GET['callback'])
+            response = JSONPResponse(
+                data, {}, response_mimetype(request), request.GET['callback'])
         except:
             response = JSONResponse(data, {}, response_mimetype(request))
         return response
@@ -461,7 +458,8 @@ def match(request, match_pk, mode='response'):
     elif mode == 'python':
         response = data
     else:
-        response = "Please specify the mode argument as python, json or response"
+        response = \
+            "Please specify the mode argument as python, json or response"
 
     return response
 
@@ -470,8 +468,8 @@ def match(request, match_pk, mode='response'):
 def ajax_categories_by_country_name(request, country_name):
     qs = Category.objects.filter(country__name=country_name)
     if qs:
-        items = [u"<option value='{item.pk}'>{item.name}</option>".format(item=item)
-                 for item in qs]
+        items = [u"<option value='{item.pk}'>{item.name}</option>".format(
+            item=item) for item in qs]
         response = u"".join(items)
     else:
         response = u"None"
@@ -489,8 +487,8 @@ def ajax_match_by_category_id(request, category_id):
     )
 
     if qs:
-        items = [u"<option value='{item.pk}'>{item.name}</option>".format(item=item)
-                 for item in qs]
+        items = [u"<option value='{item.pk}'>{item.name}</option>".format(
+            item=item) for item in qs]
         response = u"".join(items)
     else:
         response = u"None"
