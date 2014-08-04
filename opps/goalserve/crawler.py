@@ -521,6 +521,8 @@ class Crawler(object):
                 name=country.lower()
             )
 
+            self.verbose_print(_country.name)
+
             urls = []
 
             if cat_id:
@@ -601,18 +603,6 @@ class Crawler(object):
                         if match_id == [None]:
                             match_id = None
 
-                        if match_id and not match.get('@status', '').strip() in ('TBA',):
-                            # print "passed match id", match_id
-                            if isinstance(match_id, list):
-                                if any(match_id):
-                                    if not match.get('@static_id') in [str(item) for item in match_id]:
-                                        # print match.get('@static_id'), " not in ", match_id
-                                        continue
-                            else:
-                                if str(match_id) != match.get('@static_id'):
-                                    # print match.get('@static_id'), "!=", match_id
-                                    continue
-
                         try:
                             _match, created = Match.objects.get_or_create(
                                 category=_category,
@@ -620,12 +610,13 @@ class Crawler(object):
                             )
                         except DatabaseError:
                             # probably because GoalServer API does not send proper IDS
+                            self.verbose_print('Error in: Category {} and Match {}'.format(
+                                _category.name, match['@static_id']))
                             continue
 
-                        # print "getting", _match.g_static_id
+                        self.verbose_print("getting {}".format(_match.g_static_id))
 
                         try:
-
                             localteam = match.get('localteam')
                             visitorteam = match.get('visitorteam')
 
