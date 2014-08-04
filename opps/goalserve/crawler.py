@@ -611,7 +611,7 @@ class Crawler(object):
                         except DatabaseError:
                             # probably because GoalServer API does not send proper IDS
                             self.verbose_print('Error in: Category {} and Match {}'.format(
-                                _category.name, match['@static_id']))
+                                _category.name, str(match['@static_id'])))
                             continue
 
                         self.verbose_print("getting {}".format(_match.g_static_id))
