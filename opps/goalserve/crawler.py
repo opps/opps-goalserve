@@ -114,10 +114,13 @@ class Crawler(object):
         return minute
 
     def parse_date(self, date, time=None, format=None):
+        # set a default time for TBA matches
+        if time == 'TBA':
+            time = '19:00'
+
         self.verbose_print("parsing {0} - {1} - {2}".format(date, time, format))
         if not date:
             return
-
         try:
             dt = '{date} {time}'.format(date=date, time=time) if time else date
             parsed = datetime.datetime.strptime(
@@ -127,7 +130,6 @@ class Crawler(object):
         except ValueError as e:
             self.verbose_print(str(e))
             parsed = None
-
 
         try:
             if parsed and time:
@@ -738,7 +740,7 @@ class Crawler(object):
                     _matchstandings.save()
 
 
-    def _process_fixture(self, stage, tournament, country, force_update=False):
+    def _process_fixture(self, stage, tournament, country, force_update=True):
         if 'week' in stage:
             match_sets = stage.get('week')
         elif 'aggregate' in stage:
@@ -799,7 +801,6 @@ class Crawler(object):
                         )
                         _match.localteam = self.get_team(localteam)
                         _match.visitorteam = self.get_team(visitorteam)
-                        # _match.ht_result=match.get('ht', {}).get('@score')
                         _match.g_id = match.get('@id')
                         _match.g_fix_id = match.get('@fix_id')
 
