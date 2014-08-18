@@ -741,6 +741,10 @@ class Crawler(object):
 
 
     def _process_fixture(self, stage, tournament, country, force_update=True):
+        try:
+            stage_name = stage.get('@name')
+        except:
+            stage_name = ''
         if 'week' in stage:
             match_sets = stage.get('week')
         elif 'aggregate' in stage:
@@ -803,6 +807,7 @@ class Crawler(object):
                         _match.visitorteam = self.get_team(visitorteam)
                         _match.g_id = match.get('@id')
                         _match.g_fix_id = match.get('@fix_id')
+                        _match.stage = stage_name
 
                         try:
                             localteam_goals = int(localteam.get('@score') or 0)
