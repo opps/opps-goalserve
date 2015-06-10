@@ -11,6 +11,7 @@ STANDINGS = [
     'brazil9.xml',
     'brazil10.xml',
     'libertadores_cup.xml',
+    'copa_america.xml',
 ]
 
 VALID_STANDINGS = [
@@ -295,5 +296,6 @@ VALID_STANDINGS = [
     'wc_concacaf_qualification.xml',
     'wc_oceania_qualification.xml',
     'wc_southamerica_qualification.xml',
-    'yemen.xml'
+    'yemen.xml',
+    'copa_america.xml',
 ]
